@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<script src="./cursor.js"></script>
+<script src="./site-data.js"></script>
+<script src="./data/loader-words.js"></script>
+<script>
+(function(){
+  var st = document.createElement('style');
+  st.textContent = '@keyframes loaderWordIn { from { opacity:0; transform:translateY(14px); filter:blur(6px); } to { opacity:1; transform:translateY(0); filter:blur(0); } }';
+  (document.head || document.documentElement).appendChild(st);
+  var el = document.createElement('div');
+  el.setAttribute('data-loader', '');
+  el.style.cssText = 'position:fixed;inset:0;z-index:2147483000;overflow:hidden;background:#050505;font-family:Geist,system-ui,sans-serif;transition:opacity .7s ease';
+  el.innerHTML =
+    '<div style="position:absolute;top:0;left:0;right:0;min-height:75px;box-sizing:border-box;display:flex;align-items:center;padding:16px clamp(24px,5vw,64px)"><span style="font-size:clamp(18px,2vw,20px);font-weight:600;letter-spacing:-0.02em;color:#fff">Rabees Sheikh</span></div>' +
+    '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:0 24px">' +
+      '<span data-loader-word style="font-size:clamp(38px,7vw,76px);font-weight:500;letter-spacing:-0.03em;line-height:1;color:rgba(255,255,255,.9);text-align:center;will-change:transform,opacity"></span>' +
+    '</div>' +
+    '<span data-loader-count style="position:absolute;right:clamp(20px,4vw,44px);bottom:clamp(24px,5vh,48px);font-size:clamp(64px,11vw,132px);font-weight:500;line-height:.85;color:#fff;letter-spacing:-0.04em;font-variant-numeric:tabular-nums">000</span>' +
+    '<div style="position:absolute;left:0;right:0;bottom:0;height:2px;background:rgba(255,255,255,.1)">' +
+      '<div data-loader-bar style="height:100%;width:0%;background:#fff;transition:width .25s linear"></div>' +
+    '</div>';
+  function mount(){ if (!el.isConnected) (document.body || document.documentElement).appendChild(el); }
+  if (document.body) mount(); else document.addEventListener('DOMContentLoaded', mount);
+
+  var lockStyle = document.createElement('style');
+  lockStyle.textContent = 'html.is-loading, html.is-loading body { overflow: hidden !important; height: 100% !important; touch-action: none !important; overscroll-behavior: none !important; }';
+  (document.head || document.documentElement).appendChild(lockStyle);
+  document.documentElement.classList.add('is-loading');
+  function blockScroll(e){ if (document.documentElement.classList.contains('is-loading')) { e.preventDefault(); } }
+  window.addEventListener('wheel', blockScroll, { passive: false });
+  window.addEventListener('touchmove', blockScroll, { passive: false });
+  function blockKeys(e){
+    if (!document.documentElement.classList.contains('is-loading')) return;
+    if ([32,33,34,35,36,38,40].indexOf(e.keyCode) !== -1) e.preventDefault();
+  }
+  window.addEventListener('keydown', blockKeys, { passive: false });
+  var keepTop = setInterval(function(){ if (document.documentElement.classList.contains('is-loading')) window.scrollTo(0, 0); }, 60);
+  function unlock(){
+    clearInterval(keepTop);
+    document.documentElement.classList.remove('is-loading');
+    window.removeEventListener('wheel', blockScroll);
+    window.removeEventListener('touchmove', blockScroll);
+    window.removeEventListener('keydown', blockKeys);
+    lockStyle.remove();
+  }
+
+  var words = (window.RS_LOADER_WORDS && window.RS_LOADER_WORDS.length)
+    ? window.RS_LOADER_WORDS
+    : ['Identity', 'Stage', 'Screen', 'Motion', 'Esports'];
+  var wi = 0;
+  function cycle(){
+    var w = el.querySelector('[data-loader-word]');
+    if (!w) return;
+    w.textContent = words[wi % words.length];
+    w.style.animation = 'none';
+    void w.offsetWidth;
+    w.style.animation = 'loaderWordIn .7s cubic-bezier(0.16,1,0.3,1) both';
+    wi++;
+  }
+  cycle();
+  var wordIv = setInterval(cycle, 900);
+
+  var loaded = false, start = Date.now(), shown = 0;
+  window.addEventListener('load', function(){ loaded = true; });
+  function ready(){
+    var painted = document.body && document.body.scrollHeight > 600;
+    return painted && (loaded || Date.now() - start > 1500);
+  }
+  function paint(){
+    var c = el.querySelector('[data-loader-count]'), b = el.querySelector('[data-loader-bar]');
+    var v = Math.round(shown);
+    if (c) c.textContent = (v < 10 ? '00' : v < 100 ? '0' : '') + v;
+    if (b) b.style.width = v + '%';
+  }
+  function hide(){
+    if (el.dataset.done) return;
+    el.dataset.done = '1';
+    clearInterval(wordIv);
+    shown = 100; paint();
+    setTimeout(function(){
+      el.style.opacity = '0';
+      el.style.pointerEvents = 'none';
+      setTimeout(function(){ el.remove(); unlock(); }, 800);
+    }, 260);
+  }
+  var iv = setInterval(function(){
+    if (!el.dataset.done && !el.isConnected) mount();
+    var done = ready() || Date.now() - start > 6000;
+    var target = done ? 100 : Math.min(92, (Date.now() - start) / 18);
+    shown += (target - shown) * 0.12;
+    paint();
+    if (done && shown > 97) { clearInterval(iv); hide(); }
+  }, 40);
+})();
+</script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg:#000; --fg:#fff; --fg-90:rgba(255,255,255,0.9); --fg-80:rgba(255,255,255,0.8); --fg-60:rgba(255,255,255,0.6); --fg-50:rgba(255,255,255,0.5); --fg-45:rgba(255,255,255,0.45); --line:rgba(255,255,255,0.08); --line-strong:rgba(255,255,255,0.3); --btn-bg:#fff; --btn-fg:#000; --menu-bg:rgba(0,0,0,0.98); }
+  body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; background: var(--bg); transition: background .4s ease; }
+  @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes loadBar { 0% { transform: translateX(-120%); } 100% { transform: translateX(420%); } }
+  html { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.3) rgba(255,255,255,0.04); }
+  ::-webkit-scrollbar, html::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track, html::-webkit-scrollbar-track { background: #000; border-left: 1px solid rgba(255,255,255,0.08); transition: background-color .4s ease, border-color .4s ease; }
+  ::-webkit-scrollbar-thumb, html::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border: 3px solid #000; border-radius: 999px; transition: background-color .4s ease, border-color .4s ease; }
+  ::-webkit-scrollbar-thumb:hover, html::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.55); }
+  ::-webkit-scrollbar-corner { background: transparent; }
+  html { color-scheme: dark; scrollbar-color: rgba(255,255,255,0.3) #000; }
+  ::-webkit-scrollbar-button, html::-webkit-scrollbar-button { background: #000; height: 0; width: 0; display: none; }
+  html[data-theme="light"] { scrollbar-color: #8a8a86 #dcdcd8; }
+  html[data-theme="light"]::-webkit-scrollbar-track, html[data-theme="light"] ::-webkit-scrollbar-track { background: #dcdcd8; border-left: 1px solid rgba(11,11,11,0.1); }
+  html[data-theme="light"]::-webkit-scrollbar-thumb, html[data-theme="light"] ::-webkit-scrollbar-thumb { background: #8a8a86; border: 3px solid #dcdcd8; }
+  html[data-theme="light"]::-webkit-scrollbar-thumb:hover, html[data-theme="light"] ::-webkit-scrollbar-thumb:hover { background: #64645f; }
+  html[data-theme="light"]::-webkit-scrollbar-button, html[data-theme="light"] ::-webkit-scrollbar-button { background: #dcdcd8; display: none; }
+  [data-grid6] { display: grid; grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 1000px) { [data-grid6] { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 680px) { [data-grid6] { grid-template-columns: 1fr; } }
+  [data-grid2] { display: grid; grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 680px) { [data-grid2] { grid-template-columns: 1fr; } }
+  [data-grid3] { display: grid; grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 680px) { [data-grid3] { grid-template-columns: 1fr; } }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: var(--fg); }
+</style>
+<script>
+(function(){try{if(localStorage.getItem('rs-theme')==='light'){var v={'--bg':'#f4f4f2','--fg':'#0b0b0b','--fg-90':'rgba(11,11,11,0.9)','--fg-80':'rgba(11,11,11,0.75)','--fg-60':'rgba(11,11,11,0.6)','--fg-50':'rgba(11,11,11,0.5)','--fg-45':'rgba(11,11,11,0.45)','--line':'rgba(11,11,11,0.12)','--line-strong':'rgba(11,11,11,0.3)','--btn-bg':'#0b0b0b','--btn-fg':'#f4f4f2','--menu-bg':'rgba(244,244,242,0.98)'};for(var k in v){document.documentElement.style.setProperty(k,v[k]);}document.documentElement.setAttribute('data-theme','light');}}catch(e){}})();
+</script>
+<link rel="prefetch" href="index.html" />
+<link rel="prefetch" href="Work.dc.html" />
+<link rel="prefetch" href="Capabilities.dc.html" />
+<link rel="prefetch" href="Contact.dc.html" />
+
+</helmet>
+
+<dc-import name="SiteNav" hint-size="100%,70px"></dc-import>
+
+<section style="background:var(--bg);color:var(--fg);font-family:Geist, sans-serif;padding:clamp(64px,10vh,120px) clamp(24px,5vw,64px) clamp(48px,7vh,80px)">
+  <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(40px,6vw,96px);align-items:start">
+    <div data-reveal="" style="display:flex;flex-direction:column;gap:24px">
+      <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-45)">About</span>
+      <img src="uploads/1767771459907.jpg" alt="Rabees Sheikh" style="width:100%;aspect-ratio:4/5;object-fit:cover;border:1px solid var(--line);filter:grayscale(1)" />
+    </div>
+    <div data-reveal="" style="display:flex;flex-direction:column;gap:26px;padding-top:clamp(0px,3vw,44px)">
+      <h1 style="font-size:clamp(26px,3.4vw,44px);font-weight:500;line-height:1.15;letter-spacing:-0.03em;text-wrap:pretty" data-bind-text="about.heading">Rabees Sheikh, art director and creative designer, Karachi.</h1>
+      <div data-render="aboutIntro" style="display:flex;flex-direction:column;gap:26px">
+      <p style="font-size:clamp(15px,1.6vw,18px);line-height:1.7;color:var(--fg-60);text-wrap:pretty">Art Director and Creative Designer with extensive experience in the esports industry in Pakistan. Skilled in designing 2D and 3D graphics, as well as UI/UX designing.</p>
+      <p style="font-size:clamp(15px,1.6vw,18px);line-height:1.7;color:var(--fg-60);text-wrap:pretty">Most recently Senior Creative Manager at Next Generation Esports, directing branding, social media campaigns and event graphics for Free Fire Esports Pakistan, and leading a team of designers across the season.</p>
+      <p style="font-size:clamp(15px,1.6vw,18px);line-height:1.7;color:var(--fg-60);text-wrap:pretty">Passionate about creating visually appealing and engaging designs that capture the essence of esports in Pakistan, now extending that practice into 3D visualisation and generative video.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg);color:var(--fg);font-family:Geist, sans-serif;padding:0 clamp(24px,5vw,64px) clamp(64px,9vh,110px)">
+  <div style="max-width:1200px;margin:0 auto">
+    <span data-reveal="" style="display:block;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-45);margin-bottom:clamp(28px,4vh,44px)">Experience</span>
+    <div data-render="experience" style="display:contents">
+    <div data-reveal="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(16px,3vw,48px);border-top:1px solid var(--line);padding:clamp(26px,3.5vh,40px) 0">
+      <span style="font-size:14px;color:var(--fg-50)">Jan 2021 to Dec 2025</span>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <h3 style="font-size:clamp(19px,2.2vw,26px);font-weight:500;letter-spacing:-0.02em">Senior Creative Manager</h3>
+        <span style="font-size:14px;color:var(--fg-60)">Next Generation Esports · Karachi, on-site</span>
+      </div>
+      <p style="font-size:15px;line-height:1.7;color:var(--fg-60);text-wrap:pretty">Directed a team of ten designers across branding, social media campaigns and event graphics for Free Fire Esports Pakistan, with campaign engagement up 30 per cent. Led the 3D graphics for tournaments that drew over a million views across streaming platforms, designed UI and UX assets that lifted interactions on promotional platforms by 25 per cent, and cut project turnaround by 20 per cent. Trained and mentored five junior designers.</p>
+    </div>
+    <div data-reveal="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(16px,3vw,48px);border-top:1px solid var(--line);padding:clamp(26px,3.5vh,40px) 0">
+      <span style="font-size:14px;color:var(--fg-50)">Oct 2022 to Dec 2022</span>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <h3 style="font-size:clamp(19px,2.2vw,26px);font-weight:500;letter-spacing:-0.02em">Freelance UI/UX Designer</h3>
+        <span style="font-size:14px;color:var(--fg-60)">DiceOn · Remote</span>
+      </div>
+      <p style="font-size:15px;line-height:1.7;color:var(--fg-60);text-wrap:pretty">Ran an editorial team of eight writers and designers producing more than twenty exclusive articles a month, and set the content strategy that raised reader retention by 25 per cent.</p>
+    </div>
+    <div data-reveal="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(16px,3vw,48px);border-top:1px solid var(--line);padding:clamp(26px,3.5vh,40px) 0">
+      <span style="font-size:14px;color:var(--fg-50)">Jan 2020 to Jan 2021</span>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <h3 style="font-size:clamp(19px,2.2vw,26px);font-weight:500;letter-spacing:-0.02em">Creative Designer</h3>
+        <span style="font-size:14px;color:var(--fg-60)">Next Generation Esports · Karachi</span>
+      </div>
+      <p style="font-size:15px;line-height:1.7;color:var(--fg-60);text-wrap:pretty">Designed graphics for esports events including social content, banners, logos and merchandise. Over a hundred pieces across campaigns, with fan engagement up 15 per cent on social platforms.</p>
+    </div>
+    <div data-reveal="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(16px,3vw,48px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:clamp(26px,3.5vh,40px) 0">
+      <span style="font-size:14px;color:var(--fg-50)">2018 to 2022</span>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <h3 style="font-size:clamp(19px,2.2vw,26px);font-weight:500;letter-spacing:-0.02em">Bachelor's degree, Advertising</h3>
+        <span style="font-size:14px;color:var(--fg-60)">Iqra University, Karachi</span>
+      </div>
+      <p style="font-size:15px;line-height:1.7;color:var(--fg-60);text-wrap:pretty">Studied advertising alongside full-time design work in esports.</p>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg);color:var(--fg);font-family:Geist, sans-serif;padding:0 clamp(24px,5vw,64px) clamp(64px,9vh,110px)">
+  <div style="max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(24px,4vh,40px)">
+    <div data-reveal="" style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:16px">
+      <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-45)">Top skills</span>
+      <span style="font-size:14px;color:var(--fg-50);max-width:420px;text-wrap:pretty">What I am hired for, and what sits inside each one.</span>
+    </div>
+    <div data-grid6="" data-render="skills" data-reveal="" style="gap:1px;border:1px solid var(--line)">
+      <div style="background:var(--bg);box-shadow:0 0 0 1px var(--line);padding:clamp(26px,3vw,38px);display:flex;flex-direction:column;gap:14px">
+        <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--fg-45)">01</span>
+        <h3 style="font-size:clamp(19px,2.1vw,25px);font-weight:500;letter-spacing:-0.02em">Branding</h3>
+        <p style="font-size:15px;line-height:1.65;color:var(--fg-60);text-wrap:pretty">Tournament and organisation identities: type, mark, motion and the rules that hold them together across a season.</p>
+        <span style="margin-top:4px;font-size:12px;line-height:1.7;color:var(--fg-45)">Identity · Guidelines · Campaigns · Art direction</span>
+      </div>
+      <div style="background:var(--bg);box-shadow:0 0 0 1px var(--line);padding:clamp(26px,3vw,38px);display:flex;flex-direction:column;gap:14px">
+        <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--fg-45)">02</span>
+        <h3 style="font-size:clamp(19px,2.1vw,25px);font-weight:500;letter-spacing:-0.02em">3D Graphics</h3>
+        <p style="font-size:15px;line-height:1.65;color:var(--fg-60);text-wrap:pretty">Stage, trophy, merchandise and environment work taken from block-out to final render.</p>
+        <span style="margin-top:4px;font-size:12px;line-height:1.7;color:var(--fg-45)">Modelling · Lookdev · Lighting · Render</span>
+      </div>
+      <div style="background:var(--bg);box-shadow:0 0 0 1px var(--line);padding:clamp(26px,3vw,38px);display:flex;flex-direction:column;gap:14px">
+        <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--fg-45)">03</span>
+        <h3 style="font-size:clamp(19px,2.1vw,25px);font-weight:500;letter-spacing:-0.02em">Graphic Design</h3>
+        <p style="font-size:15px;line-height:1.65;color:var(--fg-60);text-wrap:pretty">Social, broadcast and event graphics produced against live tournament schedules.</p>
+        <span style="margin-top:4px;font-size:12px;line-height:1.7;color:var(--fg-45)">Key art · Social systems · Event collateral</span>
+      </div>
+      <div style="background:var(--bg);box-shadow:0 0 0 1px var(--line);padding:clamp(26px,3vw,38px);display:flex;flex-direction:column;gap:14px">
+        <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--fg-45)">04</span>
+        <h3 style="font-size:clamp(19px,2.1vw,25px);font-weight:500;letter-spacing:-0.02em">UI/UX Design</h3>
+        <p style="font-size:15px;line-height:1.65;color:var(--fg-60);text-wrap:pretty">Product and platform interfaces designed to look considered and behave predictably.</p>
+        <span style="margin-top:4px;font-size:12px;line-height:1.7;color:var(--fg-45)">Product design · Prototypes · Design systems</span>
+      </div>
+      <div style="background:var(--bg);box-shadow:0 0 0 1px var(--line);padding:clamp(26px,3vw,38px);display:flex;flex-direction:column;gap:14px">
+        <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--fg-45)">05</span>
+        <h3 style="font-size:clamp(19px,2.1vw,25px);font-weight:500;letter-spacing:-0.02em">AI Generated Video</h3>
+        <p style="font-size:15px;line-height:1.65;color:var(--fg-60);text-wrap:pretty">Generated and edited film, directed rather than prompted, from boards to final grade.</p>
+        <span style="margin-top:4px;font-size:12px;line-height:1.7;color:var(--fg-45)">Concept · Style frames · Generation · Edit &amp; grade</span>
+      </div>
+      <div style="background:var(--bg);box-shadow:0 0 0 1px var(--line);padding:clamp(26px,3vw,38px);display:flex;flex-direction:column;gap:14px">
+        <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--fg-45)">06</span>
+        <h3 style="font-size:clamp(19px,2.1vw,25px);font-weight:500;letter-spacing:-0.02em">Adobe Creative Suite</h3>
+        <p style="font-size:15px;line-height:1.65;color:var(--fg-60);text-wrap:pretty">Daily working environment across design, layout, motion and edit.</p>
+        <span style="margin-top:4px;font-size:12px;line-height:1.7;color:var(--fg-45)">Photoshop · Illustrator · InDesign · After Effects · Premiere</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg);color:var(--fg);font-family:Geist, sans-serif;padding:0 clamp(24px,5vw,64px) clamp(64px,9vh,110px)">
+  <div style="max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(24px,4vh,36px)">
+    <div data-reveal="" style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:16px">
+      <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-45)">Software</span>
+      <span style="font-size:14px;color:var(--fg-50);max-width:420px;text-wrap:pretty">Nine tools, each with a job. Files hand over in whichever your team already uses.</span>
+    </div>
+    <div data-reveal="" data-render="software" style="display:flex;flex-direction:column">
+      <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px 24px;border-top:1px solid var(--line);padding:16px 0">
+        <span style="font-size:16px;color:var(--fg)">Blender</span>
+        <span style="font-size:14px;color:var(--fg-50);text-align:right;text-wrap:pretty">Modelling, lookdev and final render</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px 24px;border-top:1px solid var(--line);padding:16px 0">
+        <span style="font-size:16px;color:var(--fg)">Cinema 4D</span>
+        <span style="font-size:14px;color:var(--fg-50);text-align:right;text-wrap:pretty">Motion-led 3D and scene layout</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px 24px;border-top:1px solid var(--line);padding:16px 0">
+        <span style="font-size:16px;color:var(--fg)">After Effects</span>
+        <span style="font-size:14px;color:var(--fg-50);text-align:right;text-wrap:pretty">Motion graphics and broadcast packages</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px 24px;border-top:1px solid var(--line);padding:16px 0">
+        <span style="font-size:16px;color:var(--fg)">Premiere Pro</span>
+        <span style="font-size:14px;color:var(--fg-50);text-align:right;text-wrap:pretty">Edit, assembly and delivery</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px 24px;border-top:1px solid var(--line);padding:16px 0">
+        <span style="font-size:16px;color:var(--fg)">Photoshop</span>
+        <span style="font-size:14px;color:var(--fg-50);text-align:right;text-wrap:pretty">Composites, key art and retouching</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px 24px;border-top:1px solid var(--line);padding:16px 0">
+        <span style="font-size:16px;color:var(--fg)">Illustrator</span>
+        <span style="font-size:14px;color:var(--fg-50);text-align:right;text-wrap:pretty">Marks, type and vector systems</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px 24px;border-top:1px solid var(--line);padding:16px 0">
+        <span style="font-size:16px;color:var(--fg)">InDesign</span>
+        <span style="font-size:14px;color:var(--fg-50);text-align:right;text-wrap:pretty">Guidelines, decks and long documents</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px 24px;border-top:1px solid var(--line);padding:16px 0">
+        <span style="font-size:16px;color:var(--fg)">Figma</span>
+        <span style="font-size:14px;color:var(--fg-50);text-align:right;text-wrap:pretty">Interface design, prototypes and handoff</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px 24px;border-top:1px solid var(--line);padding:16px 0">
+        <span style="font-size:16px;color:var(--fg)">Adobe XD</span>
+        <span style="font-size:14px;color:var(--fg-50);text-align:right;text-wrap:pretty">Interface layouts and click-through flows</span>
+      </div>
+    </div>
+    <div data-reveal="" style="border-top:1px solid var(--line)"></div>
+  </div>
+</section>
+
+<section style="background:var(--bg);color:var(--fg);font-family:Geist, sans-serif;padding:0 clamp(24px,5vw,64px) clamp(64px,9vh,110px)">
+  <div style="max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(24px,4vh,36px)">
+    <div data-reveal="" style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:16px">
+      <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-45)">Services</span>
+      <span style="font-size:14px;color:var(--fg-50)">Ten disciplines, one point of contact</span>
+    </div>
+    <div data-grid2="" data-render="services" data-reveal="" style="gap:0 clamp(32px,5vw,72px)">
+      <div style="display:flex;align-items:baseline;gap:14px;border-top:1px solid var(--line);padding:16px 0"><span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--fg-45)">01</span><span style="font-size:16px;color:var(--fg-80)">3D Design</span></div>
+      <div style="display:flex;align-items:baseline;gap:14px;border-top:1px solid var(--line);padding:16px 0"><span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--fg-45)">02</span><span style="font-size:16px;color:var(--fg-80)">Ad Design</span></div>
+      <div style="display:flex;align-items:baseline;gap:14px;border-top:1px solid var(--line);padding:16px 0"><span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--fg-45)">03</span><span style="font-size:16px;color:var(--fg-80)">Brand Design</span></div>
+      <div style="display:flex;align-items:baseline;gap:14px;border-top:1px solid var(--line);padding:16px 0"><span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--fg-45)">04</span><span style="font-size:16px;color:var(--fg-80)">Graphic Design</span></div>
+      <div style="display:flex;align-items:baseline;gap:14px;border-top:1px solid var(--line);padding:16px 0"><span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--fg-45)">05</span><span style="font-size:16px;color:var(--fg-80)">Video Production</span></div>
+      <div style="display:flex;align-items:baseline;gap:14px;border-top:1px solid var(--line);padding:16px 0"><span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--fg-45)">06</span><span style="font-size:16px;color:var(--fg-80)">Animation</span></div>
+      <div style="display:flex;align-items:baseline;gap:14px;border-top:1px solid var(--line);padding:16px 0"><span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--fg-45)">07</span><span style="font-size:16px;color:var(--fg-80)">Web Design</span></div>
+      <div style="display:flex;align-items:baseline;gap:14px;border-top:1px solid var(--line);padding:16px 0"><span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--fg-45)">08</span><span style="font-size:16px;color:var(--fg-80)">Visual Design</span></div>
+      <div style="display:flex;align-items:baseline;gap:14px;border-top:1px solid var(--line);padding:16px 0"><span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--fg-45)">09</span><span style="font-size:16px;color:var(--fg-80)">Video Editing</span></div>
+      <div style="display:flex;align-items:baseline;gap:14px;border-top:1px solid var(--line);padding:16px 0"><span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--fg-45)">10</span><span style="font-size:16px;color:var(--fg-80)">Project Management</span></div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg);color:var(--fg);font-family:Geist, sans-serif;padding:0 clamp(24px,5vw,64px) clamp(80px,12vh,140px)">
+  <div style="max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(24px,4vh,36px)">
+    <span data-reveal="" style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-45)">Elsewhere</span>
+    <div data-reveal="" data-render="socials" style="display:flex;flex-direction:column;border-bottom:1px solid var(--line)">
+      <a href="https://www.linkedin.com/in/ggrabees" target="_blank" rel="noreferrer" style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:16px;border-top:1px solid var(--line);padding:clamp(18px,3vh,26px) 0;color:var(--fg);transition:color .2s ease" style-hover="color:var(--fg)">
+        <span style="font-size:clamp(20px,2.6vw,30px);font-weight:500;letter-spacing:-0.02em">LinkedIn</span>
+        <span style="display:inline-flex;align-items:center;gap:10px;padding-right:8px;font-size:14px;color:var(--fg-50);transition:gap .25s cubic-bezier(0.16,1,0.3,1), padding-right .25s cubic-bezier(0.16,1,0.3,1), color .2s ease" style-hover="gap:18px;padding-right:0px;color:var(--fg)">
+          /ggrabees
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+        </span>
+      </a>
+      <a href="#" style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:16px;border-top:1px solid var(--line);padding:clamp(18px,3vh,26px) 0;color:var(--fg);transition:color .2s ease" style-hover="color:var(--fg)">
+        <span style="font-size:clamp(20px,2.6vw,30px);font-weight:500;letter-spacing:-0.02em">Instagram</span>
+        <span style="display:inline-flex;align-items:center;gap:10px;padding-right:8px;font-size:14px;color:var(--fg-50);transition:gap .25s cubic-bezier(0.16,1,0.3,1), padding-right .25s cubic-bezier(0.16,1,0.3,1), color .2s ease" style-hover="gap:18px;padding-right:0px;color:var(--fg)">
+          Add link
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+        </span>
+      </a>
+      <a href="https://www.behance.net/iamrabees" target="_blank" rel="noreferrer" style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:16px;border-top:1px solid var(--line);padding:clamp(18px,3vh,26px) 0;color:var(--fg);transition:color .2s ease" style-hover="color:var(--fg)">
+        <span style="font-size:clamp(20px,2.6vw,30px);font-weight:500;letter-spacing:-0.02em">Behance</span>
+        <span style="display:inline-flex;align-items:center;gap:10px;padding-right:8px;font-size:14px;color:var(--fg-50);transition:gap .25s cubic-bezier(0.16,1,0.3,1), padding-right .25s cubic-bezier(0.16,1,0.3,1), color .2s ease" style-hover="gap:18px;padding-right:0px;color:var(--fg)">
+          /iamrabees
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg);color:var(--fg);font-family:Geist, sans-serif;padding:0 clamp(24px,5vw,64px) clamp(64px,9vh,110px)">
+  <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(32px,5vw,80px);align-items:start">
+    <div data-reveal="" style="display:flex;flex-direction:column;gap:clamp(20px,3vh,28px)">
+      <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-45)">Recognition</span>
+      <div data-render="recognition" style="display:flex;flex-direction:column;border-bottom:1px solid var(--line)">
+        <div style="display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--line);padding:clamp(18px,2.5vh,24px) 0">
+          <span style="font-size:14px;color:var(--fg-50)">March 2023</span>
+          <p style="font-size:15px;line-height:1.7;color:var(--fg-80);text-wrap:pretty">Recognised by Next Generation Esports for leadership in directing design teams and delivering branding solutions.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--line);padding:clamp(18px,2.5vh,24px) 0">
+          <span style="font-size:14px;color:var(--fg-50)">August 2022</span>
+          <p style="font-size:15px;line-height:1.7;color:var(--fg-80);text-wrap:pretty">Awarded at Next Generation Esports for results in campaign engagement and visual content creation.</p>
+        </div>
+      </div>
+    </div>
+    <div data-reveal="" style="display:flex;flex-direction:column;gap:clamp(20px,3vh,28px)">
+      <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-45)">Languages</span>
+      <div data-render="languages" style="display:flex;flex-direction:column;border-bottom:1px solid var(--line)">
+        <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px 24px;border-top:1px solid var(--line);padding:16px 0">
+          <span style="font-size:16px;color:var(--fg)">Urdu</span>
+          <span style="font-size:14px;color:var(--fg-50)">Native</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px 24px;border-top:1px solid var(--line);padding:16px 0">
+          <span style="font-size:16px;color:var(--fg)">English</span>
+          <span style="font-size:14px;color:var(--fg-50)">Proficient</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<dc-import name="SiteFooter" hint-size="100%,520px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+class Component extends DCLogic {
+  componentDidMount() {
+    this.prep = (el) => {
+      if (el.dataset.revealReady) return;
+      el.dataset.revealReady = '1';
+      el.style.transition = 'opacity .45s ease, transform .45s cubic-bezier(0.16,1,0.3,1)';
+      el.style.willChange = 'opacity, transform';
+    };
+    this.collect = () => {
+      this.nodes = Array.from(document.querySelectorAll('[data-reveal]'));
+      this.nodes.forEach(this.prep);
+      return this.nodes;
+    };
+    this.collect();
+    this.update = () => {
+      this.collect();
+      const vh = window.innerHeight, topBand = vh * 0.18, botBand = vh * 0.14;
+      this.nodes.forEach(el => {
+        const r = el.getBoundingClientRect();
+        const enter = Math.min(1, Math.max(0, (vh - botBand - r.top) / Math.min(r.height + 80, vh * 0.5)));
+        const exit = Math.min(1, Math.max(0, (r.bottom - topBand) / Math.min(r.height * 0.6 + 80, vh * 0.4)));
+        const p = Math.min(enter, exit), e = p * p * (3 - 2 * p);
+        el.style.opacity = e.toFixed(3);
+        el.style.transform = 'translateY(' + ((1 - e) * (r.top > topBand ? 28 : -22)).toFixed(1) + 'px)';
+      });
+    };
+    this.tick = () => { this.update(); this.raf = requestAnimationFrame(this.tick); };
+    this.raf = requestAnimationFrame(this.tick);
+    window.addEventListener('resize', this.update);
+  }
+  componentWillUnmount() {
+    cancelAnimationFrame(this.raf);
+    window.removeEventListener('resize', this.update);
+  }
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

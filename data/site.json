@@ -1,0 +1,217 @@
+{
+  "meta": {
+    "experienceStart": "2020-01",
+    "indexStartYear": 2020,
+    "adminPasscodeHash": ""
+  },
+  "categories": ["Branding", "3D Visualisation", "AI Video", "UI/UX"],
+  "projects": [
+    {
+      "id": "pubgm-winter-invitational",
+      "title": "PUBG MOBILE Winter Invitational",
+      "featuredTitle": "PUBG MOBILE Winter Invitational: visual identity",
+      "client": "Next Generation Esports",
+      "year": 2025,
+      "cats": ["Branding"],
+      "summary": "Tournament identity, key art and broadcast package for the winter invitational.",
+      "body": "",
+      "cover": "",
+      "gallery": [],
+      "placeholder": "Case image · tournament identity",
+      "link": "",
+      "featured": true,
+      "published": true
+    },
+    {
+      "id": "lan-stage-trophy",
+      "title": "LAN stage & trophy visualisation",
+      "featuredTitle": "LAN stage & trophy visualisation",
+      "client": "Next Generation Esports",
+      "year": 2025,
+      "cats": ["3D Visualisation"],
+      "summary": "Stage, trophy and environment renders used to sign off the live build.",
+      "body": "",
+      "cover": "",
+      "gallery": [],
+      "placeholder": "Case image · stage render",
+      "link": "",
+      "featured": true,
+      "published": true
+    },
+    {
+      "id": "free-fire-esports-pakistan",
+      "title": "Free Fire Esports Pakistan",
+      "featuredTitle": "Free Fire Esports Pakistan: event graphics",
+      "client": "Next Generation Esports",
+      "year": 2024,
+      "cats": ["Branding", "3D Visualisation"],
+      "summary": "Season-long branding, social systems and event graphics.",
+      "body": "",
+      "cover": "",
+      "gallery": [],
+      "placeholder": "Case image · event graphics",
+      "link": "",
+      "featured": true,
+      "published": true
+    },
+    {
+      "id": "tournament-platform-interface",
+      "title": "Tournament platform interface",
+      "featuredTitle": "Tournament platform: interface design",
+      "client": "Next Generation Esports",
+      "year": 2024,
+      "cats": ["UI/UX"],
+      "summary": "Registration, bracket and profile flows for the tournament platform.",
+      "body": "",
+      "cover": "",
+      "gallery": [],
+      "placeholder": "Case image · interface",
+      "link": "",
+      "featured": true,
+      "published": true
+    },
+    {
+      "id": "campaign-film-generative",
+      "title": "Campaign film: generative content",
+      "featuredTitle": "Campaign film: generative content",
+      "client": "Next Generation Esports",
+      "year": 2024,
+      "cats": ["AI Video"],
+      "summary": "Generated and edited campaign film, directed from boards to final grade.",
+      "body": "",
+      "cover": "",
+      "gallery": [],
+      "placeholder": "Case still · campaign film",
+      "link": "",
+      "featured": true,
+      "published": true
+    },
+    {
+      "id": "team-kit-merchandise",
+      "title": "Team kit & merchandise",
+      "featuredTitle": "Team kit & merchandise",
+      "client": "Next Generation Esports",
+      "year": 2023,
+      "cats": ["Branding"],
+      "summary": "Kit, apparel and merchandise design for team and event drops.",
+      "body": "",
+      "cover": "",
+      "gallery": [],
+      "placeholder": "Case image · merchandise",
+      "link": "",
+      "featured": false,
+      "published": true
+    }
+  ],
+  "home": {
+    "heroVideo": "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260622_204221_5339e40b-e73d-4ab0-9c65-79c18c66fd50.mp4",
+    "heroKicker": "Art Director · Creative Designer · 3D Generalist",
+    "introHeading": "{{yearsWord}} years designing how Pakistani esports looks.",
+    "introParas": [
+      "I am Rabees Sheikh, an art director and creative designer with extensive experience in the esports industry in Pakistan. I design 2D and 3D graphics and UI/UX, most recently as Senior Creative Manager at Next Generation Esports, directing branding, social campaigns and event graphics for Free Fire Esports Pakistan.",
+      "The work runs from tournament identity to LAN stage visualisation to the graphics that go out the same night. Generative video and 3D sit inside that process rather than beside it. Both are used for look development and content, art-directed to the same standard as everything else."
+    ],
+    "stats": [
+      { "value": "{{years}}+ yrs", "label": "In esports design, Karachi" },
+      { "value": "6 yrs", "label": "At Next Generation Esports, 2020 to 2025" },
+      { "value": "4", "label": "Disciplines, one point of contact" }
+    ]
+  },
+  "about": {
+    "heading": "Rabees Sheikh, art director and creative designer, Karachi.",
+    "intro": [
+      "Art Director and Creative Designer with extensive experience in the esports industry in Pakistan. Skilled in designing 2D and 3D graphics, as well as UI/UX designing.",
+      "Most recently Senior Creative Manager at Next Generation Esports, directing branding, social media campaigns and event graphics for Free Fire Esports Pakistan, and leading a team of designers across the season.",
+      "Passionate about creating visually appealing and engaging designs that capture the essence of esports in Pakistan, now extending that practice into 3D visualisation and generative video."
+    ],
+    "experience": [
+      {
+        "period": "Jan 2021 to Dec 2025",
+        "role": "Senior Creative Manager",
+        "org": "Next Generation Esports · Karachi, on-site",
+        "body": "Directed a team of ten designers across branding, social media campaigns and event graphics for Free Fire Esports Pakistan, with campaign engagement up 30 per cent. Led the 3D graphics for tournaments that drew over a million views across streaming platforms, designed UI and UX assets that lifted interactions on promotional platforms by 25 per cent, and cut project turnaround by 20 per cent. Trained and mentored five junior designers."
+      },
+      {
+        "period": "Oct 2022 to Dec 2022",
+        "role": "Freelance UI/UX Designer",
+        "org": "DiceOn · Remote",
+        "body": "Ran an editorial team of eight writers and designers producing more than twenty exclusive articles a month, and set the content strategy that raised reader retention by 25 per cent."
+      },
+      {
+        "period": "Jan 2020 to Jan 2021",
+        "role": "Creative Designer",
+        "org": "Next Generation Esports · Karachi",
+        "body": "Designed graphics for esports events including social content, banners, logos and merchandise. Over a hundred pieces across campaigns, with fan engagement up 15 per cent on social platforms."
+      },
+      {
+        "period": "2018 to 2022",
+        "role": "Bachelor's degree, Advertising",
+        "org": "Iqra University, Karachi",
+        "body": "Studied advertising alongside full-time design work in esports."
+      }
+    ],
+    "recognition": [
+      { "date": "March 2023", "body": "Recognised by Next Generation Esports for leadership in directing design teams and delivering branding solutions." },
+      { "date": "August 2022", "body": "Awarded at Next Generation Esports for results in campaign engagement and visual content creation." }
+    ],
+    "languages": [
+      { "name": "Urdu", "level": "Native" },
+      { "name": "English", "level": "Proficient" }
+    ]
+  },
+  "skills": [
+    { "title": "Branding", "body": "Tournament and organisation identities: type, mark, motion and the rules that hold them together across a season.", "tags": "Identity · Guidelines · Campaigns · Art direction" },
+    { "title": "3D Graphics", "body": "Stage, trophy, merchandise and environment work taken from block-out to final render.", "tags": "Modelling · Lookdev · Lighting · Render" },
+    { "title": "Graphic Design", "body": "Social, broadcast and event graphics produced against live tournament schedules.", "tags": "Key art · Social systems · Event collateral" },
+    { "title": "UI/UX Design", "body": "Product and platform interfaces designed to look considered and behave predictably.", "tags": "Product design · Prototypes · Design systems" },
+    { "title": "AI Generated Video", "body": "Generated and edited film, directed rather than prompted, from boards to final grade.", "tags": "Concept · Style frames · Generation · Edit & grade" },
+    { "title": "Adobe Creative Suite", "body": "Daily working environment across design, layout, motion and edit.", "tags": "Photoshop · Illustrator · InDesign · After Effects · Premiere" }
+  ],
+  "software": [
+    { "name": "Blender", "note": "Modelling, lookdev and final render" },
+    { "name": "Cinema 4D", "note": "Motion-led 3D and scene layout" },
+    { "name": "After Effects", "note": "Motion graphics and broadcast packages" },
+    { "name": "Premiere Pro", "note": "Edit, assembly and delivery" },
+    { "name": "Photoshop", "note": "Composites, key art and retouching" },
+    { "name": "Illustrator", "note": "Marks, type and vector systems" },
+    { "name": "InDesign", "note": "Guidelines, decks and long documents" },
+    { "name": "Figma", "note": "Interface design, prototypes and handoff" },
+    { "name": "Adobe XD", "note": "Interface layouts and click-through flows" }
+  ],
+  "services": [
+    "3D Design",
+    "Ad Design",
+    "Brand Design",
+    "Graphic Design",
+    "Video Production",
+    "Animation",
+    "Web Design",
+    "Visual Design",
+    "Video Editing",
+    "Project Management"
+  ],
+  "toolGroups": [
+    { "label": "3D & rendering", "items": ["Blender", "Cinema 4D"] },
+    { "label": "Branding & layout", "items": ["Illustrator", "Photoshop", "InDesign"] },
+    { "label": "Motion & edit", "items": ["After Effects", "Premiere Pro"] },
+    { "label": "Interface", "items": ["Figma", "Adobe XD"] }
+  ],
+  "work": {
+    "indexLabel": "Index {{indexStartYear}} to {{nowYear}}"
+  },
+  "contact": {
+    "email": "work.rabees@gmail.com",
+    "copyright": "© {{nowYear}} Rabees Sheikh · Karachi",
+    "based": "Karachi, Pakistan (PKT)",
+    "availability": "Open to new projects",
+    "phone": "+92 300 2883570",
+    "phoneHref": "https://wa.me/923002883570",
+    "location": "Karachi, Pakistan",
+    "resume": "uploads/Rabees Ahmed Sheikh - Resume.pdf",
+    "socials": [
+      { "label": "LinkedIn", "handle": "/ggrabees", "url": "https://www.linkedin.com/in/ggrabees" },
+      { "label": "Instagram", "handle": "Add link", "url": "#" },
+      { "label": "Behance", "handle": "/iamrabees", "url": "https://www.behance.net/iamrabees" }
+    ]
+  }
+}

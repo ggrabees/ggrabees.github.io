@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg:#000; --fg:#fff; --fg-80:rgba(255,255,255,0.8); --fg-60:rgba(255,255,255,0.6); --fg-45:rgba(255,255,255,0.45); --line:rgba(255,255,255,0.12); --line-strong:rgba(255,255,255,0.3); }
+  body { background: #000; color: #fff; -webkit-font-smoothing: antialiased; font-family: Geist, system-ui, sans-serif; }
+  html { color-scheme: dark; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.3) #000; }
+  input, textarea, select, button { font-family: inherit; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: #fff; }
+</style>
+</helmet>
+
+<sc-if value="{{ locked }}" hint-placeholder-val="{{ true }}">
+  <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px">
+    <div style="width:100%;max-width:380px;display:flex;flex-direction:column;gap:22px">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-45)">Admin</span>
+        <h1 style="font-size:30px;font-weight:500;letter-spacing:-0.03em">{{ gateTitle }}</h1>
+        <p style="font-size:14px;line-height:1.6;color:var(--fg-60)">{{ gateNote }}</p>
+      </div>
+      <input type="password" value="{{ pass }}" onChange="{{ onPass }}" onKeyDown="{{ onPassKey }}" placeholder="Passcode" style="width:100%;border:0;border-bottom:1px solid var(--line-strong);background:transparent;padding:12px 0;font-size:16px;color:var(--fg);outline:none" />
+      <div style="display:flex;align-items:center;gap:14px">
+        <button onClick="{{ onUnlock }}" style="border:0;cursor:pointer;border-radius:8px;background:#fff;color:#000;padding:12px 24px;font-size:14px;font-weight:500">{{ gateButton }}</button>
+        <span style="font-size:13px;color:var(--fg-45)">{{ err }}</span>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ unlocked }}" hint-placeholder-val="{{ false }}">
+<div style="min-height:100vh;background:#000">
+
+  <div style="position:sticky;top:0;z-index:20;background:rgba(0,0,0,0.96);border-bottom:1px solid var(--line);padding:14px clamp(20px,4vw,48px);display:flex;flex-wrap:wrap;align-items:center;gap:16px 24px">
+    <span style="font-size:15px;font-weight:500;letter-spacing:-0.02em">Rabees Sheikh · Admin</span>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-left:auto">
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="5">
+        <button onClick="{{ t.onClick }}" style="cursor:pointer;background:transparent;border:1px solid {{ t.border }};color:{{ t.color }};border-radius:999px;padding:7px 16px;font-size:13px">{{ t.label }}</button>
+      </sc-for>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px">
+      <span style="font-size:12px;color:var(--fg-45);max-width:320px">{{ status }}</span>
+      <button onClick="{{ onSave }}" style="border:0;cursor:pointer;border-radius:8px;background:#fff;color:#000;padding:10px 22px;font-size:14px;font-weight:500">{{ saveLabel }}</button>
+    </div>
+  </div>
+
+  <div style="max-width:1040px;margin:0 auto;padding:clamp(28px,5vh,56px) clamp(20px,4vw,48px) 160px;display:flex;flex-direction:column;gap:clamp(28px,4vh,44px)">
+
+    <sc-if value="{{ isProjects }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:16px;border-bottom:1px solid var(--line);padding-bottom:18px">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-45)">Projects</span>
+            <span style="font-size:14px;color:var(--fg-60)">{{ projectCount }}</span>
+          </div>
+          <button onClick="{{ onNewProject }}" style="cursor:pointer;background:transparent;border:1px solid var(--fg);color:var(--fg);border-radius:999px;padding:9px 20px;font-size:13px">Add project</button>
+        </div>
+
+        <sc-for list="{{ projects }}" as="p" hint-placeholder-count="3">
+          <div style="border:1px solid var(--line);padding:clamp(18px,2.5vw,26px);display:flex;flex-direction:column;gap:18px">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px">
+              <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--fg-45)">{{ p.num }}</span>
+              <input value="{{ p.title }}" onChange="{{ p.on_title }}" placeholder="Project title" style="flex:1;min-width:140px;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;font-size:18px;font-weight:500;letter-spacing:-0.02em;color:var(--fg);outline:none" />
+              <div style="display:flex;flex-wrap:nowrap;gap:8px;margin-left:auto;flex-shrink:0">
+                <button onClick="{{ p.onFeatured }}" style="cursor:pointer;background:transparent;border:1px solid {{ p.featuredBorder }};color:{{ p.featuredColor }};border-radius:999px;padding:6px 14px;font-size:12px">Featured</button>
+                <button onClick="{{ p.onPublished }}" style="cursor:pointer;background:transparent;border:1px solid {{ p.publishedBorder }};color:{{ p.publishedColor }};border-radius:999px;padding:6px 14px;font-size:12px">{{ p.publishedLabel }}</button>
+                <button onClick="{{ p.onToggle }}" style="cursor:pointer;background:transparent;border:1px solid var(--line-strong);color:var(--fg-60);border-radius:999px;padding:6px 14px;font-size:12px">{{ p.toggleLabel }}</button>
+                <button onClick="{{ p.onUp }}" style="cursor:pointer;background:transparent;border:1px solid var(--line-strong);color:var(--fg-60);border-radius:999px;padding:6px 12px;font-size:12px">↑</button>
+                <button onClick="{{ p.onDown }}" style="cursor:pointer;background:transparent;border:1px solid var(--line-strong);color:var(--fg-60);border-radius:999px;padding:6px 12px;font-size:12px">↓</button>
+                <button onClick="{{ p.onDel }}" style="cursor:pointer;background:transparent;border:1px solid var(--line-strong);color:var(--fg-60);border-radius:999px;padding:6px 14px;font-size:12px">Delete</button>
+              </div>
+            </div>
+
+            <sc-if value="{{ p.open }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:20px">
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px 28px">
+                  <label style="display:flex;flex-direction:column;gap:8px">
+                    <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Client</span>
+                    <input value="{{ p.client }}" onChange="{{ p.on_client }}" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;font-size:15px;color:var(--fg);outline:none" />
+                  </label>
+                  <label style="display:flex;flex-direction:column;gap:8px">
+                    <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Year</span>
+                    <input value="{{ p.year }}" onChange="{{ p.on_year }}" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;font-size:15px;color:var(--fg);outline:none" />
+                  </label>
+                  <label style="display:flex;flex-direction:column;gap:8px">
+                    <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Categories, comma separated</span>
+                    <input value="{{ p.catsStr }}" onChange="{{ p.on_cats }}" placeholder="Branding, 3D Visualisation" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;font-size:15px;color:var(--fg);outline:none" />
+                  </label>
+                  <label style="display:flex;flex-direction:column;gap:8px">
+                    <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">External link</span>
+                    <input value="{{ p.link }}" onChange="{{ p.on_link }}" placeholder="https://" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;font-size:15px;color:var(--fg);outline:none" />
+                  </label>
+                </div>
+
+                <label style="display:flex;flex-direction:column;gap:8px">
+                  <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Homepage title, if different</span>
+                  <input value="{{ p.featuredTitle }}" onChange="{{ p.on_featuredTitle }}" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;font-size:15px;color:var(--fg);outline:none" />
+                </label>
+
+                <label style="display:flex;flex-direction:column;gap:8px">
+                  <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Short description</span>
+                  <textarea rows="2" value="{{ p.summary }}" onChange="{{ p.on_summary }}" style="width:100%;resize:vertical;border:1px solid var(--line);background:transparent;padding:12px;font-size:15px;line-height:1.6;color:var(--fg);outline:none"></textarea>
+                </label>
+
+                <label style="display:flex;flex-direction:column;gap:8px">
+                  <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Case study copy</span>
+                  <textarea rows="6" value="{{ p.body }}" onChange="{{ p.on_body }}" style="width:100%;resize:vertical;border:1px solid var(--line);background:transparent;padding:12px;font-size:15px;line-height:1.6;color:var(--fg);outline:none"></textarea>
+                </label>
+
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px 28px;align-items:start">
+                  <div style="display:flex;flex-direction:column;gap:10px">
+                    <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Cover image</span>
+                    <input value="{{ p.cover }}" onChange="{{ p.on_cover }}" placeholder="uploads/projects/name.jpg or https://" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;font-size:14px;color:var(--fg);outline:none" />
+                    <input type="file" accept="image/*" onChange="{{ p.onUploadCover }}" style="font-size:12px;color:var(--fg-60)" />
+                    <sc-if value="{{ p.cover }}" hint-placeholder-val="{{ false }}">
+                      {{ p.coverPreview }}
+                    </sc-if>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:10px">
+                    <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Gallery, one path or URL per line</span>
+                    <textarea rows="4" value="{{ p.galleryStr }}" onChange="{{ p.on_gallery }}" style="width:100%;resize:vertical;border:1px solid var(--line);background:transparent;padding:12px;font-size:14px;line-height:1.6;color:var(--fg);outline:none"></textarea>
+                    <input type="file" accept="image/*" multiple="{{ true }}" onChange="{{ p.onUploadGallery }}" style="font-size:12px;color:var(--fg-60)" />
+                  </div>
+                </div>
+
+                <label style="display:flex;flex-direction:column;gap:8px">
+                  <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Placeholder caption, shown until an image is added</span>
+                  <input value="{{ p.placeholder }}" onChange="{{ p.on_placeholder }}" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;font-size:14px;color:var(--fg);outline:none" />
+                </label>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+
+        <div style="display:flex;flex-direction:column;gap:12px;border-top:1px solid var(--line);padding-top:20px">
+          <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Filter categories on the work page, comma separated</span>
+          <input value="{{ categoriesStr }}" onChange="{{ onCategories }}" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;font-size:15px;color:var(--fg);outline:none" />
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:34px">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-45)">Experience counter</span>
+          <label style="display:flex;flex-direction:column;gap:8px;max-width:280px">
+            <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Counting from, YYYY-MM</span>
+            <input value="{{ experienceStart }}" onChange="{{ onExperienceStart }}" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;font-size:15px;color:var(--fg);outline:none" />
+          </label>
+          <p style="font-size:13px;line-height:1.6;color:var(--fg-60);max-width:520px">Reads as {{ yearsPreview }} today, and climbs on its own. Write {{ tokenYears }} or {{ tokenYearsWord }} in any copy below and it fills in automatically.</p>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:16px;border-top:1px solid var(--line);padding-top:24px">
+          <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-45)">Homepage</span>
+          <div style="display:flex;flex-direction:column;gap:10px;border:1px solid var(--line);padding:16px">
+            <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Hero background video</span>
+            <input value="{{ heroVideo }}" onChange="{{ onHeroVideo }}" placeholder="https://… .mp4 or uploads/video/name.mp4" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;font-size:14px;color:var(--fg);outline:none" />
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px">
+              <input type="file" accept="video/*" onChange="{{ onUploadHeroVideo }}" style="font-size:12px;color:var(--fg-60)" />
+              <span style="font-size:12px;color:var(--fg-45)">Keep uploads under about 20 MB, or paste a hosted link.</span>
+            </div>
+            {{ heroVideoPreview }}
+          </div>
+          <label style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Loading screen words, comma separated</span>
+            <input value="{{ loaderWords }}" onChange="{{ onLoaderWords }}" placeholder="Identity, Stage, Screen" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;font-size:15px;color:var(--fg);outline:none" />
+            <span style="font-size:12px;color:var(--fg-45)">They cycle one at a time while the site loads, on every page. Saving commits them straight into the site, so every visitor sees the new words.</span>
+          </label>
+          <label style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Kicker</span>
+            <input value="{{ homeKicker }}" onChange="{{ onHomeKicker }}" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;font-size:15px;color:var(--fg);outline:none" />
+          </label>
+          <label style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Intro heading</span>
+            <input value="{{ homeHeading }}" onChange="{{ onHomeHeading }}" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;font-size:15px;color:var(--fg);outline:none" />
+          </label>
+          <label style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Intro paragraphs, one per line</span>
+            <textarea rows="6" value="{{ homeParas }}" onChange="{{ onHomeParas }}" style="width:100%;resize:vertical;border:1px solid var(--line);background:transparent;padding:12px;font-size:15px;line-height:1.6;color:var(--fg);outline:none"></textarea>
+          </label>
+          <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Stat cards</span>
+          <sc-for list="{{ stats }}" as="r" hint-placeholder-count="3">
+            <div style="display:grid;grid-template-columns:120px 1fr auto;gap:16px;align-items:end;border-top:1px solid var(--line);padding:14px 0">
+              <input value="{{ r.value }}" onChange="{{ r.on_value }}" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:6px 0;font-size:15px;color:var(--fg);outline:none" />
+              <input value="{{ r.label }}" onChange="{{ r.on_label }}" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:6px 0;font-size:15px;color:var(--fg);outline:none" />
+              <button onClick="{{ r.onDel }}" style="cursor:pointer;background:transparent;border:1px solid var(--line-strong);color:var(--fg-60);border-radius:999px;padding:6px 14px;font-size:12px">Remove</button>
+            </div>
+          </sc-for>
+          <button onClick="{{ onAddStat }}" style="align-self:flex-start;cursor:pointer;background:transparent;border:1px solid var(--fg);color:var(--fg);border-radius:999px;padding:8px 18px;font-size:13px">Add stat</button>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:16px;border-top:1px solid var(--line);padding-top:24px">
+          <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-45)">About page</span>
+          <label style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Heading</span>
+            <input value="{{ aboutHeading }}" onChange="{{ onAboutHeading }}" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;font-size:15px;color:var(--fg);outline:none" />
+          </label>
+          <label style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Intro paragraphs, one per line</span>
+            <textarea rows="6" value="{{ aboutIntro }}" onChange="{{ onAboutIntro }}" style="width:100%;resize:vertical;border:1px solid var(--line);background:transparent;padding:12px;font-size:15px;line-height:1.6;color:var(--fg);outline:none"></textarea>
+          </label>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:16px;border-top:1px solid var(--line);padding-top:24px">
+          <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-45)">Experience entries</span>
+          <sc-for list="{{ experience }}" as="r" hint-placeholder-count="3">
+            <div style="border:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:14px">
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px 24px">
+                <input value="{{ r.period }}" onChange="{{ r.on_period }}" placeholder="Jan 2021 to Dec 2025" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:6px 0;font-size:14px;color:var(--fg);outline:none" />
+                <input value="{{ r.role }}" onChange="{{ r.on_role }}" placeholder="Role" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:6px 0;font-size:14px;color:var(--fg);outline:none" />
+                <input value="{{ r.org }}" onChange="{{ r.on_org }}" placeholder="Organisation · City" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:6px 0;font-size:14px;color:var(--fg);outline:none" />
+              </div>
+              <textarea rows="3" value="{{ r.body }}" onChange="{{ r.on_body }}" style="width:100%;resize:vertical;border:1px solid var(--line);background:transparent;padding:12px;font-size:14px;line-height:1.6;color:var(--fg);outline:none"></textarea>
+              <div style="display:flex;gap:8px">
+                <button onClick="{{ r.onUp }}" style="cursor:pointer;background:transparent;border:1px solid var(--line-strong);color:var(--fg-60);border-radius:999px;padding:6px 12px;font-size:12px">↑</button>
+                <button onClick="{{ r.onDown }}" style="cursor:pointer;background:transparent;border:1px solid var(--line-strong);color:var(--fg-60);border-radius:999px;padding:6px 12px;font-size:12px">↓</button>
+                <button onClick="{{ r.onDel }}" style="cursor:pointer;background:transparent;border:1px solid var(--line-strong);color:var(--fg-60);border-radius:999px;padding:6px 14px;font-size:12px">Delete</button>
+              </div>
+            </div>
+          </sc-for>
+          <button onClick="{{ onAddExperience }}" style="align-self:flex-start;cursor:pointer;background:transparent;border:1px solid var(--fg);color:var(--fg);border-radius:999px;padding:8px 18px;font-size:13px">Add entry</button>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:16px;border-top:1px solid var(--line);padding-top:24px">
+          <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-45)">Recognition</span>
+          <sc-for list="{{ recognition }}" as="r" hint-placeholder-count="2">
+            <div style="display:grid;grid-template-columns:160px 1fr auto;gap:16px;align-items:start;border-top:1px solid var(--line);padding:14px 0">
+              <input value="{{ r.date }}" onChange="{{ r.on_date }}" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:6px 0;font-size:14px;color:var(--fg);outline:none" />
+              <textarea rows="2" value="{{ r.body }}" onChange="{{ r.on_body }}" style="width:100%;resize:vertical;border:1px solid var(--line);background:transparent;padding:10px;font-size:14px;line-height:1.6;color:var(--fg);outline:none"></textarea>
+              <button onClick="{{ r.onDel }}" style="cursor:pointer;background:transparent;border:1px solid var(--line-strong);color:var(--fg-60);border-radius:999px;padding:6px 14px;font-size:12px">Remove</button>
+            </div>
+          </sc-for>
+          <button onClick="{{ onAddRecognition }}" style="align-self:flex-start;cursor:pointer;background:transparent;border:1px solid var(--fg);color:var(--fg);border-radius:999px;padding:8px 18px;font-size:13px">Add recognition</button>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:16px;border-top:1px solid var(--line);padding-top:24px">
+          <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-45)">Languages</span>
+          <sc-for list="{{ languages }}" as="r" hint-placeholder-count="2">
+            <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:16px;align-items:end;border-top:1px solid var(--line);padding:14px 0">
+              <input value="{{ r.name }}" onChange="{{ r.on_name }}" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:6px 0;font-size:14px;color:var(--fg);outline:none" />
+              <input value="{{ r.level }}" onChange="{{ r.on_level }}" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:6px 0;font-size:14px;color:var(--fg);outline:none" />
+              <button onClick="{{ r.onDel }}" style="cursor:pointer;background:transparent;border:1px solid var(--line-strong);color:var(--fg-60);border-radius:999px;padding:6px 14px;font-size:12px">Remove</button>
+            </div>
+          </sc-for>
+          <button onClick="{{ onAddLanguage }}" style="align-self:flex-start;cursor:pointer;background:transparent;border:1px solid var(--fg);color:var(--fg);border-radius:999px;padding:8px 18px;font-size:13px">Add language</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isCapabilities }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:34px">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-45)">Top skills</span>
+          <sc-for list="{{ skills }}" as="r" hint-placeholder-count="6">
+            <div style="border:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:12px">
+              <input value="{{ r.title }}" onChange="{{ r.on_title }}" placeholder="Skill" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:6px 0;font-size:16px;font-weight:500;color:var(--fg);outline:none" />
+              <textarea rows="2" value="{{ r.body }}" onChange="{{ r.on_body }}" style="width:100%;resize:vertical;border:1px solid var(--line);background:transparent;padding:10px;font-size:14px;line-height:1.6;color:var(--fg);outline:none"></textarea>
+              <input value="{{ r.tags }}" onChange="{{ r.on_tags }}" placeholder="Tag · Tag · Tag" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:6px 0;font-size:13px;color:var(--fg-80);outline:none" />
+              <div style="display:flex;gap:8px">
+                <button onClick="{{ r.onUp }}" style="cursor:pointer;background:transparent;border:1px solid var(--line-strong);color:var(--fg-60);border-radius:999px;padding:6px 12px;font-size:12px">↑</button>
+                <button onClick="{{ r.onDown }}" style="cursor:pointer;background:transparent;border:1px solid var(--line-strong);color:var(--fg-60);border-radius:999px;padding:6px 12px;font-size:12px">↓</button>
+                <button onClick="{{ r.onDel }}" style="cursor:pointer;background:transparent;border:1px solid var(--line-strong);color:var(--fg-60);border-radius:999px;padding:6px 14px;font-size:12px">Delete</button>
+              </div>
+            </div>
+          </sc-for>
+          <button onClick="{{ onAddSkill }}" style="align-self:flex-start;cursor:pointer;background:transparent;border:1px solid var(--fg);color:var(--fg);border-radius:999px;padding:8px 18px;font-size:13px">Add skill</button>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:16px;border-top:1px solid var(--line);padding-top:24px">
+          <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-45)">Software list</span>
+          <sc-for list="{{ software }}" as="r" hint-placeholder-count="9">
+            <div style="display:grid;grid-template-columns:200px 1fr auto auto auto;gap:14px;align-items:end;border-top:1px solid var(--line);padding:12px 0">
+              <input value="{{ r.name }}" onChange="{{ r.on_name }}" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:6px 0;font-size:14px;color:var(--fg);outline:none" />
+              <input value="{{ r.note }}" onChange="{{ r.on_note }}" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:6px 0;font-size:14px;color:var(--fg);outline:none" />
+              <button onClick="{{ r.onUp }}" style="cursor:pointer;background:transparent;border:1px solid var(--line-strong);color:var(--fg-60);border-radius:999px;padding:6px 12px;font-size:12px">↑</button>
+              <button onClick="{{ r.onDown }}" style="cursor:pointer;background:transparent;border:1px solid var(--line-strong);color:var(--fg-60);border-radius:999px;padding:6px 12px;font-size:12px">↓</button>
+              <button onClick="{{ r.onDel }}" style="cursor:pointer;background:transparent;border:1px solid var(--line-strong);color:var(--fg-60);border-radius:999px;padding:6px 14px;font-size:12px">Remove</button>
+            </div>
+          </sc-for>
+          <button onClick="{{ onAddSoftware }}" style="align-self:flex-start;cursor:pointer;background:transparent;border:1px solid var(--fg);color:var(--fg);border-radius:999px;padding:8px 18px;font-size:13px">Add software</button>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:16px;border-top:1px solid var(--line);padding-top:24px">
+          <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-45)">Tool groups on the capabilities page</span>
+          <sc-for list="{{ toolGroups }}" as="r" hint-placeholder-count="4">
+            <div style="display:grid;grid-template-columns:200px 1fr auto;gap:14px;align-items:end;border-top:1px solid var(--line);padding:12px 0">
+              <input value="{{ r.label }}" onChange="{{ r.on_label }}" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:6px 0;font-size:14px;color:var(--fg);outline:none" />
+              <input value="{{ r.itemsStr }}" onChange="{{ r.on_items }}" placeholder="Blender, Cinema 4D" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:6px 0;font-size:14px;color:var(--fg);outline:none" />
+              <button onClick="{{ r.onDel }}" style="cursor:pointer;background:transparent;border:1px solid var(--line-strong);color:var(--fg-60);border-radius:999px;padding:6px 14px;font-size:12px">Remove</button>
+            </div>
+          </sc-for>
+          <button onClick="{{ onAddToolGroup }}" style="align-self:flex-start;cursor:pointer;background:transparent;border:1px solid var(--fg);color:var(--fg);border-radius:999px;padding:8px 18px;font-size:13px">Add group</button>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:12px;border-top:1px solid var(--line);padding-top:24px">
+          <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-45)">Services, one per line</span>
+          <textarea rows="10" value="{{ services }}" onChange="{{ onServices }}" style="width:100%;resize:vertical;border:1px solid var(--line);background:transparent;padding:12px;font-size:14px;line-height:1.7;color:var(--fg);outline:none"></textarea>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:28px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px 32px">
+          <label style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Email</span>
+            <input value="{{ email }}" onChange="{{ onEmail }}" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;font-size:15px;color:var(--fg);outline:none" />
+          </label>
+          <label style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Phone, shown</span>
+            <input value="{{ phone }}" onChange="{{ onPhone }}" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;font-size:15px;color:var(--fg);outline:none" />
+          </label>
+          <label style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Phone link</span>
+            <input value="{{ phoneHref }}" onChange="{{ onPhoneHref }}" placeholder="https://wa.me/923002883570" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;font-size:15px;color:var(--fg);outline:none" />
+          </label>
+          <label style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Based</span>
+            <input value="{{ based }}" onChange="{{ onBased }}" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;font-size:15px;color:var(--fg);outline:none" />
+          </label>
+          <label style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Availability</span>
+            <input value="{{ availability }}" onChange="{{ onAvailability }}" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;font-size:15px;color:var(--fg);outline:none" />
+          </label>
+          <label style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Résumé file path</span>
+            <input value="{{ resume }}" onChange="{{ onResume }}" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;font-size:15px;color:var(--fg);outline:none" />
+          </label>
+          <label style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Footer line</span>
+            <input value="{{ copyright }}" onChange="{{ onCopyright }}" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;font-size:15px;color:var(--fg);outline:none" />
+          </label>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:16px;border-top:1px solid var(--line);padding-top:24px">
+          <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-45)">Social links</span>
+          <sc-for list="{{ socials }}" as="r" hint-placeholder-count="3">
+            <div style="display:grid;grid-template-columns:160px 160px 1fr auto auto;gap:14px;align-items:end;border-top:1px solid var(--line);padding:12px 0">
+              <input value="{{ r.label }}" onChange="{{ r.on_label }}" placeholder="LinkedIn" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:6px 0;font-size:14px;color:var(--fg);outline:none" />
+              <input value="{{ r.handle }}" onChange="{{ r.on_handle }}" placeholder="/ggrabees" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:6px 0;font-size:14px;color:var(--fg);outline:none" />
+              <input value="{{ r.url }}" onChange="{{ r.on_url }}" placeholder="https://" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:6px 0;font-size:14px;color:var(--fg);outline:none" />
+              <button onClick="{{ r.onUp }}" style="cursor:pointer;background:transparent;border:1px solid var(--line-strong);color:var(--fg-60);border-radius:999px;padding:6px 12px;font-size:12px">↑</button>
+              <button onClick="{{ r.onDel }}" style="cursor:pointer;background:transparent;border:1px solid var(--line-strong);color:var(--fg-60);border-radius:999px;padding:6px 14px;font-size:12px">Remove</button>
+            </div>
+          </sc-for>
+          <button onClick="{{ onAddSocial }}" style="align-self:flex-start;cursor:pointer;background:transparent;border:1px solid var(--fg);color:var(--fg);border-radius:999px;padding:8px 18px;font-size:13px">Add link</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isSettings }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:30px">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-45)">GitHub</span>
+          <p style="font-size:14px;line-height:1.7;color:var(--fg-60);max-width:620px">Saving commits <span style="color:var(--fg)">data/site.json</span> straight into the repository that serves the site, and uploaded images go to <span style="color:var(--fg)">uploads/projects/</span>. GitHub Pages rebuilds within a minute or two. The token needs Contents write access on this one repository and is kept in this browser only.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px 32px">
+          <label style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Owner</span>
+            <input value="{{ ghOwner }}" onChange="{{ onGhOwner }}" placeholder="iamrabees" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;font-size:15px;color:var(--fg);outline:none" />
+          </label>
+          <label style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Repository</span>
+            <input value="{{ ghRepo }}" onChange="{{ onGhRepo }}" placeholder="iamrabees.github.io" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;font-size:15px;color:var(--fg);outline:none" />
+          </label>
+          <label style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Branch</span>
+            <input value="{{ ghBranch }}" onChange="{{ onGhBranch }}" placeholder="main" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;font-size:15px;color:var(--fg);outline:none" />
+          </label>
+          <label style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Data file path</span>
+            <input value="{{ ghPath }}" onChange="{{ onGhPath }}" placeholder="data/site.json" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;font-size:15px;color:var(--fg);outline:none" />
+          </label>
+          <label style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Access token</span>
+            <input type="password" value="{{ ghToken }}" onChange="{{ onGhToken }}" placeholder="github_pat_..." style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;font-size:15px;color:var(--fg);outline:none" />
+          </label>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px">
+          <button onClick="{{ onLoadRemote }}" style="cursor:pointer;background:transparent;border:1px solid var(--fg);color:var(--fg);border-radius:999px;padding:9px 20px;font-size:13px">Load latest from GitHub</button>
+          <button onClick="{{ onDownload }}" style="cursor:pointer;background:transparent;border:1px solid var(--line-strong);color:var(--fg-60);border-radius:999px;padding:9px 20px;font-size:13px">Download site.json</button>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--line);padding-top:24px">
+          <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-45)">Passcode</span>
+          <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:end">
+            <label style="display:flex;flex-direction:column;gap:8px;min-width:220px">
+              <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">New passcode</span>
+              <input type="password" value="{{ newPass }}" onChange="{{ onNewPass }}" style="width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;font-size:15px;color:var(--fg);outline:none" />
+            </label>
+            <button onClick="{{ onSetPass }}" style="cursor:pointer;background:transparent;border:1px solid var(--fg);color:var(--fg);border-radius:999px;padding:9px 20px;font-size:13px">Set passcode</button>
+          </div>
+          <p style="font-size:13px;line-height:1.6;color:var(--fg-45);max-width:620px">The passcode is stored as a hash in the data file and takes effect once you save. It keeps the page out of casual reach; the token is what actually authorises changes.</p>
+        </div>
+      </div>
+    </sc-if>
+
+  </div>
+</div>
+</sc-if>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:900}}">
+const LS = 'rs-admin-gh';
+
+function b64encode(str) {
+  const bytes = new TextEncoder().encode(str);
+  let bin = '';
+  bytes.forEach(b => { bin += String.fromCharCode(b); });
+  return btoa(bin);
+}
+function b64decode(b64) {
+  const bin = atob(String(b64).replace(/\s/g, ''));
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new TextDecoder().decode(bytes);
+}
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+function slug(s) {
+  return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60) || 'project';
+}
+const WORDS = ['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty'];
+
+class Component extends DCLogic {
+  state = {
+    data: null, sha: null, tab: 'projects',
+    locked: true, pass: '', newPass: '', err: '', status: 'Loading…', busy: false,
+    openId: null,
+    loaderWords: ['Identity', 'Stage', 'Screen', 'Motion', 'Esports'],
+    gh: { owner: '', repo: '', branch: 'main', path: 'data/site.json', token: '' }
+  };
+
+  componentDidMount() {
+    let gh = this.state.gh;
+    try {
+      const raw = localStorage.getItem(LS);
+      if (raw) gh = Object.assign({}, gh, JSON.parse(raw));
+    } catch (e) {}
+    this.setState({ gh });
+    fetch('data/loader-words.js', { cache: 'no-store' })
+      .then(r => r.ok ? r.text() : '')
+      .then(txt => {
+        const m = txt.match(/\[[\s\S]*\]/);
+        if (!m) return;
+        const arr = JSON.parse(m[0]);
+        if (Array.isArray(arr) && arr.length) this.setState({ loaderWords: arr });
+      })
+      .catch(() => {});
+    fetch('data/site.json', { cache: 'no-store' })
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (!data) { this.setState({ status: 'No local data/site.json found. Load from GitHub in Settings.' }); return; }
+        const unlockedBefore = sessionStorage.getItem('rs-admin-ok') === '1';
+        this.setState({ data, status: 'Loaded from this site', locked: !unlockedBefore });
+      })
+      .catch(() => this.setState({ status: 'Could not read data/site.json' }));
+  }
+
+  // ---------- data helpers ----------
+  clone() { return JSON.parse(JSON.stringify(this.state.data || {})); }
+  setIn(path, value) {
+    const d = this.clone();
+    const parts = path.split('.');
+    let o = d;
+    for (let i = 0; i < parts.length - 1; i++) {
+      const k = parts[i];
+      if (o[k] == null) o[k] = /^\d+$/.test(parts[i + 1]) ? [] : {};
+      o = o[k];
+    }
+    o[parts[parts.length - 1]] = value;
+    this.setState({ data: d, status: 'Unsaved changes' });
+  }
+  getIn(path, fallback) {
+    const v = path.split('.').reduce((o, k) => (o == null ? undefined : o[k]), this.state.data);
+    return v == null ? fallback : v;
+  }
+  listOp(path, i, op) {
+    const arr = (this.getIn(path, []) || []).slice();
+    if (op === 'up' && i > 0) { const t = arr[i - 1]; arr[i - 1] = arr[i]; arr[i] = t; }
+    if (op === 'down' && i < arr.length - 1) { const t = arr[i + 1]; arr[i + 1] = arr[i]; arr[i] = t; }
+    if (op === 'del') arr.splice(i, 1);
+    this.setIn(path, arr);
+  }
+  push(path, item) {
+    const arr = (this.getIn(path, []) || []).slice();
+    arr.push(item);
+    this.setIn(path, arr);
+  }
+  rows(path, fields) {
+    const arr = this.getIn(path, []) || [];
+    return arr.map((it, i) => {
+      const vm = {
+        onUp: () => this.listOp(path, i, 'up'),
+        onDown: () => this.listOp(path, i, 'down'),
+        onDel: () => this.listOp(path, i, 'del')
+      };
+      fields.forEach(f => {
+        vm[f] = it[f] == null ? '' : it[f];
+        vm['on_' + f] = (e) => this.setIn(path + '.' + i + '.' + f, e.target.value);
+      });
+      return vm;
+    });
+  }
+  lines(arr) { return (arr || []).join('\n'); }
+  toLines(v) { return String(v || '').split('\n').map(s => s.trim()).filter(Boolean); }
+
+  // ---------- gate ----------
+  saveGh(next) {
+    const gh = Object.assign({}, this.state.gh, next);
+    this.setState({ gh });
+    try { localStorage.setItem(LS, JSON.stringify(gh)); } catch (e) {}
+  }
+  async unlock() {
+    const hash = this.getIn('meta.adminPasscodeHash', '');
+    if (!hash) {
+      if (!this.state.pass || this.state.pass.length < 4) { this.setState({ err: 'Pick at least four characters' }); return; }
+      const h = await sha256(this.state.pass);
+      this.setIn('meta.adminPasscodeHash', h);
+      sessionStorage.setItem('rs-admin-ok', '1');
+      this.setState({ locked: false, pass: '', err: '', status: 'Passcode set. Save to store it.' });
+      return;
+    }
+    const h = await sha256(this.state.pass);
+    if (h === hash) {
+      sessionStorage.setItem('rs-admin-ok', '1');
+      this.setState({ locked: false, pass: '', err: '' });
+    } else {
+      this.setState({ err: 'Wrong passcode' });
+    }
+  }
+
+  // ---------- github ----------
+  api(path, opts) {
+    const g = this.state.gh;
+    return fetch('https://api.github.com/repos/' + g.owner + '/' + g.repo + path, Object.assign({
+      headers: {
+        Authorization: 'Bearer ' + g.token,
+        Accept: 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28'
+      }
+    }, opts || {}));
+  }
+  ready() {
+    const g = this.state.gh;
+    return g.owner && g.repo && g.token;
+  }
+  async loadRemote() {
+    if (!this.ready()) { this.setState({ status: 'Fill in owner, repo and token first', tab: 'settings' }); return; }
+    const g = this.state.gh;
+    this.setState({ status: 'Loading from GitHub…' });
+    try {
+      const r = await this.api('/contents/' + g.path + '?ref=' + encodeURIComponent(g.branch || 'main'));
+      if (!r.ok) throw new Error('GitHub ' + r.status);
+      const j = await r.json();
+      const data = JSON.parse(b64decode(j.content));
+      this.setState({ data, sha: j.sha, status: 'Loaded from GitHub' });
+    } catch (e) {
+      this.setState({ status: 'Load failed: ' + e.message });
+    }
+  }
+  async putFile(path, contentB64, message) {
+    const g = this.state.gh;
+    let sha = null;
+    try {
+      const head = await this.api('/contents/' + path + '?ref=' + encodeURIComponent(g.branch || 'main'));
+      if (head.ok) { const j = await head.json(); sha = j.sha; }
+    } catch (e) {}
+    const body = { message, content: contentB64, branch: g.branch || 'main' };
+    if (sha) body.sha = sha;
+    const r = await this.api('/contents/' + path, { method: 'PUT', body: JSON.stringify(body) });
+    if (!r.ok) {
+      let detail = '';
+      try { detail = (await r.json()).message || ''; } catch (e) {}
+      throw new Error('GitHub ' + r.status + (detail ? ' · ' + detail : ''));
+    }
+    return r.json();
+  }
+  async save() {
+    if (this.state.busy) return;
+    if (!this.ready()) { this.setState({ status: 'Add owner, repo and token in Settings', tab: 'settings' }); return; }
+    this.setState({ busy: true, status: 'Saving…' });
+    try {
+      const json = JSON.stringify(this.state.data, null, 2) + '\n';
+      const res = await this.putFile(this.state.gh.path || 'data/site.json', b64encode(json), 'Update site content from admin');
+      const words = 'window.RS_LOADER_WORDS = ' + JSON.stringify(this.state.loaderWords) + ';\n';
+      await this.putFile('data/loader-words.js', b64encode(words), 'Update loading screen words');
+      this.setState({ busy: false, sha: (res.content && res.content.sha) || null, status: 'Saved. The site updates in a minute or two.' });
+    } catch (e) {
+      this.setState({ busy: false, status: 'Save failed: ' + e.message });
+    }
+  }
+  async uploadImage(file, base) {
+    const buf = await file.arrayBuffer();
+    let bin = '';
+    const bytes = new Uint8Array(buf);
+    const chunk = 8192;
+    for (let i = 0; i < bytes.length; i += chunk) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+    const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+    const name = base + '-' + Date.now().toString(36) + '.' + ext;
+    const path = 'uploads/projects/' + name;
+    await this.putFile(path, btoa(bin), 'Add image ' + name);
+    return path;
+  }
+  async handleUpload(files, i, mode) {
+    if (!files || !files.length) return;
+    if (!this.ready()) { this.setState({ status: 'Add owner, repo and token in Settings before uploading', tab: 'settings' }); return; }
+    this.setState({ status: 'Uploading…' });
+    try {
+      const base = slug(this.getIn('projects.' + i + '.title', 'project'));
+      const paths = [];
+      for (const f of Array.from(files)) paths.push(await this.uploadImage(f, base));
+      if (mode === 'cover') this.setIn('projects.' + i + '.cover', paths[0]);
+      else {
+        const g = (this.getIn('projects.' + i + '.gallery', []) || []).concat(paths);
+        this.setIn('projects.' + i + '.gallery', g);
+      }
+      this.setState({ status: 'Image uploaded. Save to publish the change.' });
+    } catch (e) {
+      this.setState({ status: 'Upload failed: ' + e.message });
+    }
+  }
+  async handleVideoUpload(files) {
+    if (!files || !files.length) return;
+    if (!this.ready()) { this.setState({ status: 'Add owner, repo and token in Settings before uploading', tab: 'settings' }); return; }
+    const file = files[0];
+    if (file.size > 40 * 1024 * 1024) { this.setState({ status: 'That file is too large for a repository upload. Host it and paste the link instead.' }); return; }
+    this.setState({ status: 'Uploading video…' });
+    try {
+      const buf = await file.arrayBuffer();
+      const bytes = new Uint8Array(buf);
+      let bin = '';
+      const chunk = 8192;
+      for (let i = 0; i < bytes.length; i += chunk) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+      const ext = (file.name.split('.').pop() || 'mp4').toLowerCase();
+      const path = 'uploads/video/hero-' + Date.now().toString(36) + '.' + ext;
+      await this.putFile(path, btoa(bin), 'Add hero video');
+      this.setIn('home.heroVideo', path);
+      this.setState({ status: 'Video uploaded. Save to publish the change.' });
+    } catch (e) {
+      this.setState({ status: 'Upload failed: ' + e.message });
+    }
+  }
+  download() {
+    const blob = new Blob([JSON.stringify(this.state.data, null, 2) + '\n'], { type: 'application/json' });
+    this.setState({ status: 'Downloaded site.json. Loading screen words live in data/loader-words.js.' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'site.json';
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+
+  renderVals() {
+    const d = this.state.data;
+    const tabDefs = [
+      ['projects', 'Projects'], ['about', 'About'], ['capabilities', 'Capabilities'],
+      ['contact', 'Contact'], ['settings', 'Settings']
+    ];
+    const tabs = tabDefs.map(([id, label]) => ({
+      label,
+      border: this.state.tab === id ? 'var(--fg)' : 'var(--line-strong)',
+      color: this.state.tab === id ? 'var(--fg)' : 'var(--fg-60)',
+      onClick: () => this.setState({ tab: id })
+    }));
+
+    const hasPass = !!this.getIn('meta.adminPasscodeHash', '');
+    const start = this.getIn('meta.experienceStart', '2020-01');
+    let years = 0;
+    if (start) {
+      const p = String(start).split('-');
+      const s = new Date(Number(p[0]), (Number(p[1]) || 1) - 1, 1);
+      const now = new Date();
+      years = now.getFullYear() - s.getFullYear();
+      if (now.getMonth() < s.getMonth()) years--;
+      years = Math.max(0, years);
+    }
+
+    const projects = (this.getIn('projects', []) || []).map((p, i) => {
+      const base = 'projects.' + i;
+      const vm = {
+        num: (i + 1 < 10 ? '0' : '') + (i + 1),
+        open: this.state.openId === (p.id || String(i)),
+        toggleLabel: this.state.openId === (p.id || String(i)) ? 'Close' : 'Edit',
+        catsStr: (p.cats || []).join(', '),
+        coverPreview: p.cover ? React.createElement('img', { src: p.cover, alt: 'Cover preview', style: { width: '100%', maxWidth: 260, aspectRatio: '4/3', objectFit: 'cover', border: '1px solid var(--line)' } }) : null,
+        galleryStr: (p.gallery || []).join('\n'),
+        featuredBorder: p.featured ? 'var(--fg)' : 'var(--line-strong)',
+        featuredColor: p.featured ? 'var(--fg)' : 'var(--fg-60)',
+        publishedBorder: p.published === false ? 'var(--line-strong)' : 'var(--fg)',
+        publishedColor: p.published === false ? 'var(--fg-60)' : 'var(--fg)',
+        publishedLabel: p.published === false ? 'Draft' : 'Published',
+        onToggle: () => this.setState({ openId: this.state.openId === (p.id || String(i)) ? null : (p.id || String(i)) }),
+        onFeatured: () => this.setIn(base + '.featured', !p.featured),
+        onPublished: () => this.setIn(base + '.published', p.published === false),
+        onUp: () => this.listOp('projects', i, 'up'),
+        onDown: () => this.listOp('projects', i, 'down'),
+        onDel: () => { if (confirm('Delete "' + (p.title || 'this project') + '"?')) this.listOp('projects', i, 'del'); },
+        on_cats: (e) => this.setIn(base + '.cats', e.target.value.split(',').map(s => s.trim()).filter(Boolean)),
+        on_gallery: (e) => this.setIn(base + '.gallery', this.toLines(e.target.value)),
+        onUploadCover: (e) => this.handleUpload(e.target.files, i, 'cover'),
+        onUploadGallery: (e) => this.handleUpload(e.target.files, i, 'gallery')
+      };
+      ['title', 'featuredTitle', 'client', 'year', 'summary', 'body', 'cover', 'link', 'placeholder'].forEach(f => {
+        vm[f] = p[f] == null ? '' : p[f];
+        vm['on_' + f] = (e) => this.setIn(base + '.' + f, f === 'year' ? (e.target.value.replace(/[^\d]/g, '') || '') : e.target.value);
+      });
+      return vm;
+    });
+
+    return {
+      locked: !!d && this.state.locked,
+      unlocked: !!d && !this.state.locked,
+      gateTitle: hasPass ? 'Enter passcode' : 'Set a passcode',
+      gateNote: hasPass ? 'This dashboard edits the live site content.' : 'First run. Choose a passcode for this dashboard, then save from Settings.',
+      gateButton: hasPass ? 'Unlock' : 'Set and continue',
+      pass: this.state.pass,
+      err: this.state.err,
+      onPass: (e) => this.setState({ pass: e.target.value }),
+      onPassKey: (e) => { if (e.key === 'Enter') this.unlock(); },
+      onUnlock: () => this.unlock(),
+
+      tabs,
+      isProjects: this.state.tab === 'projects',
+      isAbout: this.state.tab === 'about',
+      isCapabilities: this.state.tab === 'capabilities',
+      isContact: this.state.tab === 'contact',
+      isSettings: this.state.tab === 'settings',
+      status: this.state.status,
+      saveLabel: this.state.busy ? 'Saving…' : 'Save to GitHub',
+      onSave: () => this.save(),
+
+      projects,
+      projectCount: projects.length + (projects.length === 1 ? ' project' : ' projects'),
+      categoriesStr: (this.getIn('categories', []) || []).join(', '),
+      onCategories: (e) => this.setIn('categories', e.target.value.split(',').map(s => s.trim()).filter(Boolean)),
+      onNewProject: () => {
+        const arr = (this.getIn('projects', []) || []).slice();
+        const id = 'project-' + Date.now().toString(36);
+        arr.unshift({ id, title: 'Untitled project', featuredTitle: '', client: '', year: String(new Date().getFullYear()), cats: [], summary: '', body: '', cover: '', gallery: [], placeholder: 'Case image', link: '', featured: false, published: false });
+        this.setIn('projects', arr);
+        this.setState({ openId: id });
+      },
+
+      experienceStart: start,
+      yearsPreview: years + ' years / ' + (WORDS[years] || years),
+      tokenYears: '{{years}}',
+      tokenYearsWord: '{{yearsWord}}',
+      onExperienceStart: (e) => this.setIn('meta.experienceStart', e.target.value),
+
+      loaderWords: this.state.loaderWords.join(', '),
+      onLoaderWords: (e) => this.setState({
+        loaderWords: e.target.value.split(',').map(s => s.trim()).filter(Boolean),
+        status: 'Unsaved changes'
+      }),
+      heroVideo: this.getIn('home.heroVideo', ''),
+      onHeroVideo: (e) => this.setIn('home.heroVideo', e.target.value),
+      heroVideoPreview: this.getIn('home.heroVideo', '')
+        ? React.createElement('video', {
+            src: this.getIn('home.heroVideo', ''), autoPlay: true, muted: true, loop: true, playsInline: true,
+            style: { width: '100%', maxWidth: 320, aspectRatio: '16/9', objectFit: 'cover', border: '1px solid var(--line)' }
+          })
+        : null,
+      onUploadHeroVideo: (e) => this.handleVideoUpload(e.target.files),
+      homeKicker: this.getIn('home.heroKicker', ''),
+      onHomeKicker: (e) => this.setIn('home.heroKicker', e.target.value),
+      homeHeading: this.getIn('home.introHeading', ''),
+      onHomeHeading: (e) => this.setIn('home.introHeading', e.target.value),
+      homeParas: this.lines(this.getIn('home.introParas', [])),
+      onHomeParas: (e) => this.setIn('home.introParas', this.toLines(e.target.value)),
+      stats: this.rows('home.stats', ['value', 'label']),
+      onAddStat: () => this.push('home.stats', { value: '', label: '' }),
+
+      aboutHeading: this.getIn('about.heading', ''),
+      onAboutHeading: (e) => this.setIn('about.heading', e.target.value),
+      aboutIntro: this.lines(this.getIn('about.intro', [])),
+      onAboutIntro: (e) => this.setIn('about.intro', this.toLines(e.target.value)),
+      experience: this.rows('about.experience', ['period', 'role', 'org', 'body']),
+      onAddExperience: () => this.push('about.experience', { period: '', role: '', org: '', body: '' }),
+      recognition: this.rows('about.recognition', ['date', 'body']),
+      onAddRecognition: () => this.push('about.recognition', { date: '', body: '' }),
+      languages: this.rows('about.languages', ['name', 'level']),
+      onAddLanguage: () => this.push('about.languages', { name: '', level: '' }),
+
+      skills: this.rows('skills', ['title', 'body', 'tags']),
+      onAddSkill: () => this.push('skills', { title: '', body: '', tags: '' }),
+      software: this.rows('software', ['name', 'note']),
+      onAddSoftware: () => this.push('software', { name: '', note: '' }),
+      toolGroups: (this.getIn('toolGroups', []) || []).map((g, i) => ({
+        label: g.label || '',
+        itemsStr: (g.items || []).join(', '),
+        on_label: (e) => this.setIn('toolGroups.' + i + '.label', e.target.value),
+        on_items: (e) => this.setIn('toolGroups.' + i + '.items', e.target.value.split(',').map(s => s.trim()).filter(Boolean)),
+        onDel: () => this.listOp('toolGroups', i, 'del')
+      })),
+      onAddToolGroup: () => this.push('toolGroups', { label: '', items: [] }),
+      services: this.lines(this.getIn('services', [])),
+      onServices: (e) => this.setIn('services', this.toLines(e.target.value)),
+
+      email: this.getIn('contact.email', ''),
+      onEmail: (e) => this.setIn('contact.email', e.target.value),
+      phone: this.getIn('contact.phone', ''),
+      onPhone: (e) => this.setIn('contact.phone', e.target.value),
+      phoneHref: this.getIn('contact.phoneHref', ''),
+      onPhoneHref: (e) => this.setIn('contact.phoneHref', e.target.value),
+      based: this.getIn('contact.based', ''),
+      onBased: (e) => this.setIn('contact.based', e.target.value),
+      availability: this.getIn('contact.availability', ''),
+      onAvailability: (e) => this.setIn('contact.availability', e.target.value),
+      resume: this.getIn('contact.resume', ''),
+      onResume: (e) => this.setIn('contact.resume', e.target.value),
+      copyright: this.getIn('contact.copyright', ''),
+      onCopyright: (e) => this.setIn('contact.copyright', e.target.value),
+      socials: this.rows('contact.socials', ['label', 'handle', 'url']),
+      onAddSocial: () => this.push('contact.socials', { label: '', handle: '', url: '' }),
+
+      ghOwner: this.state.gh.owner,
+      onGhOwner: (e) => this.saveGh({ owner: e.target.value.trim() }),
+      ghRepo: this.state.gh.repo,
+      onGhRepo: (e) => this.saveGh({ repo: e.target.value.trim() }),
+      ghBranch: this.state.gh.branch,
+      onGhBranch: (e) => this.saveGh({ branch: e.target.value.trim() }),
+      ghPath: this.state.gh.path,
+      onGhPath: (e) => this.saveGh({ path: e.target.value.trim() }),
+      ghToken: this.state.gh.token,
+      onGhToken: (e) => this.saveGh({ token: e.target.value.trim() }),
+      onLoadRemote: () => this.loadRemote(),
+      onDownload: () => this.download(),
+      newPass: this.state.newPass,
+      onNewPass: (e) => this.setState({ newPass: e.target.value }),
+      onSetPass: async () => {
+        if (!this.state.newPass || this.state.newPass.length < 4) { this.setState({ status: 'Passcode needs four characters or more' }); return; }
+        const h = await sha256(this.state.newPass);
+        this.setIn('meta.adminPasscodeHash', h);
+        this.setState({ newPass: '', status: 'Passcode updated. Save to apply.' });
+      }
+    };
+  }
+}
+
+</script>
+</body>
+</html>

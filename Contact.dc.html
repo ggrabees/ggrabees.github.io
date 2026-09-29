@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<script src="./cursor.js"></script>
+<script src="./site-data.js"></script>
+<script src="./data/loader-words.js"></script>
+<script>
+(function(){
+  var st = document.createElement('style');
+  st.textContent = '@keyframes loaderWordIn { from { opacity:0; transform:translateY(14px); filter:blur(6px); } to { opacity:1; transform:translateY(0); filter:blur(0); } }';
+  (document.head || document.documentElement).appendChild(st);
+  var el = document.createElement('div');
+  el.setAttribute('data-loader', '');
+  el.style.cssText = 'position:fixed;inset:0;z-index:2147483000;overflow:hidden;background:#050505;font-family:Geist,system-ui,sans-serif;transition:opacity .7s ease';
+  el.innerHTML =
+    '<div style="position:absolute;top:0;left:0;right:0;min-height:75px;box-sizing:border-box;display:flex;align-items:center;padding:16px clamp(24px,5vw,64px)"><span style="font-size:clamp(18px,2vw,20px);font-weight:600;letter-spacing:-0.02em;color:#fff">Rabees Sheikh</span></div>' +
+    '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:0 24px">' +
+      '<span data-loader-word style="font-size:clamp(38px,7vw,76px);font-weight:500;letter-spacing:-0.03em;line-height:1;color:rgba(255,255,255,.9);text-align:center;will-change:transform,opacity"></span>' +
+    '</div>' +
+    '<span data-loader-count style="position:absolute;right:clamp(20px,4vw,44px);bottom:clamp(24px,5vh,48px);font-size:clamp(64px,11vw,132px);font-weight:500;line-height:.85;color:#fff;letter-spacing:-0.04em;font-variant-numeric:tabular-nums">000</span>' +
+    '<div style="position:absolute;left:0;right:0;bottom:0;height:2px;background:rgba(255,255,255,.1)">' +
+      '<div data-loader-bar style="height:100%;width:0%;background:#fff;transition:width .25s linear"></div>' +
+    '</div>';
+  function mount(){ if (!el.isConnected) (document.body || document.documentElement).appendChild(el); }
+  if (document.body) mount(); else document.addEventListener('DOMContentLoaded', mount);
+
+  var lockStyle = document.createElement('style');
+  lockStyle.textContent = 'html.is-loading, html.is-loading body { overflow: hidden !important; height: 100% !important; touch-action: none !important; overscroll-behavior: none !important; }';
+  (document.head || document.documentElement).appendChild(lockStyle);
+  document.documentElement.classList.add('is-loading');
+  function blockScroll(e){ if (document.documentElement.classList.contains('is-loading')) { e.preventDefault(); } }
+  window.addEventListener('wheel', blockScroll, { passive: false });
+  window.addEventListener('touchmove', blockScroll, { passive: false });
+  function blockKeys(e){
+    if (!document.documentElement.classList.contains('is-loading')) return;
+    if ([32,33,34,35,36,38,40].indexOf(e.keyCode) !== -1) e.preventDefault();
+  }
+  window.addEventListener('keydown', blockKeys, { passive: false });
+  var keepTop = setInterval(function(){ if (document.documentElement.classList.contains('is-loading')) window.scrollTo(0, 0); }, 60);
+  function unlock(){
+    clearInterval(keepTop);
+    document.documentElement.classList.remove('is-loading');
+    window.removeEventListener('wheel', blockScroll);
+    window.removeEventListener('touchmove', blockScroll);
+    window.removeEventListener('keydown', blockKeys);
+    lockStyle.remove();
+  }
+
+  var words = (window.RS_LOADER_WORDS && window.RS_LOADER_WORDS.length)
+    ? window.RS_LOADER_WORDS
+    : ['Identity', 'Stage', 'Screen', 'Motion', 'Esports'];
+  var wi = 0;
+  function cycle(){
+    var w = el.querySelector('[data-loader-word]');
+    if (!w) return;
+    w.textContent = words[wi % words.length];
+    w.style.animation = 'none';
+    void w.offsetWidth;
+    w.style.animation = 'loaderWordIn .7s cubic-bezier(0.16,1,0.3,1) both';
+    wi++;
+  }
+  cycle();
+  var wordIv = setInterval(cycle, 900);
+
+  var loaded = false, start = Date.now(), shown = 0;
+  window.addEventListener('load', function(){ loaded = true; });
+  function ready(){
+    var painted = document.body && document.body.scrollHeight > 600;
+    return painted && (loaded || Date.now() - start > 1500);
+  }
+  function paint(){
+    var c = el.querySelector('[data-loader-count]'), b = el.querySelector('[data-loader-bar]');
+    var v = Math.round(shown);
+    if (c) c.textContent = (v < 10 ? '00' : v < 100 ? '0' : '') + v;
+    if (b) b.style.width = v + '%';
+  }
+  function hide(){
+    if (el.dataset.done) return;
+    el.dataset.done = '1';
+    clearInterval(wordIv);
+    shown = 100; paint();
+    setTimeout(function(){
+      el.style.opacity = '0';
+      el.style.pointerEvents = 'none';
+      setTimeout(function(){ el.remove(); unlock(); }, 800);
+    }, 260);
+  }
+  var iv = setInterval(function(){
+    if (!el.dataset.done && !el.isConnected) mount();
+    var done = ready() || Date.now() - start > 6000;
+    var target = done ? 100 : Math.min(92, (Date.now() - start) / 18);
+    shown += (target - shown) * 0.12;
+    paint();
+    if (done && shown > 97) { clearInterval(iv); hide(); }
+  }, 40);
+})();
+</script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --bg:#000; --fg:#fff; --fg-90:rgba(255,255,255,0.9); --fg-80:rgba(255,255,255,0.8); --fg-60:rgba(255,255,255,0.6); --fg-50:rgba(255,255,255,0.5); --fg-45:rgba(255,255,255,0.45); --line:rgba(255,255,255,0.08); --line-strong:rgba(255,255,255,0.3); --btn-bg:#fff; --btn-fg:#000; --menu-bg:rgba(0,0,0,0.98); }
+  body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; background: var(--bg); transition: background .4s ease; }
+  @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes loadBar { 0% { transform: translateX(-120%); } 100% { transform: translateX(420%); } }
+  html { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.3) rgba(255,255,255,0.04); }
+  ::-webkit-scrollbar, html::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track, html::-webkit-scrollbar-track { background: #000; border-left: 1px solid rgba(255,255,255,0.08); transition: background-color .4s ease, border-color .4s ease; }
+  ::-webkit-scrollbar-thumb, html::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border: 3px solid #000; border-radius: 999px; transition: background-color .4s ease, border-color .4s ease; }
+  ::-webkit-scrollbar-thumb:hover, html::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.55); }
+  ::-webkit-scrollbar-corner { background: transparent; }
+  html { color-scheme: dark; scrollbar-color: rgba(255,255,255,0.3) #000; }
+  ::-webkit-scrollbar-button, html::-webkit-scrollbar-button { background: #000; height: 0; width: 0; display: none; }
+  html[data-theme="light"] { scrollbar-color: #8a8a86 #dcdcd8; }
+  html[data-theme="light"]::-webkit-scrollbar-track, html[data-theme="light"] ::-webkit-scrollbar-track { background: #dcdcd8; border-left: 1px solid rgba(11,11,11,0.1); }
+  html[data-theme="light"]::-webkit-scrollbar-thumb, html[data-theme="light"] ::-webkit-scrollbar-thumb { background: #8a8a86; border: 3px solid #dcdcd8; }
+  html[data-theme="light"]::-webkit-scrollbar-thumb:hover, html[data-theme="light"] ::-webkit-scrollbar-thumb:hover { background: #64645f; }
+  html[data-theme="light"]::-webkit-scrollbar-button, html[data-theme="light"] ::-webkit-scrollbar-button { background: #dcdcd8; display: none; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: var(--fg); }
+</style>
+<script>
+(function(){try{if(localStorage.getItem('rs-theme')==='light'){var v={'--bg':'#f4f4f2','--fg':'#0b0b0b','--fg-90':'rgba(11,11,11,0.9)','--fg-80':'rgba(11,11,11,0.75)','--fg-60':'rgba(11,11,11,0.6)','--fg-50':'rgba(11,11,11,0.5)','--fg-45':'rgba(11,11,11,0.45)','--line':'rgba(11,11,11,0.12)','--line-strong':'rgba(11,11,11,0.3)','--btn-bg':'#0b0b0b','--btn-fg':'#f4f4f2','--menu-bg':'rgba(244,244,242,0.98)'};for(var k in v){document.documentElement.style.setProperty(k,v[k]);}document.documentElement.setAttribute('data-theme','light');}}catch(e){}})();
+</script>
+<link rel="prefetch" href="index.html" />
+<link rel="prefetch" href="Work.dc.html" />
+<link rel="prefetch" href="Capabilities.dc.html" />
+<link rel="prefetch" href="About.dc.html" />
+
+</helmet>
+
+<dc-import name="SiteNav" hint-size="100%,70px"></dc-import>
+
+<section style="background:var(--bg);color:var(--fg);font-family:Geist, sans-serif;padding:clamp(64px,10vh,120px) clamp(24px,5vw,64px) clamp(48px,7vh,72px)">
+  <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(40px,6vw,96px);align-items:start">
+    <div data-reveal="" style="display:flex;flex-direction:column;gap:26px">
+      <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-45)">Contact</span>
+      <h1 style="font-size:clamp(32px,6vw,68px);font-weight:500;line-height:1.08;letter-spacing:-0.03em;text-wrap:pretty">Tell me what <br /> you're making.</h1>
+      <p style="font-size:clamp(15px,1.6vw,18px);line-height:1.7;color:var(--fg-60);max-width:440px;text-wrap:pretty">A sentence on the project, the deadline and the budget range is enough to start. I reply within two working days.</p>
+      <a href="mailto:work.rabees@gmail.com" data-bind-mailto="contact.email" style="display:inline-flex;align-self:flex-start;align-items:center;gap:10px;border-radius:8px;background:var(--btn-bg);color:var(--btn-fg);padding:14px 26px;font-size:15px;font-weight:500;transition:transform .2s" style-hover="transform:scale(1.05)">
+        <span data-bind-text="contact.email">work.rabees@gmail.com</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </a>
+    </div>
+
+    <div data-reveal="" style="display:flex;flex-direction:column">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px 40px;border-top:1px solid var(--line);padding:24px 0">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <span style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Based</span>
+          <span style="font-size:16px;color:var(--fg-80)" data-bind-text="contact.based">Karachi, Pakistan (PKT)</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <span style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Availability</span>
+          <span style="font-size:16px;color:var(--fg-80)" data-bind-text="contact.availability">Open to new projects</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px 40px;border-top:1px solid var(--line);padding:24px 0">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <span style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Engagements</span>
+          <span style="font-size:16px;color:var(--fg-80)">Project · Retainer · Embedded</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <span style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Disciplines</span>
+          <span style="font-size:16px;color:var(--fg-80)">Branding · 3D · AI Video · UI/UX</span>
+        </div>
+      </div>
+      <div style="border-top:1px solid var(--line)"></div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg);color:var(--fg);font-family:Geist, sans-serif;padding:clamp(64px,10vh,120px) clamp(24px,5vw,64px);border-top:1px solid var(--line)">
+  <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(32px,6vw,96px);align-items:start">
+    <div data-reveal="" style="display:flex;flex-direction:column;gap:16px">
+      <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-45)">Send a brief</span>
+      <h2 style="font-size:clamp(26px,3.4vw,44px);font-weight:500;line-height:1.15;letter-spacing:-0.03em;text-wrap:pretty">Or fill this in and I'll come back to you.</h2>
+      <p style="font-size:15px;line-height:1.7;color:var(--fg-60);max-width:400px;text-wrap:pretty">Everything is optional except a way to reach you.</p>
+      <div data-render="socialsList" style="display:flex;flex-direction:column;margin-top:clamp(16px,3vh,28px);border-bottom:1px solid var(--line)">
+        <a href="https://www.linkedin.com/in/ggrabees" target="_blank" rel="noreferrer" style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;border-top:1px solid var(--line);padding:14px 0;color:var(--fg)">
+          <span style="font-size:16px">LinkedIn</span>
+          <span style="display:inline-flex;align-items:center;gap:10px;padding-right:8px;font-size:14px;color:var(--fg-50);transition:gap .25s cubic-bezier(0.16,1,0.3,1), padding-right .25s cubic-bezier(0.16,1,0.3,1), color .2s ease" style-hover="gap:18px;padding-right:0px;color:var(--fg)">
+            /ggrabees
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+          </span>
+        </a>
+        <a href="https://www.behance.net/iamrabees" target="_blank" rel="noreferrer" style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;border-top:1px solid var(--line);padding:14px 0;color:var(--fg)">
+          <span style="font-size:16px">Behance</span>
+          <span style="display:inline-flex;align-items:center;gap:10px;padding-right:8px;font-size:14px;color:var(--fg-50);transition:gap .25s cubic-bezier(0.16,1,0.3,1), padding-right .25s cubic-bezier(0.16,1,0.3,1), color .2s ease" style-hover="gap:18px;padding-right:0px;color:var(--fg)">
+            /iamrabees
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+          </span>
+        </a>
+        <a href="#" style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;border-top:1px solid var(--line);padding:14px 0;color:var(--fg)">
+          <span style="font-size:16px">Instagram</span>
+          <span style="display:inline-flex;align-items:center;gap:10px;padding-right:8px;font-size:14px;color:var(--fg-50);transition:gap .25s cubic-bezier(0.16,1,0.3,1), padding-right .25s cubic-bezier(0.16,1,0.3,1), color .2s ease" style-hover="gap:18px;padding-right:0px;color:var(--fg)">
+            Add link
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+          </span>
+        </a>
+      </div>
+    </div>
+    <form onSubmit="{{ submit }}" data-reveal="" style="display:flex;flex-direction:column;gap:28px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:28px">
+        <label style="display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Name</span>
+          <input name="name" type="text" autoComplete="name" style="width:100%;border:0;border-bottom:1px solid var(--line-strong);background:transparent;padding:10px 0;font-family:inherit;font-size:16px;color:var(--fg);outline:none;transition:border-color .2s" style-focus="border-bottom-color:var(--fg)" />
+        </label>
+        <label style="display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Email</span>
+          <input name="email" type="email" required="{{ true }}" autoComplete="email" style="width:100%;border:0;border-bottom:1px solid var(--line-strong);background:transparent;padding:10px 0;font-family:inherit;font-size:16px;color:var(--fg);outline:none;transition:border-color .2s" style-focus="border-bottom-color:var(--fg)" />
+        </label>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:28px">
+        <label style="display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Project</span>
+          <select name="project" style="width:100%;border:0;border-bottom:1px solid var(--line-strong);background:transparent;padding:10px 0;font-family:inherit;font-size:16px;color:var(--fg);outline:none;cursor:pointer;transition:border-color .2s" style-focus="border-bottom-color:var(--fg)">
+            <option value="" style="background:var(--bg);color:var(--fg)">Select…</option>
+            <option value="Branding" style="background:var(--bg);color:var(--fg)">Branding</option>
+            <option value="3D / visualisation" style="background:var(--bg);color:var(--fg)">3D / visualisation</option>
+            <option value="AI video" style="background:var(--bg);color:var(--fg)">AI video</option>
+            <option value="UI/UX" style="background:var(--bg);color:var(--fg)">UI/UX</option>
+            <option value="Event / broadcast graphics" style="background:var(--bg);color:var(--fg)">Event / broadcast graphics</option>
+            <option value="Something else" style="background:var(--bg);color:var(--fg)">Something else</option>
+          </select>
+        </label>
+        <label style="display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Budget</span>
+          <input name="budget" type="text" placeholder="Range or TBD" style="width:100%;border:0;border-bottom:1px solid var(--line-strong);background:transparent;padding:10px 0;font-family:inherit;font-size:16px;color:var(--fg);outline:none;transition:border-color .2s" style-focus="border-bottom-color:var(--fg)" />
+        </label>
+      </div>
+      <label style="display:flex;flex-direction:column;gap:10px">
+        <span style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-45)">Project and deadline</span>
+        <textarea name="message" rows="4" style="width:100%;resize:vertical;border:0;border-bottom:1px solid var(--line-strong);background:transparent;padding:10px 0;font-family:inherit;font-size:16px;line-height:1.6;color:var(--fg);outline:none;transition:border-color .2s" style-focus="border-bottom-color:var(--fg)"></textarea>
+      </label>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:20px">
+        <button type="submit" style="display:inline-flex;align-items:center;gap:10px;border:0;cursor:pointer;border-radius:8px;background:var(--btn-bg);color:var(--btn-fg);padding:14px 26px;font-family:inherit;font-size:15px;font-weight:500;transition:transform .2s" style-hover="transform:scale(1.05)">
+          Send brief
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
+        <span style="font-size:13px;color:var(--fg-45);opacity:{{ sentOpacity }};transition:opacity .3s">Opening your mail app with the brief filled in.</span>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section style="background:var(--bg);color:var(--fg);font-family:Geist, sans-serif;padding:clamp(40px,6vh,64px) clamp(24px,5vw,64px) clamp(96px,11vh,120px);border-top:1px solid var(--line)">
+  <div style="max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px">
+    <span data-bind-text="contact.copyright" style="font-size:13px;color:var(--fg-45)">© 2026 Rabees Sheikh · Karachi</span>
+    <div style="display:flex;flex-wrap:wrap;gap:24px">
+      <span data-render="socialsInline" style="display:flex;flex-wrap:wrap;gap:24px"><a href="#" style="font-size:13px;color:var(--fg-60)">Instagram</a>
+      <a href="https://www.behance.net/iamrabees" target="_blank" rel="noreferrer" style="font-size:13px;color:var(--fg-60)">Behance</a>
+      <a href="https://www.linkedin.com/in/ggrabees" target="_blank" rel="noreferrer" style="font-size:13px;color:var(--fg-60)">LinkedIn</a></span>
+      <a href="uploads/Rabees%20Ahmed%20Sheikh%20-%20Resume.pdf" data-bind-href="contact.resume" target="_blank" rel="noreferrer" style="font-size:13px;color:var(--fg-60)">Résumé</a>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">class Component extends DCLogic {
+  state = { sent: false };
+  componentDidMount() {
+    this.prep = (el) => {
+      if (el.dataset.revealReady) return;
+      el.dataset.revealReady = '1';
+      el.style.transition = 'opacity .45s ease, transform .45s cubic-bezier(0.16,1,0.3,1)';
+      el.style.willChange = 'opacity, transform';
+    };
+    this.collect = () => {
+      this.nodes = Array.from(document.querySelectorAll('[data-reveal]'));
+      this.nodes.forEach(this.prep);
+      return this.nodes;
+    };
+    this.collect();
+    this.update = () => {
+      this.collect();
+      const vh = window.innerHeight, topBand = vh * 0.18, botBand = vh * 0.14;
+      this.nodes.forEach(el => {
+        const r = el.getBoundingClientRect();
+        const enter = Math.min(1, Math.max(0, (vh - botBand - r.top) / Math.min(r.height + 80, vh * 0.5)));
+        const exit = Math.min(1, Math.max(0, (r.bottom - topBand) / Math.min(r.height * 0.6 + 80, vh * 0.4)));
+        const p = Math.min(enter, exit), e = p * p * (3 - 2 * p);
+        el.style.opacity = e.toFixed(3);
+        el.style.transform = 'translateY(' + ((1 - e) * (r.top > topBand ? 28 : -22)).toFixed(1) + 'px)';
+      });
+    };
+    this.tick = () => { this.update(); this.raf = requestAnimationFrame(this.tick); };
+    this.raf = requestAnimationFrame(this.tick);
+    window.addEventListener('resize', this.update);
+  }
+  componentWillUnmount() {
+    cancelAnimationFrame(this.raf);
+    window.removeEventListener('resize', this.update);
+  }
+  renderVals() {
+    return {
+      sentOpacity: this.state.sent ? 1 : 0,
+      submit: (e) => {
+        e.preventDefault();
+        const f = new FormData(e.target);
+        const g = (k) => (f.get(k) || '').toString().trim();
+        const body = [
+          'Name: ' + (g('name') || 'Not given'),
+          'Email: ' + g('email'),
+          'Project: ' + (g('project') || 'Not given'),
+          'Budget: ' + (g('budget') || 'Not given'),
+          '',
+          g('message')
+        ].join('\n');
+        const subject = 'Project brief' + (g('name') ? ': ' + g('name') : '');
+        this.setState({ sent: true });
+        window.location.href = 'mailto:' + ((window.SiteData && window.SiteData.data && window.SiteData.data.contact && window.SiteData.data.contact.email) || 'work.rabees@gmail.com') + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      }
+    };
+  }
+}</script>
+</body>
+</html>
