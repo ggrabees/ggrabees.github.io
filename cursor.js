@@ -4,41 +4,24 @@
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   window.__rsSmoothScroll = true;
 
-  var target = window.scrollY, current = window.scrollY, running = false, selfScroll = false;
+  var st = document.createElement('style');
+  st.textContent = 'html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}.lenis.lenis-stopped{overflow:hidden}[data-no-smooth]{overscroll-behavior:contain}';
+  document.head.appendChild(st);
 
-  function maxScroll() {
-    return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-  }
-  function step() {
-    var d = target - current;
-    if (Math.abs(d) < 0.4) {
-      current = target;
-      selfScroll = true; window.scrollTo(0, current); selfScroll = false;
-      running = false;
-      return;
-    }
-    current += d * 0.12;
-    selfScroll = true; window.scrollTo(0, current); selfScroll = false;
-    requestAnimationFrame(step);
-  }
-  function start() { if (!running) { running = true; requestAnimationFrame(step); } }
-
-  window.addEventListener('wheel', function (e) {
-    if (document.documentElement.classList.contains('is-loading')) return;
-    if (e.ctrlKey || e.defaultPrevented) return;
-    if (e.target && e.target.closest && e.target.closest('[data-no-smooth]')) return;
-    e.preventDefault();
-    var d = e.deltaMode === 1 ? e.deltaY * 18 : e.deltaMode === 2 ? e.deltaY * window.innerHeight : e.deltaY;
-    target = Math.max(0, Math.min(maxScroll(), target + d));
-    start();
-  }, { passive: false });
-
-  window.addEventListener('scroll', function () {
-    if (selfScroll || running) return;
-    target = current = window.scrollY;
-  }, { passive: true });
-
-  window.addEventListener('resize', function () { target = current = window.scrollY; }, { passive: true });
+  var s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js';
+  s.onload = function () {
+    var html = document.documentElement;
+    var lenis = new Lenis({ prevent: function (n) { return n.closest && n.closest('[data-no-smooth]'); } });
+    window.__lenis = lenis;
+    function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+    // page loader locks scroll via html.is-loading
+    function sync() { html.classList.contains('is-loading') ? lenis.stop() : lenis.start(); }
+    new MutationObserver(sync).observe(html, { attributes: true, attributeFilter: ['class'] });
+    sync();
+  };
+  document.head.appendChild(s);
 })();
 
 (function () {
