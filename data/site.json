@@ -2,9 +2,14 @@
   "meta": {
     "experienceStart": "2020-01",
     "indexStartYear": 2020,
-    "adminPasscodeHash": ""
+    "adminPasscodeHash": "b7379f2f87ac71fed908c941353c610e3da31275db8cbea7a81ca1cf7bd5eaf7"
   },
-  "categories": ["Branding", "3D Visualisation", "AI Video", "UI/UX"],
+  "categories": [
+    "Branding",
+    "3D Visualisation",
+    "AI Video",
+    "UI/UX"
+  ],
   "projects": [
     {
       "id": "pubgm-winter-invitational",
@@ -12,7 +17,9 @@
       "featuredTitle": "PUBG MOBILE Winter Invitational: visual identity",
       "client": "Next Generation Esports",
       "year": 2025,
-      "cats": ["Branding"],
+      "cats": [
+        "Branding"
+      ],
       "summary": "Tournament identity, key art and broadcast package for the winter invitational.",
       "body": "",
       "cover": "",
@@ -28,7 +35,9 @@
       "featuredTitle": "LAN stage & trophy visualisation",
       "client": "Next Generation Esports",
       "year": 2025,
-      "cats": ["3D Visualisation"],
+      "cats": [
+        "3D Visualisation"
+      ],
       "summary": "Stage, trophy and environment renders used to sign off the live build.",
       "body": "",
       "cover": "",
@@ -44,7 +53,10 @@
       "featuredTitle": "Free Fire Esports Pakistan: event graphics",
       "client": "Next Generation Esports",
       "year": 2024,
-      "cats": ["Branding", "3D Visualisation"],
+      "cats": [
+        "Branding",
+        "3D Visualisation"
+      ],
       "summary": "Season-long branding, social systems and event graphics.",
       "body": "",
       "cover": "",
@@ -60,7 +72,9 @@
       "featuredTitle": "Tournament platform: interface design",
       "client": "Next Generation Esports",
       "year": 2024,
-      "cats": ["UI/UX"],
+      "cats": [
+        "UI/UX"
+      ],
       "summary": "Registration, bracket and profile flows for the tournament platform.",
       "body": "",
       "cover": "",
@@ -76,7 +90,9 @@
       "featuredTitle": "Campaign film: generative content",
       "client": "Next Generation Esports",
       "year": 2024,
-      "cats": ["AI Video"],
+      "cats": [
+        "AI Video"
+      ],
       "summary": "Generated and edited campaign film, directed from boards to final grade.",
       "body": "",
       "cover": "",
@@ -92,7 +108,9 @@
       "featuredTitle": "Team kit & merchandise",
       "client": "Next Generation Esports",
       "year": 2023,
-      "cats": ["Branding"],
+      "cats": [
+        "Branding"
+      ],
       "summary": "Kit, apparel and merchandise design for team and event drops.",
       "body": "",
       "cover": "",
@@ -112,9 +130,18 @@
       "The work runs from tournament identity to LAN stage visualisation to the graphics that go out the same night. Generative video and 3D sit inside that process rather than beside it. Both are used for look development and content, art-directed to the same standard as everything else."
     ],
     "stats": [
-      { "value": "{{years}}+ yrs", "label": "In esports design, Karachi" },
-      { "value": "6 yrs", "label": "At Next Generation Esports, 2020 to 2025" },
-      { "value": "4", "label": "Disciplines, one point of contact" }
+      {
+        "value": "{{years}}+ yrs",
+        "label": "In esports design, Karachi"
+      },
+      {
+        "value": "6 yrs",
+        "label": "At Next Generation Esports, 2020 to 2025"
+      },
+      {
+        "value": "4",
+        "label": "Disciplines, one point of contact"
+      }
     ]
   },
   "about": {
@@ -151,32 +178,95 @@
       }
     ],
     "recognition": [
-      { "date": "March 2023", "body": "Recognised by Next Generation Esports for leadership in directing design teams and delivering branding solutions." },
-      { "date": "August 2022", "body": "Awarded at Next Generation Esports for results in campaign engagement and visual content creation." }
+      {
+        "date": "March 2023",
+        "body": "Recognised by Next Generation Esports for leadership in directing design teams and delivering branding solutions."
+      },
+      {
+        "date": "August 2022",
+        "body": "Awarded at Next Generation Esports for results in campaign engagement and visual content creation."
+      }
     ],
     "languages": [
-      { "name": "Urdu", "level": "Native" },
-      { "name": "English", "level": "Proficient" }
+      {
+        "name": "Urdu",
+        "level": "Native"
+      },
+      {
+        "name": "English",
+        "level": "Proficient"
+      }
     ]
   },
   "skills": [
-    { "title": "Branding", "body": "Tournament and organisation identities: type, mark, motion and the rules that hold them together across a season.", "tags": "Identity · Guidelines · Campaigns · Art direction" },
-    { "title": "3D Graphics", "body": "Stage, trophy, merchandise and environment work taken from block-out to final render.", "tags": "Modelling · Lookdev · Lighting · Render" },
-    { "title": "Graphic Design", "body": "Social, broadcast and event graphics produced against live tournament schedules.", "tags": "Key art · Social systems · Event collateral" },
-    { "title": "UI/UX Design", "body": "Product and platform interfaces designed to look considered and behave predictably.", "tags": "Product design · Prototypes · Design systems" },
-    { "title": "AI Generated Video", "body": "Generated and edited film, directed rather than prompted, from boards to final grade.", "tags": "Concept · Style frames · Generation · Edit & grade" },
-    { "title": "Adobe Creative Suite", "body": "Daily working environment across design, layout, motion and edit.", "tags": "Photoshop · Illustrator · InDesign · After Effects · Premiere" }
+    {
+      "title": "Branding",
+      "body": "Tournament and organisation identities: type, mark, motion and the rules that hold them together across a season.",
+      "tags": "Identity · Guidelines · Campaigns · Art direction"
+    },
+    {
+      "title": "3D Graphics",
+      "body": "Stage, trophy, merchandise and environment work taken from block-out to final render.",
+      "tags": "Modelling · Lookdev · Lighting · Render"
+    },
+    {
+      "title": "Graphic Design",
+      "body": "Social, broadcast and event graphics produced against live tournament schedules.",
+      "tags": "Key art · Social systems · Event collateral"
+    },
+    {
+      "title": "UI/UX Design",
+      "body": "Product and platform interfaces designed to look considered and behave predictably.",
+      "tags": "Product design · Prototypes · Design systems"
+    },
+    {
+      "title": "AI Generated Video",
+      "body": "Generated and edited film, directed rather than prompted, from boards to final grade.",
+      "tags": "Concept · Style frames · Generation · Edit & grade"
+    },
+    {
+      "title": "Adobe Creative Suite",
+      "body": "Daily working environment across design, layout, motion and edit.",
+      "tags": "Photoshop · Illustrator · InDesign · After Effects · Premiere"
+    }
   ],
   "software": [
-    { "name": "Blender", "note": "Modelling, lookdev and final render" },
-    { "name": "Cinema 4D", "note": "Motion-led 3D and scene layout" },
-    { "name": "After Effects", "note": "Motion graphics and broadcast packages" },
-    { "name": "Premiere Pro", "note": "Edit, assembly and delivery" },
-    { "name": "Photoshop", "note": "Composites, key art and retouching" },
-    { "name": "Illustrator", "note": "Marks, type and vector systems" },
-    { "name": "InDesign", "note": "Guidelines, decks and long documents" },
-    { "name": "Figma", "note": "Interface design, prototypes and handoff" },
-    { "name": "Adobe XD", "note": "Interface layouts and click-through flows" }
+    {
+      "name": "Blender",
+      "note": "Modelling, lookdev and final render"
+    },
+    {
+      "name": "Cinema 4D",
+      "note": "Motion-led 3D and scene layout"
+    },
+    {
+      "name": "After Effects",
+      "note": "Motion graphics and broadcast packages"
+    },
+    {
+      "name": "Premiere Pro",
+      "note": "Edit, assembly and delivery"
+    },
+    {
+      "name": "Photoshop",
+      "note": "Composites, key art and retouching"
+    },
+    {
+      "name": "Illustrator",
+      "note": "Marks, type and vector systems"
+    },
+    {
+      "name": "InDesign",
+      "note": "Guidelines, decks and long documents"
+    },
+    {
+      "name": "Figma",
+      "note": "Interface design, prototypes and handoff"
+    },
+    {
+      "name": "Adobe XD",
+      "note": "Interface layouts and click-through flows"
+    }
   ],
   "services": [
     "3D Design",
@@ -191,10 +281,35 @@
     "Project Management"
   ],
   "toolGroups": [
-    { "label": "3D & rendering", "items": ["Blender", "Cinema 4D"] },
-    { "label": "Branding & layout", "items": ["Illustrator", "Photoshop", "InDesign"] },
-    { "label": "Motion & edit", "items": ["After Effects", "Premiere Pro"] },
-    { "label": "Interface", "items": ["Figma", "Adobe XD"] }
+    {
+      "label": "3D & rendering",
+      "items": [
+        "Blender",
+        "Cinema 4D"
+      ]
+    },
+    {
+      "label": "Branding & layout",
+      "items": [
+        "Illustrator",
+        "Photoshop",
+        "InDesign"
+      ]
+    },
+    {
+      "label": "Motion & edit",
+      "items": [
+        "After Effects",
+        "Premiere Pro"
+      ]
+    },
+    {
+      "label": "Interface",
+      "items": [
+        "Figma",
+        "Adobe XD"
+      ]
+    }
   ],
   "work": {
     "indexLabel": "Index {{indexStartYear}} to {{nowYear}}"
@@ -209,9 +324,21 @@
     "location": "Karachi, Pakistan",
     "resume": "uploads/Rabees Ahmed Sheikh - Resume.pdf",
     "socials": [
-      { "label": "LinkedIn", "handle": "/ggrabees", "url": "https://www.linkedin.com/in/ggrabees" },
-      { "label": "Instagram", "handle": "Add link", "url": "#" },
-      { "label": "Behance", "handle": "/iamrabees", "url": "https://www.behance.net/iamrabees" }
+      {
+        "label": "LinkedIn",
+        "handle": "/ggrabees",
+        "url": "https://www.linkedin.com/in/ggrabees"
+      },
+      {
+        "label": "Instagram",
+        "handle": "Add link",
+        "url": "#"
+      },
+      {
+        "label": "Behance",
+        "handle": "/iamrabees",
+        "url": "https://www.behance.net/iamrabees"
+      }
     ]
   }
 }
