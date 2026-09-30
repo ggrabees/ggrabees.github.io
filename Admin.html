@@ -574,7 +574,7 @@ class Component extends DCLogic {
     const g = this.state.gh;
     let sha = null;
     try {
-      const head = await this.api('/contents/' + path + '?ref=' + encodeURIComponent(g.branch || 'main'));
+      const head = await this.api('/contents/' + path + '?ref=' + encodeURIComponent(g.branch || 'main'), { cache: 'no-store' });
       if (head.ok) { const j = await head.json(); sha = j.sha; }
     } catch (e) {}
     const body = { message, content: contentB64, branch: g.branch || 'main' };
