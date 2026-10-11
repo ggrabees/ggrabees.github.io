@@ -449,13 +449,13 @@
       ],
       "summary": "Designing the space around the competition.",
       "body": "A Qatar event design project spanning on-site venue study, spectator experience planning, stage design and 3D visualisation.\nI worked from the venue and its constraints toward a connected event environment: audience seating, team booths, broadcast positions, sponsor spaces and the stage itself.",
-      "cover": "uploads/portfolio/compass-2025/hero.webp",
+      "cover": "uploads/portfolio/compass-2025/d1-flow-ultrareal-v7.jpg",
       "gallery": [],
       "placeholder": "",
       "link": "",
       "featured": true,
       "published": true,
-      "coverPresentation": "Original project render · Stage design visualisation",
+      "coverPresentation": "Stage design · Event concept visualisation",
       "role": "Event Experience & Spatial Design",
       "eventStudy": {
         "context": "The challenge was to connect the spectacle on stage with the experience around it: where visitors spend time, what they can see, and how competition, sponsors and production share the venue.",
@@ -943,6 +943,29 @@
         "modelViewer": {
           "poster": "uploads/portfolio/compass-2025/d5-event-isometric.webp",
           "sketchfabUid": "8778d3d7e24f4d608ba8f59a75a89496"
+        },
+        "eventContext": {
+          "title": "Designed for a live event. The competition moved online.",
+          "paragraphs": [
+            "YaLLa Compass is a Counter-Strike 2 circuit organised by YaLLa Esports. Qatar was announced as one of its two flagship 2025 destinations, combining elite competition with a live venue experience.",
+            "The initial Qatar event window was 15–20 April 2025. In an update dated 14 March 2025, the organiser moved the planned LAN grand final to 19 April and described the finals as a private VIP event. These dates reflect successive announcements, rather than one unchanged schedule.",
+            "The planned in-person Qatar finals were subsequently moved online. The organiser cited unexpected scheduling constraints in the global Counter-Strike calendar and a need to protect competitive integrity and long-term stability. It confirmed a ranked online tournament on European servers with a $300,000 prize pool.",
+            "The competition continued: the organiser’s later schedule placed the group stage on 17 April and playoffs on 19–20 April 2025, and its recap named NAVI Junior as champion. The physical event concept shown here should therefore be read as design development for the planned LAN, rather than documentation of a completed venue build."
+          ],
+          "sources": [
+            {
+              "label": "Original 2025 circuit announcement",
+              "url": "https://yallacompass.com/articles/achievements/circuit2025"
+            },
+            {
+              "label": "14 March: LAN finals and date update",
+              "url": "https://yallacompass.com/qatar2025/invitedteams"
+            },
+            {
+              "label": "Official news: online transition, schedule and results",
+              "url": "https://yallacompass.com/articles"
+            }
+          ]
         }
       }
     },

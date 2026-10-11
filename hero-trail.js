@@ -5,7 +5,7 @@
   const fine = window.matchMedia('(hover: hover) and (pointer: fine)');
   const mobile = window.matchMedia('(max-width: 767px)');
   let collage, collageTimer, activeCard = 0, mobileFocus = () => {}, lastMobileFocus = 0;
-  let layer, cards = [], index = 0, last = null, lastTime = 0;
+  let layer, cards = [], index = 0, last = null;
   let imageQueue = [], previousImage = null;
   function nextImage() {
     if (!imageQueue.length) {
@@ -71,7 +71,7 @@
     const next = document.querySelector('[data-hero-trail]');
     if (!next || next === layer) return;
     layer = next;
-    cards = Array.from({ length: 12 }, (_, i) => images[i % images.length]).map(src => {
+    cards = Array.from({ length: 48 }, (_, i) => images[i % images.length]).map(src => {
       const card = document.createElement('img');
       card.src = src; card.alt = ''; card.draggable = false;
       card.className = 'hero-trail-card';
@@ -92,8 +92,20 @@
     if (window.scrollY > window.innerHeight * 0.8 || event.clientY < 75 ||
         event.clientY > hero.bottom || event.target.closest('a, button')) { last = null; return; }
     const point = { x: event.clientX - hero.left, y: event.clientY - hero.top };
-    const now = performance.now();
-    if (last && (Math.hypot(point.x - last.x, point.y - last.y) < 90 || now - lastTime < 90)) return;
+    if (!last) { spawn(point); last = point; return; }
+    const dx = point.x - last.x, dy = point.y - last.y;
+    const distance = Math.hypot(dx, dy);
+    const spacing = 64;
+    const steps = Math.floor(distance / spacing);
+    const origin = last;
+    for (let i = 1; i <= steps; i++) {
+      const fraction = i * spacing / distance;
+      const sample = { x: origin.x + dx * fraction, y: origin.y + dy * fraction };
+      spawn(sample);
+      last = sample;
+    }
+  }
+  function spawn(point) {
     const card = cards[index++ % cards.length];
     card.getAnimations().forEach(animation => animation.cancel());
     card.src = nextImage();
@@ -105,7 +117,6 @@
       { opacity: 1, transform: 'translate(-50%, -50%) scale(1)', filter: 'blur(0px)', offset: .45, easing: 'cubic-bezier(.16,1,.3,1)' },
       { opacity: 0, transform: 'translate(-50%, -50%) scale(.65)', filter: 'blur(32px)', offset: 1 }
     ], { duration: 950, easing: 'linear' });
-    last = point; lastTime = now;
   }
   document.addEventListener('pointermove', move, { passive: true });
   document.addEventListener('pointerdown', event => {

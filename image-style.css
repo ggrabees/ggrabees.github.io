@@ -1,0 +1,2 @@
+/* Consistent, circular image corners across the portfolio. */
+img { border-radius: 6px !important; }

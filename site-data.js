@@ -56,7 +56,7 @@
 
   function media(p, ratio, label) {
     if (p.cover) {
-      return '<img src="' + esc(p.cover) + '" alt="' + esc(p.title) + '" style="width:100%;aspect-ratio:' + ratio + ';object-fit:contain;background:#171717;border:1px solid var(--line);display:block" />';
+      return '<img src="' + esc(p.cover) + '" alt="' + esc(p.title) + '" style="width:100%;height:auto;border-radius:6px;border:1px solid var(--line);display:block" />';
     }
     return '<div style="position:relative;width:100%;aspect-ratio:' + ratio + ';' + S.hatch + ';display:flex;align-items:flex-end;padding:16px">' +
       '<span style="' + S.mono + ';font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--fg-45)">' + esc(p.placeholder || label) + '</span></div>';
@@ -272,6 +272,11 @@
       var p = data.__project;
       if (!p || !p.eventStudy) return HIDE;
       var study = p.eventStudy;
+      var eventContext = '';
+      if (study.eventContext) {
+        var context = study.eventContext;
+        eventContext = '<section class="event-chapter" id="event-context"><div class="case-heading"><span class="case-kicker">EVENT CONTEXT / PLANNED LAN → ONLINE COMPETITION</span><h2>' + esc(context.title) + '</h2></div><div class="event-context-copy">' + context.paragraphs.map(function (paragraph) { return '<p>' + esc(paragraph) + '</p>'; }).join('') + '</div><div class="event-context-sources"><span class="case-kicker">ORIGINAL EVENT REFERENCES</span>' + context.sources.map(function (source) { return '<a href="' + esc(source.url) + '" target="_blank" rel="noopener noreferrer">' + esc(source.label) + ' ↗</a>'; }).join('') + '</div></section>';
+      }
       var viewer = '';
       if (study.modelViewer) {
         var v = study.modelViewer;
@@ -294,7 +299,7 @@
         var title = model.file.split('/').pop().replace('.blend', '').replace('Satge', 'Stage');
         return '<figure><a href="' + esc(model.preview) + '" target="_blank" rel="noopener" aria-label="View full model render: ' + esc(title) + '"><img src="' + esc(model.preview) + '" width="1280" height="720" alt="Clay render from original Blender model: ' + esc(title) + '" loading="eager" decoding="async"></a><figcaption>' + esc(title) + ' · Geometry study</figcaption></figure>';
       }).join('');
-      return '<div class="event-study"><section class="event-intro"><span class="case-kicker">SPATIAL DESIGN / STAGE DESIGN / VISITOR EXPERIENCE</span><h2>A stage is only part of the experience.</h2><p>' + esc(study.context) + '</p><div class="event-scope"><div><span>MY CONTRIBUTION</span><p>Venue study, spectator experience planning, stage design, spatial layouts and 3D visualisation.</p></div><div><span>PROJECT MATERIAL</span><p>Original drawings, dimensioned studies, archived Blender previews and rendered design iterations.</p></div></div></section><nav class="event-index" aria-label="Case study chapters">' + study.chapters.map(function (c) { return '<a href="#event-' + esc(c.id) + '">' + esc(c.id === 'supporting' ? 'Supporting spaces' : c.id === 'alternate' ? 'Alternate venue' : cap(c.id)) + '</a>'; }).join('') + (study.modelViewer ? '<a href="#event-model">Event model</a>' : '') + '<a href="#event-journey">Visitor journey</a></nav>' + chapters + '<section class="event-chapter"><div class="case-heading"><span class="case-kicker">PROCESS ARCHIVE</span><h2>The files behind the space.</h2><p>Seven numbered stage revisions, two alternate stage models, a group-stage room and a vendor-zone study.</p></div><details class="event-model-archive"><summary>Explore all 11 Blender model renders <span aria-hidden="true">＋</span></summary><p class="case-source">New clay renders made from the original Blender models. Neutral surfaces reveal the geometry, proportions and spatial arrangement beneath the finished materials. Select a render to view it full size.</p><div class="event-model-grid">' + models + '</div></details></section></div>';
+      return '<div class="event-study"><section class="event-intro"><span class="case-kicker">SPATIAL DESIGN / STAGE DESIGN / VISITOR EXPERIENCE</span><h2>A stage is only part of the experience.</h2><p>' + esc(study.context) + '</p><div class="event-scope"><div><span>MY CONTRIBUTION</span><p>Venue study, spectator experience planning, stage design, spatial layouts and 3D visualisation.</p></div><div><span>PROJECT MATERIAL</span><p>Original drawings, dimensioned studies, archived Blender previews and rendered design iterations.</p></div></div></section>' + eventContext + '<nav class="event-index" aria-label="Case study chapters">' + study.chapters.map(function (c) { return '<a href="#event-' + esc(c.id) + '">' + esc(c.id === 'supporting' ? 'Supporting spaces' : c.id === 'alternate' ? 'Alternate venue' : cap(c.id)) + '</a>'; }).join('') + (study.modelViewer ? '<a href="#event-model">Event model</a>' : '') + '<a href="#event-journey">Visitor journey</a></nav>' + chapters + '<section class="event-chapter"><div class="case-heading"><span class="case-kicker">PROCESS ARCHIVE</span><h2>The files behind the space.</h2><p>Seven numbered stage revisions, two alternate stage models, a group-stage room and a vendor-zone study.</p></div><details class="event-model-archive"><summary>Explore all 11 Blender model renders <span aria-hidden="true">＋</span></summary><p class="case-source">New clay renders made from the original Blender models. Neutral surfaces reveal the geometry, proportions and spatial arrangement beneath the finished materials. Select a render to view it full size.</p><div class="event-model-grid">' + models + '</div></details></section></div>';
     },
 
     projectSections: function (data) {
