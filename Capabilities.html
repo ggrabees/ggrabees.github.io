@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="./mobile-layout.css?v=caption5">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
@@ -16,7 +17,7 @@
   el.setAttribute('data-loader', '');
   el.style.cssText = 'position:fixed;inset:0;z-index:2147483000;overflow:hidden;background:#050505;font-family:Geist,system-ui,sans-serif;transition:opacity .7s ease';
   el.innerHTML =
-    '<div style="position:absolute;top:0;left:0;right:0;min-height:75px;box-sizing:border-box;display:flex;align-items:center;padding:16px clamp(24px,5vw,64px)"><span style="font-size:clamp(18px,2vw,20px);font-weight:600;letter-spacing:-0.02em;color:#fff">Rabees Sheikh</span></div>' +
+    '<div style="position:absolute;top:0;left:0;right:0;min-height:75px;box-sizing:border-box;display:flex;align-items:center;padding:16px clamp(24px,5vw,64px)"><span style="font-size:clamp(18px,2vw,20px);font-weight:600;letter-spacing:-0.02em;color:#fff"><svg xmlns="http://www.w3.org/2000/svg" class="site-wordmark" width="49" height="44" viewBox="48 43 632 575" aria-hidden="true" style="display:block;width:49px;height:44px;overflow:visible"><g transform="translate(48 43)"><g fill="currentColor" fill-rule="evenodd"> <path d="M0 111H34V127Q47 109 67 109H77V148H59Q34 148 34 176V479H0Z"/> <path d="M112 111H162Q180 111 180 132V479H145V469Q137 482 119 482H110Q88 482 88 459V324Q88 301 111 301H145V153Q145 144 137 144H96V111ZM145 336H129Q122 336 122 345V441Q122 450 129 450H136Q145 450 145 437Z"/> <path d="M198 0H233V121Q241 109 260 109H269Q292 109 292 133V457Q292 482 267 482H258Q241 482 232 468V479H198ZM233 152V437Q233 448 243 448H251Q258 448 258 437V153Q258 143 250 143H243Q233 143 233 152Z"/> <path d="M308 111H343V435Q343 446 352 446H361V111H396V549Q396 575 368 575H315V541H350Q361 541 361 530V479H338Q308 479 308 453Z"/> </g> <defs><clipPath id="x-bounds"><rect x="408" y="111" width="116" height="368"/></clipPath></defs><g fill="none" stroke="currentColor" stroke-width="35" stroke-linecap="butt" clip-path="url(#x-bounds)"> <path d="M428 106L504 484M504 106L428 484"/> </g><g transform="translate(537.25 473.223) rotate(-90) scale(2.310832)" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="square" stroke-linejoin="round"> <path d="M0 24h0" stroke-width="5"/><path d="M29 0v27M29 10H17q-5 0-5 5v7q0 5 5 5h12"/> <path d="M57 19H41v-4q0-5 5-5h6q5 0 5 5v4M41 19v3q0 5 5 5h11"/> <path d="M84 10H73q-5 0-5 4q0 4 5 4h6q5 0 5 4q0 5-5 5H68"/> <path d="M97 10v17M97 1v1"/><path d="M126 10h-12q-5 0-5 5v7q0 5 5 5h12V10v23q0 5-5 5h-12"/> <path d="M138 27V10h12q5 0 5 5v12"/> </g></g></svg></span></div>' +
     '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:0 24px">' +
       '<span data-loader-word style="font-size:clamp(38px,7vw,76px);font-weight:500;letter-spacing:-0.03em;line-height:1;color:rgba(255,255,255,.9);text-align:center;will-change:transform,opacity"></span>' +
     '</div>' +
@@ -98,6 +99,7 @@
   }, 40);
 })();
 </script>
+<link rel="stylesheet" href="./playground.css?v=dots5">
 </head>
 <body>
 <x-dc>
@@ -291,8 +293,8 @@ class Component extends DCLogic {
         const enter = Math.min(1, Math.max(0, (vh - botBand - r.top) / Math.min(r.height + 80, vh * 0.5)));
         const exit = Math.min(1, Math.max(0, (xr.bottom - topBand) / Math.min(xr.height * 0.6 + 80, vh * 0.4)));
         const p = Math.min(enter, exit), e = p * p * (3 - 2 * p);
-        el.style.opacity = e.toFixed(3);
-        el.style.transform = 'translateY(' + ((1 - e) * (r.top > topBand ? 28 : -22)).toFixed(1) + 'px)';
+        el.style.opacity = '1';
+        el.style.transform = 'none';
       });
     };
     this.tick = () => { this.update(); this.raf = requestAnimationFrame(this.tick); };
@@ -308,3 +310,4 @@ class Component extends DCLogic {
 </script>
 </body>
 </html>
+

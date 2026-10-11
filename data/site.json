@@ -7,118 +7,1126 @@
   "categories": [
     "Branding",
     "3D Visualisation",
-    "AI Video",
-    "UI/UX"
+    "UI Design",
+    "Motion Design",
+    "Event Experience Design"
   ],
   "projects": [
     {
-      "id": "pubgm-winter-invitational",
-      "title": "PUBG MOBILE Winter Invitational",
-      "featuredTitle": "PUBG MOBILE Winter Invitational: visual identity",
-      "client": "Next Generation Esports",
-      "year": 2025,
-      "cats": [
-        "Branding"
-      ],
-      "summary": "Tournament identity, key art and broadcast package for the winter invitational.",
-      "body": "",
-      "cover": "",
-      "gallery": [],
-      "placeholder": "Case image · tournament identity · Banner",
-      "link": "",
-      "featured": true,
-      "published": true
-    },
-    {
-      "id": "lan-stage-trophy",
-      "title": "LAN stage & trophy visualisation",
-      "featuredTitle": "LAN stage & trophy visualisation",
-      "client": "Next Generation Esports",
-      "year": 2025,
+      "id": "spotify-wrapped-2025",
+      "title": "Spotify Wrapped 2025",
+      "featuredTitle": "Spotify Wrapped 2025",
+      "client": "",
+      "year": "2025",
       "cats": [
         "3D Visualisation"
       ],
-      "summary": "Stage, trophy and environment renders used to sign off the live build.",
-      "body": "",
-      "cover": "",
-      "gallery": [],
-      "placeholder": "Case image · stage render",
+      "summary": "Immersive spaces for a year in music.",
+      "body": "A collection of event-space visualisations spanning photo opportunities, artist displays, merchandise and a performance stage.\nThe selected views move from the main branded wall to smaller installations, showing how colour, lighting and scale shape each space.",
+      "cover": "uploads/portfolio/spotify-wrapped-2025-editorial-cover.webp",
+      "gallery": [
+        "uploads/portfolio/spotify-wrapped-2025-01.webp",
+        "uploads/portfolio/spotify-wrapped-2025-02.webp",
+        "uploads/portfolio/spotify-wrapped-2025-03.webp",
+        "uploads/portfolio/spotify-wrapped-2025-04.webp",
+        "uploads/portfolio/spotify-wrapped-2025-05.webp",
+        "uploads/portfolio/spotify-wrapped-2025-06.webp",
+        "uploads/portfolio/spotify-wrapped-2025-07.webp",
+        "uploads/portfolio/spotify-wrapped-2025-08.webp"
+      ],
+      "placeholder": "",
       "link": "",
       "featured": true,
-      "published": true
+      "published": true,
+      "coverPresentation": "AI-assisted presentation based on original project artwork"
     },
     {
-      "id": "free-fire-esports-pakistan",
-      "title": "Free Fire Esports Pakistan",
-      "featuredTitle": "Free Fire Esports Pakistan: event graphics",
-      "client": "Next Generation Esports",
-      "year": 2024,
+      "id": "diceon-app",
+      "title": "DICEON — Play & Win",
+      "featuredTitle": "DICEON App",
+      "client": "DICEON",
+      "year": "2023",
+      "cats": [
+        "UI Design",
+        "Branding"
+      ],
+      "role": "Interface design & visual identity",
+      "summary": "A bold mobile interface for games, rewards and everyday discovery.",
+      "body": "DICEON — Play & Win is a mobile gaming interface built around game discovery and rewards. The project combines a distinctive emerald identity with dark surfaces, rounded cards and a compact navigation system.\nThis case study pairs the archived interface with new presentation studies to explain its visual structure.",
+      "cover": "uploads/portfolio/diceon-cover.webp",
+      "gallery": [],
+      "galleryCaptions": [],
+      "featured": false,
+      "published": true,
+      "sections": [
+        {
+          "title": "The interface, at a glance.",
+          "body": "An emerald identity anchors a dark gaming interface. The archive brings together welcome and registration screens, game selection, balances and rewards destinations."
+        },
+        {
+          "title": "Three decisions that shape the experience.",
+          "body": "A focused entry screen keeps account actions separate from game browsing. Game rows place player counts and coin entry values beside the Play action. The rewards hub groups balances and activities into a repeated card structure.",
+          "steps": [
+            "Clear entry actions",
+            "Game details beside Play",
+            "Balances before activities"
+          ]
+        }
+      ],
+      "screenGroups": [],
+      "process": {
+        "sketch": "uploads/portfolio/diceon-sketches.webp",
+        "title": "From structure to screen.",
+        "body": "A reconstructed exploration of the archived interface: the entry point, the game library and the rewards hub. These studies make the layout decisions visible.",
+        "wireframes": [
+          {
+            "src": "uploads/portfolio/diceon-wireframe-entry.svg",
+            "label": "01 / Entry"
+          },
+          {
+            "src": "uploads/portfolio/diceon-wireframe-discover.svg",
+            "label": "02 / Discovery"
+          },
+          {
+            "src": "uploads/portfolio/diceon-wireframe-rewards.svg",
+            "label": "03 / Rewards"
+          }
+        ]
+      },
+      "journey": {
+        "boards": 68,
+        "connections": 228,
+        "groups": [
+          {
+            "name": "Discovery & navigation",
+            "count": 16
+          },
+          {
+            "name": "Games & contests",
+            "count": 9
+          },
+          {
+            "name": "Leaderboard & support",
+            "count": 2
+          },
+          {
+            "name": "Rewards & vouchers",
+            "count": 4
+          },
+          {
+            "name": "Unlabelled state",
+            "count": 1
+          },
+          {
+            "name": "Wallet & profile",
+            "count": 14
+          },
+          {
+            "name": "Entry & onboarding",
+            "count": 13
+          },
+          {
+            "name": "Matchmaking & tournament",
+            "count": 9
+          }
+        ],
+        "visualFlows": [
+          {
+            "title": "Get started",
+            "body": "Welcome → choose an account method → register → discover games.",
+            "paths": [
+              [
+                {
+                  "src": "uploads/portfolio/diceon-screens/25.webp",
+                  "label": "Welcome",
+                  "index": 25
+                },
+                {
+                  "src": "uploads/portfolio/diceon-screens/29.webp",
+                  "label": "Account options",
+                  "index": 29
+                },
+                {
+                  "src": "uploads/portfolio/diceon-screens/30.webp",
+                  "label": "Registration",
+                  "index": 30
+                },
+                {
+                  "src": "uploads/portfolio/diceon-screens/00.webp",
+                  "label": "Game library",
+                  "index": 0
+                }
+              ]
+            ]
+          },
+          {
+            "title": "Discover a contest",
+            "body": "Browse the game library and compare available contests.",
+            "paths": [
+              [
+                {
+                  "src": "uploads/portfolio/diceon-screens/00.webp",
+                  "label": "Game library",
+                  "index": 0
+                },
+                {
+                  "src": "uploads/portfolio/diceon-screens/05.webp",
+                  "label": "Contests",
+                  "index": 5
+                }
+              ]
+            ]
+          },
+          {
+            "title": "Explore rewards",
+            "body": "Discover activities and rewards, then browse available vouchers.",
+            "paths": [
+              [
+                {
+                  "src": "uploads/portfolio/diceon-screens/00.webp",
+                  "label": "Game library",
+                  "index": 0
+                },
+                {
+                  "src": "uploads/portfolio/diceon-screens/66.webp",
+                  "label": "Rewards",
+                  "index": 66
+                },
+                {
+                  "src": "uploads/portfolio/diceon-screens/08.webp",
+                  "label": "Offers",
+                  "index": 8
+                }
+              ]
+            ]
+          },
+          {
+            "title": "Redeem a voucher",
+            "body": "Two alternative voucher destinations from the offers screen.",
+            "paths": [
+              [
+                {
+                  "src": "uploads/portfolio/diceon-screens/08.webp",
+                  "label": "Offers",
+                  "index": 8
+                },
+                {
+                  "src": "uploads/portfolio/diceon-screens/09.webp",
+                  "label": "Foodpanda voucher",
+                  "index": 9
+                }
+              ],
+              [
+                {
+                  "src": "uploads/portfolio/diceon-screens/08.webp",
+                  "label": "Offers",
+                  "index": 8
+                },
+                {
+                  "src": "uploads/portfolio/diceon-screens/10.webp",
+                  "label": "Daraz voucher",
+                  "index": 10
+                }
+              ]
+            ]
+          }
+        ],
+        "selectedScreens": 9
+      },
+      "brand": {
+        "logo": "uploads/portfolio/diceon-logo.svg",
+        "image": "uploads/portfolio/diceon-brand-applications.webp"
+      }
+    },
+    {
+      "id": "gamers-galaxy-2024-pubg-mobile",
+      "title": "Gamers Galaxy 2024 | PUBG Mobile",
+      "featuredTitle": "Gamers Galaxy 2024",
+      "client": "GXR",
+      "year": "2024",
+      "cats": [
+        "Branding",
+        "Motion Design"
+      ],
+      "role": "Creative direction",
+      "summary": "A complete visual and motion package for PUBG Mobile esports.",
+      "body": "A visual and broadcast package for Gamers Galaxy Season 2, developed for GXR with NGES. The project brings campaign artwork and animated broadcast assets into one energetic green-and-black identity.\nCreative direction by Rabees Sheikh. Animation by Hamza Shahid and Danish Ayub.",
+      "cover": "uploads/portfolio/gamers-galaxy-2024/00.webp",
+      "gallery": [],
+      "media": [
+        {
+          "type": "image",
+          "src": "uploads/portfolio/gamers-galaxy-2024/00.webp",
+          "label": "Gamers Galaxy visual identity"
+        },
+        {
+          "type": "youtube",
+          "id": "6mvUIproYGQ",
+          "label": "Gamers Galaxy motion showcase"
+        },
+        {
+          "type": "image",
+          "src": "uploads/portfolio/gamers-galaxy-2024/01.webp",
+          "label": "Gamers Galaxy campaign artwork"
+        },
+        {
+          "type": "motion",
+          "src": "uploads/portfolio/gamers-galaxy-2024/02.gif",
+          "label": "Starting soon",
+          "poster": "uploads/portfolio/gamers-galaxy-2024/02-poster.webp"
+        },
+        {
+          "type": "motion",
+          "src": "uploads/portfolio/gamers-galaxy-2024/03.gif",
+          "label": "Studio broadcast",
+          "poster": "uploads/portfolio/gamers-galaxy-2024/03-poster.webp"
+        },
+        {
+          "type": "motion",
+          "src": "uploads/portfolio/gamers-galaxy-2024/04.gif",
+          "label": "Prize pool",
+          "poster": "uploads/portfolio/gamers-galaxy-2024/04-poster.webp"
+        },
+        {
+          "type": "motion",
+          "src": "uploads/portfolio/gamers-galaxy-2024/05.gif",
+          "label": "Match schedule",
+          "poster": "uploads/portfolio/gamers-galaxy-2024/05-poster.webp"
+        },
+        {
+          "type": "motion",
+          "src": "uploads/portfolio/gamers-galaxy-2024/06.gif",
+          "label": "Head to head",
+          "poster": "uploads/portfolio/gamers-galaxy-2024/06-poster.webp"
+        },
+        {
+          "type": "motion",
+          "src": "uploads/portfolio/gamers-galaxy-2024/07.gif",
+          "label": "Match rankings",
+          "poster": "uploads/portfolio/gamers-galaxy-2024/07-poster.webp"
+        },
+        {
+          "type": "motion",
+          "src": "uploads/portfolio/gamers-galaxy-2024/08.gif",
+          "label": "Match summary",
+          "poster": "uploads/portfolio/gamers-galaxy-2024/08-poster.webp"
+        },
+        {
+          "type": "motion",
+          "src": "uploads/portfolio/gamers-galaxy-2024/09.gif",
+          "label": "Break screen",
+          "poster": "uploads/portfolio/gamers-galaxy-2024/09-poster.webp"
+        },
+        {
+          "type": "motion",
+          "src": "uploads/portfolio/gamers-galaxy-2024/10.gif",
+          "label": "Overall rankings",
+          "poster": "uploads/portfolio/gamers-galaxy-2024/10-poster.webp"
+        },
+        {
+          "type": "motion",
+          "src": "uploads/portfolio/gamers-galaxy-2024/11.gif",
+          "label": "Points system",
+          "poster": "uploads/portfolio/gamers-galaxy-2024/11-poster.webp"
+        },
+        {
+          "type": "motion",
+          "src": "uploads/portfolio/gamers-galaxy-2024/12.gif",
+          "label": "Live broadcast layout",
+          "poster": "uploads/portfolio/gamers-galaxy-2024/12-poster.webp"
+        },
+        {
+          "type": "motion",
+          "src": "uploads/portfolio/gamers-galaxy-2024/13.gif",
+          "label": "Teams to watch",
+          "poster": "uploads/portfolio/gamers-galaxy-2024/13-poster.webp"
+        },
+        {
+          "type": "motion",
+          "src": "uploads/portfolio/gamers-galaxy-2024/14.gif",
+          "label": "Top five MVPs",
+          "poster": "uploads/portfolio/gamers-galaxy-2024/14-poster.webp"
+        },
+        {
+          "type": "motion",
+          "src": "uploads/portfolio/gamers-galaxy-2024/15.gif",
+          "label": "Winning team stats",
+          "poster": "uploads/portfolio/gamers-galaxy-2024/15-poster.webp"
+        },
+        {
+          "type": "motion",
+          "src": "uploads/portfolio/gamers-galaxy-2024/16.gif",
+          "label": "Closing broadcast",
+          "poster": "uploads/portfolio/gamers-galaxy-2024/16-poster.webp"
+        },
+        {
+          "type": "motion",
+          "src": "uploads/portfolio/gamers-galaxy-2024/17.gif",
+          "label": "3D logo study",
+          "poster": "uploads/portfolio/gamers-galaxy-2024/17-poster.webp"
+        },
+        {
+          "type": "motion",
+          "src": "uploads/portfolio/gamers-galaxy-2024/18.gif",
+          "label": "Vehicle study",
+          "poster": "uploads/portfolio/gamers-galaxy-2024/18-poster.webp"
+        },
+        {
+          "type": "motion",
+          "src": "uploads/portfolio/gamers-galaxy-2024/19.gif",
+          "label": "Logo development",
+          "poster": "uploads/portfolio/gamers-galaxy-2024/19-poster.webp"
+        },
+        {
+          "type": "motion",
+          "src": "uploads/portfolio/gamers-galaxy-2024/20.gif",
+          "label": "Aircraft study",
+          "poster": "uploads/portfolio/gamers-galaxy-2024/20-poster.webp"
+        },
+        {
+          "type": "motion",
+          "src": "uploads/portfolio/gamers-galaxy-2024/21.gif",
+          "label": "Stage development",
+          "poster": "uploads/portfolio/gamers-galaxy-2024/21-poster.webp"
+        },
+        {
+          "type": "vimeo",
+          "id": "1116174999",
+          "label": "Broadcast motion showcase"
+        },
+        {
+          "type": "motion",
+          "src": "uploads/portfolio/gamers-galaxy-2024/22.gif",
+          "label": "Key Visual Breakdown",
+          "poster": "uploads/portfolio/gamers-galaxy-2024/22-poster.webp",
+          "presentation": "breakdown",
+          "notes": [
+            {
+              "title": "Build the world",
+              "body": "Architectural layers and a strong central perspective establish the scene and draw the eye into the frame."
+            },
+            {
+              "title": "Set the atmosphere",
+              "body": "Electric lime light, deep shadows and haze bring the environment into the campaign’s visual language."
+            },
+            {
+              "title": "Place the focal point",
+              "body": "The player group anchors the composition. Scale and placement connect the characters to the surrounding space."
+            },
+            {
+              "title": "Bring it together",
+              "body": "Lighting, reflections and a unified color treatment tie the separate elements into one key visual."
+            }
+          ]
+        },
+        {
+          "type": "image",
+          "src": "uploads/portfolio/gamers-galaxy-2024/23.webp",
+          "label": "Gamers Galaxy campaign artwork"
+        }
+      ],
+      "credits": {
+        "Client": "GXR",
+        "Agency": "NGES",
+        "Creative direction": "Rabees Sheikh",
+        "Animation": "Hamza Shahid · Danish Ayub"
+      },
+      "sourceUrl": "https://www.behance.net/gallery/234193559/GAMERS-GALAXY-2024-PUBG-MOBILE",
+      "featured": false,
+      "published": true,
+      "placeholder": "",
+      "link": ""
+    },
+    {
+      "id": "compass-lan-2025",
+      "title": "YaLLa Compass · Qatar Finals 2025",
+      "featuredTitle": "YaLLa Compass Qatar Finals 2025",
+      "client": "YaLLa Compass",
+      "year": "2025",
+      "cats": [
+        "3D Visualisation",
+        "Event Experience Design"
+      ],
+      "summary": "Designing the space around the competition.",
+      "body": "A Qatar event design project spanning on-site venue study, spectator experience planning, stage design and 3D visualisation.\nI worked from the venue and its constraints toward a connected event environment: audience seating, team booths, broadcast positions, sponsor spaces and the stage itself.",
+      "cover": "uploads/portfolio/compass-2025/hero.webp",
+      "gallery": [],
+      "placeholder": "",
+      "link": "",
+      "featured": true,
+      "published": true,
+      "coverPresentation": "Original project render · Stage design visualisation",
+      "role": "Event Experience & Spatial Design",
+      "eventStudy": {
+        "context": "The challenge was to connect the spectacle on stage with the experience around it: where visitors spend time, what they can see, and how competition, sponsors and production share the venue.",
+        "journeyNote": "Retrospective visitor-experience overview based on archived layouts. This diagram explains design intent; it is not a measured circulation or evacuation plan.",
+        "journey": [
+          {
+            "title": "Arrive & orient",
+            "body": "Understand the venue and find the competition space.",
+            "image": {
+              "src": "uploads/portfolio/compass-2025/floor-decc.webp",
+              "caption": "",
+              "width": 1800,
+              "height": 1139
+            }
+          },
+          {
+            "title": "Explore & connect",
+            "body": "Sponsor and community areas create moments around the match.",
+            "image": {
+              "src": "uploads/portfolio/compass-2025/site-isometric.webp",
+              "caption": "",
+              "width": 1800,
+              "height": 1013
+            }
+          },
+          {
+            "title": "Find a seat",
+            "body": "Seating blocks and aisles establish the audience’s relationship to the stage.",
+            "image": {
+              "src": "uploads/portfolio/compass-2025/site-top.webp",
+              "caption": "",
+              "width": 1800,
+              "height": 1013
+            }
+          },
+          {
+            "title": "Watch the competition",
+            "body": "The main screen, team booths and player portraits form a clear visual hierarchy.",
+            "image": {
+              "src": "uploads/portfolio/compass-2025/final-wide.webp",
+              "caption": "",
+              "width": 1800,
+              "height": 1013
+            }
+          },
+          {
+            "title": "Follow the story",
+            "body": "Analyst and trophy positions support moments between games.",
+            "image": {
+              "src": "uploads/portfolio/compass-2025/final-analyst.webp",
+              "caption": "",
+              "width": 1800,
+              "height": 1013
+            }
+          }
+        ],
+        "chapters": [
+          {
+            "id": "venue",
+            "kicker": "01 / VENUE & SPATIAL STRATEGY",
+            "title": "Start with the space.",
+            "body": "The archive includes venue documents and multiple layout revisions. The DECC study brings the competition stage, spectator seating, sponsor zones, community area, food court and production positions into one spatial plan. Ezdan Palace appears as a separate venue direction later in the project.",
+            "images": [
+              {
+                "src": "uploads/portfolio/compass-2025/floor-decc.webp",
+                "caption": "DECC · Revised floor plan with audience, sponsor, community and production zones.",
+                "width": 1800,
+                "height": 1139
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/site-isometric.webp",
+                "caption": "DECC concept · Original isometric visualisation of the full event environment.",
+                "width": 1800,
+                "height": 1013
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/site-top.webp",
+                "caption": "DECC concept · Top view showing how the stage and surrounding zones relate.",
+                "width": 1800,
+                "height": 1013
+              }
+            ],
+            "notes": [
+              {
+                "title": "Plan for more than the stage",
+                "body": "The archived plan includes seating, sponsors, food, community, team areas, talent and production."
+              },
+              {
+                "title": "Separate public and working zones",
+                "body": "BOH and team spaces sit behind the competition area; FOH and audience seating occupy the public side."
+              },
+              {
+                "title": "Keep capacity tied to a version",
+                "body": "One revised DECC drawing specifies 384 seats. This is a planning figure for that drawing, not a verified attendance total."
+              }
+            ]
+          },
+          {
+            "id": "structure",
+            "kicker": "03 / BLOCKOUT & SCREEN HIERARCHY",
+            "title": "Find the silhouette before the finish.",
+            "body": "Simple geometry establishes the proportions and screen rhythm before lighting and surface detail. The central match screen leads, flanked by player portrait strips. Team booths and the analyst desk give the competition a recognisable foreground.",
+            "images": [
+              {
+                "src": "uploads/portfolio/compass-2025/blockout-front.webp",
+                "caption": "Original sizing study · Front elevation in flat materials.",
+                "width": 1800,
+                "height": 1013
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/blockout-top.webp",
+                "caption": "Original sizing study · Top view of the stage geometry.",
+                "width": 1800,
+                "height": 1013
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/led-layout.webp",
+                "caption": "Original LED layout · Main and vertical screen dimensions.",
+                "width": 1800,
+                "height": 829
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/screen-side.webp",
+                "caption": "3D screen-placement study · Side view of LED panels and supporting structure.",
+                "width": 1800,
+                "height": 1013
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/screen-back.webp",
+                "caption": "3D screen-placement study · Elevated view of screen placement.",
+                "width": 1800,
+                "height": 1013
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/clay-stage-design-d1.webp",
+                "caption": "Stage Design D1 · New clay render from the original Blender model.",
+                "width": 1280,
+                "height": 720
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/clay-stage-design-d4.webp",
+                "caption": "Stage Design D4 · New clay render from the original Blender model.",
+                "width": 1280,
+                "height": 720
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/clay-stage-design-d7.webp",
+                "caption": "Stage Design D7 · New clay render from the original Blender model.",
+                "width": 1280,
+                "height": 720
+              }
+            ],
+            "notes": [
+              {
+                "title": "Match screen",
+                "body": "The large central display remains the visual anchor."
+              },
+              {
+                "title": "Player identity",
+                "body": "Vertical screens place team members around the main display."
+              },
+              {
+                "title": "Stage foreground",
+                "body": "Booths, the trophy position and analyst desk add depth to the screen composition."
+              }
+            ]
+          },
+          {
+            "id": "iterations",
+            "kicker": "04 / STAGE ITERATIONS",
+            "title": "One stage. Multiple directions.",
+            "body": "Seven numbered Blender stage files document the development of the concept. The archived renders also include dated February studies, alternate booth treatments and changes to the stage’s front edge. These are design versions, not photographs of completed builds.",
+            "images": [
+              {
+                "src": "uploads/portfolio/compass-2025/early-stage.webp",
+                "caption": "Earlier archived direction · Layered platforms and a lighter booth treatment.",
+                "width": 1800,
+                "height": 1013
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/iteration-feb26.webp",
+                "caption": "26 February render set · Darker booth volumes and a more focused foreground.",
+                "width": 1800,
+                "height": 1013
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/iteration-feb28.webp",
+                "caption": "28 February render set · Audience perspective and revised stage composition.",
+                "width": 1800,
+                "height": 1013
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/final-wide.webp",
+                "caption": "“Final renders” archive · Consolidated stage design from a wide view.",
+                "width": 1800,
+                "height": 1013
+              }
+            ],
+            "notes": [
+              {
+                "title": "Compare the whole composition",
+                "body": "Wide views show how the main screen, booths, seating and analyst desk work together."
+              },
+              {
+                "title": "Review from the audience",
+                "body": "Seated and oblique views make the foreground and screen relationships visible."
+              }
+            ]
+          },
+          {
+            "id": "details",
+            "kicker": "05 / DIMENSIONS & PRODUCTION COMMUNICATION",
+            "title": "Make the design legible at real scale.",
+            "body": "Annotated renders communicate booth widths, desk proportions, platform levels and the trophy’s scale. The values shown here belong to individual archived revisions; they should be read with their drawing rather than as a single final specification.",
+            "images": [
+              {
+                "src": "uploads/portfolio/compass-2025/dimension-booth.webp",
+                "caption": "Team booth study · Width, depth and height annotated in the original render.",
+                "width": 1800,
+                "height": 1013
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/dimension-analyst.webp",
+                "caption": "Analyst desk study · Original dimension callouts.",
+                "width": 1800,
+                "height": 1013
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/dimension-platform.webp",
+                "caption": "Platform study · Different stage levels shown in context.",
+                "width": 1800,
+                "height": 1013
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/dimension-trophy.webp",
+                "caption": "Trophy study · Scale and position at the center of the composition.",
+                "width": 1800,
+                "height": 1013
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/final-booth.webp",
+                "caption": "Team booth detail · Branding, backdrop and the angled frame.",
+                "width": 1800,
+                "height": 1013
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/final-analyst-top.webp",
+                "caption": "Analyst desk detail · Top view of the working surface and seating.",
+                "width": 1800,
+                "height": 1013
+              }
+            ],
+            "notes": []
+          },
+          {
+            "id": "supporting",
+            "kicker": "06 / SUPPORTING EXPERIENCES",
+            "title": "Design beyond the main stage.",
+            "body": "The project also contains a group-stage room, player-station studies and vendor-zone models. These supporting spaces show the breadth of the work: competition environments, branded backdrops and modular spatial exploration.",
+            "images": [
+              {
+                "src": "uploads/portfolio/compass-2025/group-room.webp",
+                "caption": "Group-stage room · Original full-width branded player setup.",
+                "width": 1800,
+                "height": 755
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/group-desks.webp",
+                "caption": "Group-stage room · Perspective along the player desks.",
+                "width": 1800,
+                "height": 1013
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/group-dimensions.webp",
+                "caption": "Group-stage room · Dimensioned backdrop and desk arrangement.",
+                "width": 1800,
+                "height": 1013
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/group-station.webp",
+                "caption": "Player station · Desk and equipment scale study.",
+                "width": 1800,
+                "height": 1013
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/vendor-01.webp",
+                "caption": "Vendor zone · Original untextured model study, direction 01.",
+                "width": 1800,
+                "height": 1013
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/vendor-02.webp",
+                "caption": "Vendor zone · Original untextured model study, direction 02.",
+                "width": 1800,
+                "height": 1013
+              }
+            ],
+            "notes": []
+          },
+          {
+            "id": "alternate",
+            "kicker": "07 / ALTERNATE VENUE DIRECTION",
+            "title": "Adapt the experience to a different room.",
+            "body": "A separate “New Setup” archive explores Ezdan Palace and a banquet-room configuration. Its floor plans and renders are presented together here, apart from the DECC concepts, to keep the venue directions clear.",
+            "images": [
+              {
+                "src": "uploads/portfolio/compass-2025/floor-ezdan.webp",
+                "caption": "Ezdan Palace · Original annotated floor plan.",
+                "width": 1800,
+                "height": 907
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/ezdan-wide.webp",
+                "caption": "New Setup · Audience view toward the competition area.",
+                "width": 1800,
+                "height": 1013
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/ezdan-top.webp",
+                "caption": "New Setup · Top-down view of seating, booths and the analyst position.",
+                "width": 1800,
+                "height": 1013
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/ezdan-analyst.webp",
+                "caption": "New Setup · Analyst desk and booth composition.",
+                "width": 1800,
+                "height": 1013
+              }
+            ],
+            "notes": []
+          },
+          {
+            "id": "graphics",
+            "kicker": "08 / SCREEN CONTENT & EVENT TOUCHPOINTS",
+            "title": "A visual language across the venue.",
+            "body": "Screen artwork connects player identity, team branding, sponsors and match states to the physical setup. The archive includes several artwork versions; these selections show the range of screen formats rather than claiming every asset belongs to the same stage revision.",
+            "images": [
+              {
+                "src": "uploads/portfolio/compass-2025/graphic-main.webp",
+                "caption": "Archived main-screen artwork · YaLLa Compass Qatar 2025.",
+                "width": 1800,
+                "height": 1013
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/graphic-player.webp",
+                "caption": "Player portrait artwork · Vertical formats designed for the stage screens.",
+                "width": 1800,
+                "height": 1654
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/graphic-team.webp",
+                "caption": "Team desk display · Horizontal identity format.",
+                "width": 1800,
+                "height": 238
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/graphic-sponsors.webp",
+                "caption": "Sponsor screen artwork · Wide display format.",
+                "width": 1800,
+                "height": 367
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/graphic-pause.webp",
+                "caption": "Technical-pause artwork · Match-state communication.",
+                "width": 1800,
+                "height": 1013
+              }
+            ],
+            "notes": []
+          },
+          {
+            "id": "final",
+            "kicker": "09 / THE COMPLETE COMPOSITION",
+            "title": "Competition at the center. Experience all around.",
+            "body": "The final-render collection brings the screen hierarchy, team booths, analyst desk, trophy platform and lighting into a coherent event environment. The work shown is original design and visualisation material from the project archive.",
+            "images": [
+              {
+                "src": "uploads/portfolio/compass-2025/final-side.webp",
+                "caption": "Original stage visualisation · Screen hierarchy, team booths and analyst position.",
+                "width": 1800,
+                "height": 1013
+              },
+              {
+                "src": "uploads/portfolio/compass-2025/final-analyst.webp",
+                "caption": "Original stage visualisation · Analyst desk and trophy focus.",
+                "width": 1800,
+                "height": 1013
+              }
+            ],
+            "notes": []
+          }
+        ],
+        "sourceModels": [
+          {
+            "file": "Group Stages/Group Stages Room.blend",
+            "bytes": 343678917,
+            "fileVersion": "403",
+            "preview": "uploads/portfolio/compass-2025/clay-group-stages-room.webp",
+            "objects": 141,
+            "rendered": true
+          },
+          {
+            "file": "New Setup/Stage Renders/New Satge Design.blend",
+            "bytes": 1341258936,
+            "fileVersion": "403",
+            "preview": "uploads/portfolio/compass-2025/clay-new-satge-design.webp",
+            "objects": 321,
+            "rendered": true
+          },
+          {
+            "file": "New Setup/Stage Renders/New Stage Design Straight.blend",
+            "bytes": 2067334870,
+            "fileVersion": "403",
+            "preview": "uploads/portfolio/compass-2025/clay-new-stage-design-straight.webp",
+            "objects": 875,
+            "rendered": true
+          },
+          {
+            "file": "Stage Design/Stage Design D1.blend",
+            "bytes": 752971610,
+            "fileVersion": "403",
+            "preview": "uploads/portfolio/compass-2025/clay-stage-design-d1.webp",
+            "objects": 482,
+            "rendered": true
+          },
+          {
+            "file": "Stage Design/Stage Design D2.blend",
+            "bytes": 763121654,
+            "fileVersion": "400",
+            "preview": "uploads/portfolio/compass-2025/clay-stage-design-d2.webp",
+            "objects": 503,
+            "rendered": true
+          },
+          {
+            "file": "Stage Design/Stage Design D3.blend",
+            "bytes": 1106985129,
+            "fileVersion": "400",
+            "preview": "uploads/portfolio/compass-2025/clay-stage-design-d3.webp",
+            "objects": 655,
+            "rendered": true
+          },
+          {
+            "file": "Stage Design/Stage Design D4.blend",
+            "bytes": 1141278789,
+            "fileVersion": "400",
+            "preview": "uploads/portfolio/compass-2025/clay-stage-design-d4.webp",
+            "objects": 805,
+            "rendered": true
+          },
+          {
+            "file": "Stage Design/Stage Design D5.blend",
+            "bytes": 1141254373,
+            "fileVersion": "400",
+            "preview": "uploads/portfolio/compass-2025/clay-stage-design-d5.webp",
+            "objects": 791,
+            "rendered": true
+          },
+          {
+            "file": "Stage Design/Stage Design D6.blend",
+            "bytes": 1603458759,
+            "fileVersion": "400",
+            "preview": "uploads/portfolio/compass-2025/clay-stage-design-d6.webp",
+            "objects": 965,
+            "rendered": true
+          },
+          {
+            "file": "Stage Design/Stage Design D7.blend",
+            "bytes": 1635686563,
+            "fileVersion": "400",
+            "preview": "uploads/portfolio/compass-2025/clay-stage-design-d7.webp",
+            "objects": 940,
+            "rendered": true
+          },
+          {
+            "file": "Vendor zones.blend",
+            "bytes": 1043800,
+            "fileVersion": "400",
+            "preview": "uploads/portfolio/compass-2025/clay-vendor-zones.webp",
+            "objects": 7,
+            "rendered": true
+          }
+        ],
+        "renderedModels": 11,
+        "modelViewer": {
+          "poster": "uploads/portfolio/compass-2025/d5-event-isometric.webp",
+          "sketchfabUid": "8778d3d7e24f4d608ba8f59a75a89496"
+        }
+      }
+    },
+    {
+      "id": "free-fire-world-series-2025",
+      "title": "Free Fire World Series Pakistan 2025",
+      "featuredTitle": "Free Fire World Series Pakistan 2025",
+      "client": "",
+      "year": "2025",
+      "cats": [
+        "Branding"
+      ],
+      "summary": "A visual system for competitive gaming.",
+      "body": "Selected campaign artwork for Free Fire World Series Pakistan: key visuals, tournament announcements, standings and player highlights.\nThe collection shows the visual language across large campaign compositions and information-led social formats.",
+      "cover": "uploads/portfolio/free-fire-world-series-2025-editorial-cover.webp",
+      "gallery": [
+        "uploads/portfolio/free-fire-world-series-2025-01.webp",
+        "uploads/portfolio/free-fire-world-series-2025-02.webp",
+        "uploads/portfolio/free-fire-world-series-2025-03.webp",
+        "uploads/portfolio/free-fire-world-series-2025-04.webp",
+        "uploads/portfolio/free-fire-world-series-2025-05.webp",
+        "uploads/portfolio/free-fire-world-series-2025-06.webp",
+        "uploads/portfolio/free-fire-world-series-2025-07.webp"
+      ],
+      "placeholder": "",
+      "link": "",
+      "featured": true,
+      "published": true,
+      "coverPresentation": "AI-assisted presentation based on original project artwork"
+    },
+    {
+      "id": "spotify-wrapped-2024",
+      "title": "Spotify Wrapped 2024",
+      "featuredTitle": "Spotify Wrapped 2024",
+      "client": "",
+      "year": "2024",
+      "cats": [
+        "3D Visualisation"
+      ],
+      "summary": "Playful installations for a music celebration.",
+      "body": "A set of experiential renders featuring a claw machine, a bar space and a large illuminated Wrapped installation.\nThe presentation focuses on spatial renders rather than supplied campaign assets or inspiration references.",
+      "cover": "uploads/portfolio/spotify-wrapped-2024-editorial-cover.webp",
+      "gallery": [
+        "uploads/portfolio/spotify-wrapped-2024-01.webp",
+        "uploads/portfolio/spotify-wrapped-2024-02.webp",
+        "uploads/portfolio/spotify-wrapped-2024-03.webp",
+        "uploads/portfolio/spotify-wrapped-2024-04.webp",
+        "uploads/portfolio/spotify-wrapped-2024-05.webp"
+      ],
+      "placeholder": "",
+      "link": "",
+      "featured": true,
+      "published": true,
+      "coverPresentation": "AI-assisted presentation based on original project artwork"
+    },
+    {
+      "id": "aab-e-dubai",
+      "title": "Aab e Dubai Packaging",
+      "featuredTitle": "Aab e Dubai Packaging",
+      "client": "",
+      "year": "",
       "cats": [
         "Branding",
         "3D Visualisation"
       ],
-      "summary": "Season-long branding, social systems and event graphics.",
-      "body": "",
-      "cover": "",
-      "gallery": [],
-      "placeholder": "Case image · event graphics",
-      "link": "",
-      "featured": true,
-      "published": true
-    },
-    {
-      "id": "tournament-platform-interface",
-      "title": "Tournament platform interface",
-      "featuredTitle": "Tournament platform: interface design",
-      "client": "Next Generation Esports",
-      "year": 2024,
-      "cats": [
-        "UI/UX"
+      "summary": "From printed label to a finished bottle.",
+      "body": "Packaging artwork and bottle visualisations with a pink-and-white identity.\nThe selected assets pair English and Urdu bottle views with flat label and neck-tag artwork, keeping the packaging details visible.",
+      "cover": "uploads/portfolio/aab-e-dubai-editorial-cover.webp",
+      "gallery": [
+        "uploads/portfolio/aab-e-dubai-01.webp",
+        "uploads/portfolio/aab-e-dubai-02.webp",
+        "uploads/portfolio/aab-e-dubai-03.webp",
+        "uploads/portfolio/aab-e-dubai-04.webp",
+        "uploads/portfolio/aab-e-dubai-05.webp"
       ],
-      "summary": "Registration, bracket and profile flows for the tournament platform.",
-      "body": "",
-      "cover": "",
-      "gallery": [],
-      "placeholder": "Case image · interface",
-      "link": "",
-      "featured": true,
-      "published": true
-    },
-    {
-      "id": "campaign-film-generative",
-      "title": "Campaign film: generative content",
-      "featuredTitle": "Campaign film: generative content",
-      "client": "Next Generation Esports",
-      "year": 2024,
-      "cats": [
-        "AI Video"
-      ],
-      "summary": "Generated and edited campaign film, directed from boards to final grade.",
-      "body": "",
-      "cover": "",
-      "gallery": [],
-      "placeholder": "Case still · campaign film",
-      "link": "",
-      "featured": true,
-      "published": true
-    },
-    {
-      "id": "team-kit-merchandise",
-      "title": "Team kit & merchandise",
-      "featuredTitle": "Team kit & merchandise",
-      "client": "Next Generation Esports",
-      "year": 2023,
-      "cats": [
-        "Branding"
-      ],
-      "summary": "Kit, apparel and merchandise design for team and event drops.",
-      "body": "",
-      "cover": "",
-      "gallery": [],
-      "placeholder": "Case image · merchandise",
+      "placeholder": "",
       "link": "",
       "featured": false,
-      "published": true
+      "published": true,
+      "coverPresentation": "AI-assisted presentation based on original project artwork"
+    },
+    {
+      "id": "elixir-beauty",
+      "title": "Elixir Beauty Exhibition",
+      "featuredTitle": "Elixir Beauty Exhibition",
+      "client": "",
+      "year": "",
+      "cats": [
+        "3D Visualisation"
+      ],
+      "summary": "A beauty brand translated into an exhibition space.",
+      "body": "Selected exhibition-booth visualisations showing product displays, consultation areas and branded architectural details.\nWide views establish the footprint, followed by closer perspectives of the display system.",
+      "cover": "uploads/portfolio/elixir-beauty-editorial-cover.webp",
+      "gallery": [
+        "uploads/portfolio/elixir-beauty-01.webp",
+        "uploads/portfolio/elixir-beauty-02.webp",
+        "uploads/portfolio/elixir-beauty-03.webp",
+        "uploads/portfolio/elixir-beauty-04.webp",
+        "uploads/portfolio/elixir-beauty-05.webp"
+      ],
+      "placeholder": "",
+      "link": "",
+      "featured": false,
+      "published": true,
+      "coverPresentation": "AI-assisted presentation based on original project artwork"
+    },
+    {
+      "id": "red-bull-meo",
+      "title": "Red Bull M.E.O. Environment",
+      "featuredTitle": "Red Bull M.E.O. Environment",
+      "client": "",
+      "year": "",
+      "cats": [
+        "3D Visualisation"
+      ],
+      "summary": "A cinematic gaming environment.",
+      "body": "Atmospheric environment renders featuring a gaming screen, industrial set dressing and a vehicle.\nBlue and red lighting, reflective surfaces and close-up compositions give the collection its visual character.",
+      "cover": "uploads/portfolio/red-bull-meo-editorial-cover.webp",
+      "gallery": [
+        "uploads/portfolio/red-bull-meo-01.webp",
+        "uploads/portfolio/red-bull-meo-02.webp",
+        "uploads/portfolio/red-bull-meo-03.webp",
+        "uploads/portfolio/red-bull-meo-04.webp",
+        "uploads/portfolio/red-bull-meo-05.webp"
+      ],
+      "placeholder": "",
+      "link": "",
+      "featured": false,
+      "published": true,
+      "coverPresentation": "AI-assisted presentation based on original project artwork"
+    },
+    {
+      "id": "gamers-galaxy-venue",
+      "title": "Gamers Galaxy Venue",
+      "featuredTitle": "Gamers Galaxy Venue",
+      "client": "",
+      "year": "",
+      "cats": [
+        "3D Visualisation"
+      ],
+      "summary": "A venue built around the competition.",
+      "body": "Venue visualisations bringing together a central ring, audience seating, gaming stations and a presentation stage.\nThe gallery moves between overall layout views and individual activity areas.",
+      "cover": "uploads/portfolio/gamers-galaxy-venue-editorial-cover.webp",
+      "gallery": [
+        "uploads/portfolio/gamers-galaxy-venue-01.webp",
+        "uploads/portfolio/gamers-galaxy-venue-02.webp",
+        "uploads/portfolio/gamers-galaxy-venue-03.webp",
+        "uploads/portfolio/gamers-galaxy-venue-04.webp",
+        "uploads/portfolio/gamers-galaxy-venue-05.webp",
+        "uploads/portfolio/gamers-galaxy-venue-06.webp",
+        "uploads/portfolio/gamers-galaxy-venue-07.webp"
+      ],
+      "placeholder": "",
+      "link": "",
+      "featured": false,
+      "published": true,
+      "coverPresentation": "AI-assisted presentation based on original project artwork"
+    },
+    {
+      "id": "creative-studio-interiors",
+      "title": "Creative Studio Interiors",
+      "featuredTitle": "Creative Studio Interiors",
+      "client": "",
+      "year": "",
+      "cats": [
+        "3D Visualisation"
+      ],
+      "summary": "Workspaces with their own character.",
+      "body": "Interior studies for a creative workspace, including a studio floor and meeting areas.\nThe selected renders show the use of colour, warm lighting, furniture layout and wall graphics across different rooms.",
+      "cover": "uploads/portfolio/creative-studio-interiors-editorial-cover.webp",
+      "gallery": [
+        "uploads/portfolio/creative-studio-interiors-01.webp",
+        "uploads/portfolio/creative-studio-interiors-02.webp",
+        "uploads/portfolio/creative-studio-interiors-03.webp",
+        "uploads/portfolio/creative-studio-interiors-04.webp",
+        "uploads/portfolio/creative-studio-interiors-05.webp",
+        "uploads/portfolio/creative-studio-interiors-06.webp",
+        "uploads/portfolio/creative-studio-interiors-07.webp"
+      ],
+      "placeholder": "",
+      "link": "",
+      "featured": false,
+      "published": true,
+      "coverPresentation": "AI-assisted presentation based on original project artwork"
     }
   ],
   "home": {
