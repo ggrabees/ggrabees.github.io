@@ -1,5 +1,5 @@
 [data-hero-trail] { background-image:radial-gradient(circle,rgba(255,255,255,.08) 1px,transparent 1.3px); background-size:26px 26px; }
-html[data-theme="light"] [data-hero-trail] { background-image:radial-gradient(circle,rgba(255,255,255,.22) 1px,transparent 1.3px); }
+html[data-theme="light"] [data-hero-trail] { background-image:radial-gradient(circle,rgba(11,11,11,.16) 1px,transparent 1.3px); }
 body, section, main, footer, [style*="background:var(--bg)"], [style*="background: var(--bg)"] {
  background-image:radial-gradient(circle,rgba(255,255,255,.08) 1px,transparent 1.3px) !important;
  background-size:26px 26px !important;

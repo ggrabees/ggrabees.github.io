@@ -1,133 +1,140 @@
-/* Curated portfolio exports. Original artwork remains on the source drive. */
+/* Portfolio image ribbon: autonomous motion with cursor takeover. */
 (function () {
   const images = ["./uploads/portfolio/spotify-wrapped-2025-trail-1.webp", "./uploads/portfolio/spotify-wrapped-2025-trail-2.webp", "./uploads/portfolio/spotify-wrapped-2025-trail-3.webp", "./uploads/portfolio/spotify-wrapped-2025-trail-4.webp", "./uploads/portfolio/spotify-wrapped-2025-trail-5.webp", "./uploads/portfolio/spotify-wrapped-2025-trail-6.webp", "./uploads/portfolio/spotify-wrapped-2025-trail-7.webp", "./uploads/portfolio/spotify-wrapped-2025-trail-8.webp", "./uploads/portfolio/compass-lan-2025-trail-1.webp", "./uploads/portfolio/compass-lan-2025-trail-2.webp", "./uploads/portfolio/compass-lan-2025-trail-3.webp", "./uploads/portfolio/compass-lan-2025-trail-4.webp", "./uploads/portfolio/compass-lan-2025-trail-5.webp", "./uploads/portfolio/compass-lan-2025-trail-6.webp", "./uploads/portfolio/compass-lan-2025-trail-7.webp", "./uploads/portfolio/free-fire-world-series-2025-trail-1.webp", "./uploads/portfolio/free-fire-world-series-2025-trail-2.webp", "./uploads/portfolio/free-fire-world-series-2025-trail-3.webp", "./uploads/portfolio/free-fire-world-series-2025-trail-4.webp", "./uploads/portfolio/free-fire-world-series-2025-trail-5.webp", "./uploads/portfolio/free-fire-world-series-2025-trail-6.webp", "./uploads/portfolio/free-fire-world-series-2025-trail-7.webp", "./uploads/portfolio/spotify-wrapped-2024-trail-1.webp", "./uploads/portfolio/spotify-wrapped-2024-trail-2.webp", "./uploads/portfolio/spotify-wrapped-2024-trail-3.webp", "./uploads/portfolio/spotify-wrapped-2024-trail-4.webp", "./uploads/portfolio/spotify-wrapped-2024-trail-5.webp", "./uploads/portfolio/aab-e-dubai-trail-1.webp", "./uploads/portfolio/aab-e-dubai-trail-2.webp", "./uploads/portfolio/aab-e-dubai-trail-3.webp", "./uploads/portfolio/aab-e-dubai-trail-4.webp", "./uploads/portfolio/aab-e-dubai-trail-5.webp", "./uploads/portfolio/elixir-beauty-trail-1.webp", "./uploads/portfolio/elixir-beauty-trail-2.webp", "./uploads/portfolio/elixir-beauty-trail-3.webp", "./uploads/portfolio/elixir-beauty-trail-4.webp", "./uploads/portfolio/elixir-beauty-trail-5.webp", "./uploads/portfolio/red-bull-meo-trail-1.webp", "./uploads/portfolio/red-bull-meo-trail-2.webp", "./uploads/portfolio/red-bull-meo-trail-3.webp", "./uploads/portfolio/red-bull-meo-trail-4.webp", "./uploads/portfolio/red-bull-meo-trail-5.webp", "./uploads/portfolio/gamers-galaxy-venue-trail-1.webp", "./uploads/portfolio/gamers-galaxy-venue-trail-2.webp", "./uploads/portfolio/gamers-galaxy-venue-trail-3.webp", "./uploads/portfolio/gamers-galaxy-venue-trail-4.webp", "./uploads/portfolio/gamers-galaxy-venue-trail-5.webp", "./uploads/portfolio/gamers-galaxy-venue-trail-6.webp", "./uploads/portfolio/gamers-galaxy-venue-trail-7.webp", "./uploads/portfolio/creative-studio-interiors-trail-1.webp", "./uploads/portfolio/creative-studio-interiors-trail-2.webp", "./uploads/portfolio/creative-studio-interiors-trail-3.webp", "./uploads/portfolio/creative-studio-interiors-trail-4.webp", "./uploads/portfolio/creative-studio-interiors-trail-5.webp", "./uploads/portfolio/creative-studio-interiors-trail-6.webp", "./uploads/portfolio/creative-studio-interiors-trail-7.webp"];
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const fine = window.matchMedia('(hover: hover) and (pointer: fine)');
-  const mobile = window.matchMedia('(max-width: 767px)');
-  let collage, collageTimer, activeCard = 0, mobileFocus = () => {}, lastMobileFocus = 0;
-  let layer, cards = [], index = 0, last = null;
-  let imageQueue = [], previousImage = null;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const touch = matchMedia('(hover: none), (pointer: coarse)');
+  const assets = images.map(src => { const image = new Image(); image.src = src; return image; });
+  let layer, canvas, ctx, width = 0, height = 0, dpi = 1, size = 80;
+  let cards = [], queue = [], lastFrame = 0, lastSpawn = -Infinity, lastMove = -Infinity;
+  let previous = null, lastPoint = null, idle = true;
+  const pointer = { x: -1, y: -1, sx: -1, sy: -1, vx: 0, vy: 0 };
+  const outExpo = t => t >= 1 ? 1 : 1 - Math.pow(2, -10 * t);
+  const outQuart = t => 1 - Math.pow(1 - t, 4);
+  const inQuart = t => t * t * t * t;
   function nextImage() {
-    if (!imageQueue.length) {
-      imageQueue = images.slice();
-      for (let i = imageQueue.length - 1; i > 0; i--) {
+    if (!queue.length) {
+      queue = assets.slice();
+      for (let i = queue.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [imageQueue[i], imageQueue[j]] = [imageQueue[j], imageQueue[i]];
+        [queue[i], queue[j]] = [queue[j], queue[i]];
       }
-      if (imageQueue[0] === previousImage) imageQueue.push(imageQueue.shift());
     }
-    previousImage = imageQueue.shift();
-    return previousImage;
+    return queue.shift();
   }
-  images.forEach(src => { const image = new Image(); image.src = src; });
-  function setupCollage() {
-    clearInterval(collageTimer);
-    if (collage) collage.remove();
-    if (!layer || (!mobile.matches && fine.matches)) return;
-    collage = document.createElement('div');
-    collage.className = 'hero-mobile-collage';
-    layer.appendChild(collage);
-    const slots = Array.from({ length: 4 }, (_, i) => {
-      const slot = document.createElement('div');
-      slot.className = 'hero-collage-slot hero-collage-slot-' + i;
-      const image = document.createElement('img');
-      image.src = nextImage(); image.alt = ''; image.draggable = false;
-      slot.appendChild(image); collage.appendChild(slot);
-      return image;
-    });
-    function focus() {
-      if (document.hidden || window.scrollY > window.innerHeight * .8 ||
-          document.documentElement.classList.contains('is-loading') || reduce.matches) return;
-      const image = slots[activeCard++ % slots.length];
-      image.animate([
-        { opacity: .45, filter: 'blur(5px)', transform: 'scale(.88)', offset: 0, easing: 'cubic-bezier(.16,1,.3,1)' },
-        { opacity: 1, filter: 'blur(0px)', transform: 'scale(1.12)', offset: .25 },
-        { opacity: 1, filter: 'blur(0px)', transform: 'scale(1.12)', offset: .65, easing: 'cubic-bezier(.4,0,.2,1)' },
-        { opacity: 0, filter: 'blur(18px)', transform: 'scale(.75)', offset: 1 }
-      ], { duration: 2200, easing: 'linear' }).onfinish = () => {
-        if (!image.isConnected) return;
-        image.src = nextImage();
-        image.animate([
-          { opacity: 0, filter: 'blur(14px)', transform: 'scale(.7)' },
-          { opacity: .45, filter: 'blur(5px)', transform: 'scale(.88)' }
-        ], { duration: 600, easing: 'cubic-bezier(.16,1,.3,1)' });
-      };
-    }
-    mobileFocus = () => {
-      if (performance.now() - lastMobileFocus < 900) return;
-      lastMobileFocus = performance.now();
-      focus();
-    };
-    collageTimer = setInterval(focus, 2400);
-    focus();
-  }
-  function updateCollageScroll() {
-    if (!collage) return;
-    const progress = Math.min(1, window.scrollY / (window.innerHeight * .65));
-    collage.style.opacity = String(1 - progress);
-    collage.style.transform = 'translateY(' + (-progress * 35) + 'px) scale(' + (1 - progress * .15) + ')';
+  function resize() {
+    if (!canvas) return;
+    const bounds = layer.getBoundingClientRect();
+    width = bounds.width; height = bounds.height;
+    dpi = Math.min(devicePixelRatio || 1, 1.5);
+    canvas.width = Math.round(width * dpi); canvas.height = Math.round(height * dpi);
+    // Reference cards are about 80px wide inside a 634 × 499 presentation.
+    size = Math.hypot(Math.min(width, 634), Math.min(height, 499)) * .1;
+    previous = null; lastPoint = null;
   }
   function mount() {
-    const next = document.querySelector('[data-hero-trail]');
-    if (!next || next === layer) return;
-    layer = next;
-    cards = Array.from({ length: 48 }, (_, i) => images[i % images.length]).map(src => {
-      const card = document.createElement('img');
-      card.src = src; card.alt = ''; card.draggable = false;
-      card.className = 'hero-trail-card';
-      layer.appendChild(card);
-      return card;
-    });
-    setupCollage();
+    const target = document.querySelector('[data-hero-trail]');
+    if (!target || target === layer) return;
+    layer = target;
+    canvas = document.createElement('canvas'); canvas.className = 'hero-trail-canvas';
+    canvas.setAttribute('aria-hidden', 'true'); layer.appendChild(canvas);
+    ctx = canvas.getContext('2d'); cards = []; idle = true; lastMove = -Infinity; lastSpawn = -Infinity; resize();
   }
-  function clear() {
-    cards.forEach(card => card.getAnimations().forEach(animation => animation.cancel()));
-    last = null;
+  function spawn(point, vx, vy, now, automatic) {
+    cards.push({ image: nextImage(), x: point.x, y: point.y, vx, vy, born: now, automatic });
+    if (cards.length > 100) cards.shift();
+    lastSpawn = now;
   }
   function move(event) {
-    mount();
-    if (!layer || mobile.matches || !fine.matches || reduce.matches || document.hidden ||
-        document.documentElement.classList.contains('is-loading')) return;
-    const hero = layer.parentElement.getBoundingClientRect();
-    if (window.scrollY > window.innerHeight * 0.8 || event.clientY < 75 ||
-        event.clientY > hero.bottom || event.target.closest('a, button')) { last = null; return; }
-    const point = { x: event.clientX - hero.left, y: event.clientY - hero.top };
-    if (!last) { spawn(point); last = point; return; }
-    const dx = point.x - last.x, dy = point.y - last.y;
-    const distance = Math.hypot(dx, dy);
-    const spacing = 64;
-    const steps = Math.floor(distance / spacing);
-    const origin = last;
-    for (let i = 1; i <= steps; i++) {
-      const fraction = i * spacing / distance;
-      const sample = { x: origin.x + dx * fraction, y: origin.y + dy * fraction };
-      spawn(sample);
-      last = sample;
+    if (!layer || touch.matches || reduced.matches || event.pointerType === 'touch' || document.documentElement.classList.contains('is-loading')) return;
+    const bounds = layer.getBoundingClientRect();
+    const x = event.clientX - bounds.left, y = event.clientY - bounds.top;
+    if (x < 0 || y < 75 || x > width || y > height || window.scrollY > innerHeight * .8 || event.target.closest('a,button,dialog')) return;
+    const now = performance.now();
+    if (pointer.x === -1) { pointer.sx = x; pointer.sy = y; }
+    const dx = pointer.x === -1 ? 0 : x - pointer.x;
+    const dy = pointer.y === -1 ? 0 : y - pointer.y;
+    pointer.vx += (Math.max(-12, Math.min(12, dx)) - pointer.vx) * .1;
+    pointer.vy += (Math.max(-12, Math.min(12, dy)) - pointer.vy) * .1;
+    pointer.x = x; pointer.y = y;
+    if (Math.hypot(dx, dy) > .1) {
+      lastMove = now;
+      if (idle) {
+        cards.forEach(card => { card.exit = now; });
+        idle = false; lastPoint = null;
+      }
     }
   }
-  function spawn(point) {
-    const card = cards[index++ % cards.length];
-    card.getAnimations().forEach(animation => animation.cancel());
-    card.src = nextImage();
-    card.style.left = point.x + 'px'; card.style.top = point.y + 'px';
-    card.style.zIndex = String(index);
-    card.animate([
-      { opacity: 0, transform: 'translate(-50%, -50%) scale(.65)', filter: 'blur(28px)', offset: 0, easing: 'cubic-bezier(.16,1,.3,1)' },
-      { opacity: 1, transform: 'translate(-50%, -50%) scale(1)', filter: 'blur(0px)', offset: .35, easing: 'linear' },
-      { opacity: 1, transform: 'translate(-50%, -50%) scale(1)', filter: 'blur(0px)', offset: .45, easing: 'cubic-bezier(.16,1,.3,1)' },
-      { opacity: 0, transform: 'translate(-50%, -50%) scale(.65)', filter: 'blur(32px)', offset: 1 }
-    ], { duration: 950, easing: 'linear' });
+  function frame(now) {
+    requestAnimationFrame(frame); mount();
+    if (!ctx || document.hidden || window.scrollY > innerHeight * .8) { lastFrame = now; return; }
+    if (document.documentElement.classList.contains('is-loading')) {
+      idle = true; lastMove = -Infinity; lastSpawn = -Infinity; lastPoint = null; previous = null;
+      lastFrame = now; return;
+    }
+    const dt = Math.min(3, (now - (lastFrame || now)) / (1000 / 60)); lastFrame = now;
+    ctx.setTransform(dpi, 0, 0, dpi, 0, 0); ctx.clearRect(0, 0, width, height);
+    if (reduced.matches) { cards = []; return; }
+    if (now - lastMove >= 5000 && !idle) { idle = true; previous = null; lastPoint = null; }
+    if (pointer.x !== -1) {
+      const smoothing = 1 - Math.pow(.5, dt);
+      pointer.sx += (pointer.x - pointer.sx) * smoothing;
+      pointer.sy += (pointer.y - pointer.sy) * smoothing;
+    }
+    const phase = now * .0003 * (touch.matches ? 2 : 1.25);
+    const horizontal = Math.cos(phase) * width * .5;
+    const vertical = Math.sin(phase) * height * .25;
+    const auto = { x: width * .5 + (horizontal + vertical) * .7071, y: height * .55 + (vertical - horizontal) * .525 };
+    if (idle) {
+      if (now - lastSpawn >= (touch.matches ? 350 : 500)) {
+        spawn(auto, previous ? (auto.x - previous.x) * 2 / Math.max(dt, .01) : 0, previous ? (auto.y - previous.y) * 2 / Math.max(dt, .01) : 0, now, true);
+      }
+    } else if (pointer.x !== -1) {
+      const point = {x: pointer.sx, y: pointer.sy};
+      const spacing = size * .5;
+      if (!lastPoint || Math.hypot(point.x - lastPoint.x, point.y - lastPoint.y) >= spacing) {
+        spawn(point, pointer.vx * .5, pointer.vy * .5, now, false);
+        lastPoint = point;
+      }
+    }
+    previous = auto;
+    cards = cards.filter(card => now - card.born < (card.automatic ? (touch.matches ? 3000 : 4250) : 1250) && (!card.exit || now - card.exit < 350));
+    for (const card of cards) {
+      if (!card.image.complete || !card.image.naturalWidth) continue;
+      card.x += card.vx * dt; card.y += card.vy * dt;
+      const friction = Math.pow(.94, dt); card.vx *= friction; card.vy *= friction;
+      const age = (now - card.born) / 1000;
+      const hold = card.automatic ? (touch.matches ? 1.5 : 2.5) : .5;
+      const exitDuration = card.automatic ? (touch.matches ? 1.25 : 1.5) : .5;
+      const entryDuration = card.automatic ? (touch.matches ? 1.5 : 2.25) : .75;
+      const scaleDuration = card.automatic ? (touch.matches ? 2.5 : 3.3) : 1.1;
+      let clip = outExpo(Math.min(1, age / entryDuration));
+      let scale = 1.5 - .5 * outQuart(Math.min(1, age / scaleDuration));
+      // power1.in background fade, expo.out reveal, power3.in closure.
+      let overlay = Math.pow(Math.min(1, age / (hold + exitDuration)), 2);
+      if (age > hold) {
+        const clipAtExit = outExpo(Math.min(1, hold / entryDuration));
+        clip = clipAtExit * (1 - inQuart(Math.min(1, (age - hold) / exitDuration)));
+      }
+      if (age > hold + .25) {
+        const scaleAtExit = 1.5 - .5 * outQuart(Math.min(1, (hold + .25) / scaleDuration));
+        scale = scaleAtExit + (.5 - scaleAtExit) * inQuart(Math.min(1, (age - hold - .25) / exitDuration));
+      }
+      let opacity = 1;
+      if (card.exit) { const progress = Math.min(1, (now - card.exit) / 350); clip *= 1 - inQuart(progress); opacity *= 1 - progress; }
+      const w = size, h = size;
+      const cw = w * clip, ch = h * clip;
+      if (cw < .1 || ch < .1) continue;
+      ctx.save(); ctx.globalAlpha = opacity * (1 - overlay);
+      ctx.beginPath(); ctx.roundRect(card.x - cw / 2, card.y - ch / 2, cw, ch, Math.min(8, cw / 2, ch / 2)); ctx.clip();
+      const sourceSize = Math.min(card.image.naturalWidth, card.image.naturalHeight);
+      ctx.drawImage(card.image, (card.image.naturalWidth - sourceSize) / 2, (card.image.naturalHeight - sourceSize) / 2, sourceSize, sourceSize, card.x - w * scale / 2, card.y - h * scale / 2, w * scale, h * scale);
+      ctx.restore();
+
+    }
   }
   document.addEventListener('pointermove', move, { passive: true });
-  document.addEventListener('pointerdown', event => {
-    if ((mobile.matches || !fine.matches) && !event.target.closest('a,button,dialog')) mobileFocus();
-  }, { passive:true });
-  document.addEventListener('pointerleave', clear);
-  document.addEventListener('visibilitychange', clear);
-  window.addEventListener('scroll', () => { updateCollageScroll(); mobileFocus(); if (window.scrollY > window.innerHeight * .8) clear(); }, { passive: true });
-  reduce.addEventListener('change', () => { clear(); setupCollage(); });
-  fine.addEventListener('change', () => { clear(); setupCollage(); });
-  mobile.addEventListener('change', () => { clear(); setupCollage(); });
-  new MutationObserver(mount).observe(document.documentElement, { childList: true, subtree: true });
-  mount();
+  document.addEventListener('pointerleave', () => { pointer.x = -1; lastPoint = null; });
+  document.addEventListener('visibilitychange', () => { cards = []; lastPoint = null; });
+  window.addEventListener('resize', resize, { passive: true });
+  requestAnimationFrame(frame);
 })();

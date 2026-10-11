@@ -13,13 +13,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
 <script src="./cursor.js"></script>
-<link rel="stylesheet" href="./hero-trail.css?v=ratio43">
-<link rel="stylesheet" href="./hero-gradient.css?v=5">
+<link rel="stylesheet" href="./hero-trail.css?v=ribbon6">
+<link rel="stylesheet" href="./hero-gradient.css?v=theme6">
 <script src="./hero-gradient.js?v=5" defer></script>
-<script src="./hero-trail.js?v=square5" defer></script>
+<script src="./hero-trail.js?v=autostart12" defer></script>
 <link rel="stylesheet" href="./personality.css">
 <script src="./personality.js" defer></script>
-<link rel="stylesheet" href="./playground.css?v=buttons6">
+<link rel="stylesheet" href="./playground.css?v=lightdots7">
 <script src="./playground.js?v=buttons6" defer></script>
 <script src="./site-data.js?v=context30"></script>
 <script src="./data/loader-words.js"></script>
@@ -156,7 +156,7 @@
 
 </helmet>
 
-<div style="--bg:#000;--fg:#fff;--fg-90:rgba(255,255,255,0.9);--fg-80:rgba(255,255,255,0.8);--fg-60:rgba(255,255,255,0.6);--fg-50:rgba(255,255,255,0.5);--fg-45:rgba(255,255,255,0.45);--line:rgba(255,255,255,0.08);--line-strong:rgba(255,255,255,0.3);--btn-bg:#fff;--btn-fg:#000;--menu-bg:rgba(0,0,0,0.98);--scrim:rgba(0,0,0,0);position:fixed;top:0;left:0;right:0;height:100svh;width:100%;overflow:hidden;background:#000;font-family:Geist, sans-serif">
+<div class="hero-scene" style="position:fixed;top:0;left:0;right:0;height:100svh;width:100%;overflow:hidden;background:var(--bg);transition:background .4s ease;font-family:Geist, sans-serif">
   <div class="hero-gradient" aria-hidden="true"><div class="hero-gradient-glow"></div><div class="hero-gradient-grain"></div></div>
   <div data-hero-trail="" aria-hidden="true"></div>
   <div style="position:absolute;inset:0;background:var(--scrim);transition:background .4s ease;pointer-events:none"></div>
@@ -517,18 +517,7 @@ class Component extends DCLogic {
         const a = p;
         nav.style.background = lightNow ? 'rgba(244,244,242,' + a + ')' : 'rgba(0,0,0,' + a + ')';
         nav.style.borderBottom = '1px solid ' + (lightNow ? 'rgba(11,11,11,' + (0.12 * a) + ')' : 'rgba(255,255,255,' + (0.08 * a) + ')');
-        if (lightNow) {
-          const eff = (244 * a + 40 * (1 - a)) / 255;
-          const dark = eff > 0.55;
-          nav.style.setProperty('--fg', dark ? 'rgb(11,11,11)' : 'rgb(255,255,255)');
-          nav.style.setProperty('--fg-80', dark ? 'rgba(11,11,11,0.75)' : 'rgba(255,255,255,0.8)');
-          const bg = [255,255,255].map((c, i) => Math.round(c + ([11,11,11][i] - c) * a));
-          const lum = (0.299 * bg[0] + 0.587 * bg[1] + 0.114 * bg[2]) / 255;
-          nav.style.setProperty('--btn-bg', 'rgb(' + bg.join(',') + ')');
-          nav.style.setProperty('--btn-fg', lum > 0.55 ? 'rgb(11,11,11)' : 'rgb(244,244,242)');
-        } else {
-          ['--fg','--fg-80','--btn-bg','--btn-fg'].forEach(k => nav.style.removeProperty(k));
-        }
+        ['--fg','--fg-80','--btn-bg','--btn-fg'].forEach(k => nav.style.removeProperty(k));
       }
       const past = y > vh * 0.6;
       if (past !== this.state.past) this.setState({ past });
