@@ -431,7 +431,7 @@
     var t = tokens(data);
     data.__project = currentProject(data);
     if (data.__project && /project\.html/i.test(location.pathname)) {
-      document.title = data.__project.title + ' · Rabees Sheikh';
+      document.title = 'Rabees Sheikh — Portfolio';
     }
     document.querySelectorAll('[data-bind-text]').forEach(function (el) {
       var v = get(data, el.getAttribute('data-bind-text'));
