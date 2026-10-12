@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script>
+(function(){var light=true;try{light=localStorage.getItem('rs-theme')!=='dark';}catch(e){}if(light){var v={'--bg':'#f4f4f2','--fg':'#0b0b0b','--fg-90':'rgba(11,11,11,0.9)','--fg-80':'rgba(11,11,11,0.75)','--fg-60':'rgba(11,11,11,0.6)','--fg-50':'rgba(11,11,11,0.5)','--fg-45':'rgba(11,11,11,0.45)','--line':'rgba(11,11,11,0.12)','--line-strong':'rgba(11,11,11,0.3)','--btn-bg':'#0b0b0b','--btn-fg':'#f4f4f2','--menu-bg':'rgba(0,0,0,0.98)'};v['--menu-bg']='rgba(244,244,242,0.98)';for(var k in v){document.documentElement.style.setProperty(k,v[k]);}document.documentElement.setAttribute('data-theme','light');}else{document.documentElement.setAttribute('data-theme','dark');}})();
+</script>
 <title>Rabees Sheikh — Portfolio</title>
 <link rel="icon" href="/favicon.ico?v=rabees2" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=rabees2">
@@ -26,9 +29,7 @@
   a { color: inherit; text-decoration: none; }
   a:hover { color: var(--fg); }
 </style>
-<script>
-(function(){try{if(localStorage.getItem('rs-theme')==='light'){var v={'--bg':'#f4f4f2','--fg':'#0b0b0b','--fg-90':'rgba(11,11,11,0.9)','--fg-80':'rgba(11,11,11,0.75)','--fg-60':'rgba(11,11,11,0.6)','--fg-50':'rgba(11,11,11,0.5)','--fg-45':'rgba(11,11,11,0.45)','--line':'rgba(11,11,11,0.12)','--line-strong':'rgba(11,11,11,0.3)','--btn-bg':'#0b0b0b','--btn-fg':'#f4f4f2','--menu-bg':'rgba(0,0,0,0.98)'};v['--menu-bg']='rgba(244,244,242,0.98)';for(var k in v){document.documentElement.style.setProperty(k,v[k]);}document.documentElement.setAttribute('data-theme','light');}}catch(e){}})();
-</script>
+
 </helmet>
 <nav style="position:fixed;top:0;left:0;right:0;z-index:45;background:var(--bg);display:flex;align-items:center;justify-content:space-between;min-height:75px;box-sizing:border-box;padding:16px clamp(24px,5vw,64px);font-family:Geist, sans-serif;color:var(--fg);border-bottom:1px solid var(--line);transition:transform .45s cubic-bezier(0.16,1,0.3,1);transform:translateY(0)">
   <div style="display:flex;align-items:center;gap:36px">
@@ -70,7 +71,7 @@ const LIGHT = { '--bg':'#f4f4f2', '--fg':'#0b0b0b', '--fg-90':'rgba(11,11,11,0.9
 const DARK = { '--bg':'#000', '--fg':'#fff', '--fg-90':'rgba(255,255,255,0.9)', '--fg-80':'rgba(255,255,255,0.8)', '--fg-60':'rgba(255,255,255,0.6)', '--fg-50':'rgba(255,255,255,0.5)', '--fg-45':'rgba(255,255,255,0.45)', '--line':'rgba(255,255,255,0.08)', '--line-strong':'rgba(255,255,255,0.3)', '--btn-bg':'#fff', '--btn-fg':'#000', '--menu-bg':'rgba(0,0,0,0.98)' };
 
 class Component extends DCLogic {
-  state = { open: false, isMobile: false, light: false, navHidden: false };
+  state = { open: false, isMobile: false, light: true, navHidden: false };
   apply(light) {
     const r = document.documentElement.style;
     const v = light ? LIGHT : DARK;
@@ -79,8 +80,8 @@ class Component extends DCLogic {
     try { localStorage.setItem('rs-theme', light ? 'light' : 'dark'); } catch (e) {}
   }
   componentDidMount() {
-    let light = false;
-    try { light = localStorage.getItem('rs-theme') === 'light'; } catch (e) {}
+    let light = true;
+    try { light = localStorage.getItem('rs-theme') !== 'dark'; } catch (e) {}
     this.setState({ light });
     this.apply(light);
     this.mq = window.matchMedia('(max-width: 767px)');
